@@ -22,19 +22,22 @@ import {
   type LucideIcon,
   Workflow,
   AppWindowMac,
+  Network
 } from "lucide-react";
 import { AISdkDemo } from "@/demos/ai-sdk";
 import { CopilotKitDemo } from "@/demos/copilot-kit";
 import { AssistantUIDemo } from "@/demos/assistant-ui";
 import { GenerativeUserInterfacesDemo } from "./demos/ai-sdk/generative-user-interfaces";
 import { WorkflowDemo } from "./demos/ai-sdk/workflow";
+import { NetworkDemo } from "./demos/ai-sdk/network";
 
 type SidebarId =
   | "aisdk"
   | "assistant-ui"
   | "copilot-kit"
   | "generative-user-interfaces"
-  | "workflow";
+  | "workflow"
+  | "agent-network";
 
 type SidebarEntry = {
   id: SidebarId;
@@ -90,6 +93,12 @@ const SIDEBAR: SidebarGroupEntry[] = [
         icon: Workflow,
         description: "Building multi-step workflows with AI SDK",
       },
+      {
+        id: "agent-network",
+        name: "Agent Network",
+        icon: Network,
+        description: "Coordinating multiple AI agents for complex tasks",
+      }
     ],
   },
 ];
@@ -109,6 +118,8 @@ export default function Page() {
         return <GenerativeUserInterfacesDemo />;
       case "workflow":
         return <WorkflowDemo />;
+      case "agent-network":
+        return <NetworkDemo />
     }
   };
 

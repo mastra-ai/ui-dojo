@@ -67,7 +67,7 @@ export const WorkflowDemo = () => {
   const [input, setInput] = useState("");
   const { messages, sendMessage, status } = useChat({
     transport: new DefaultChatTransport({
-      api: "http://localhost:4111/workflow/weatherWorkflow",
+      api: "http://localhost:4111/workflow/activitiesWorkflow",
       prepareSendMessagesRequest: ({ messages }) => {
         return {
           body: {
@@ -97,10 +97,10 @@ export const WorkflowDemo = () => {
           <Input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Ask about the weather in any city and get activity suggestions"
+            placeholder="Enter a city name"
           />
           <Button type="submit" disabled={status !== "ready"}>
-            Get Weather
+            Get Activities
           </Button>
         </form>
       </div>

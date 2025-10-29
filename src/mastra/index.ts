@@ -1,18 +1,20 @@
 import { Mastra } from "@mastra/core/mastra";
 import { registerCopilotKit } from "@ag-ui/mastra/copilotkit";
 import { LibSQLStore } from "@mastra/libsql";
-import { chatRoute, workflowRoute } from "@mastra/ai-sdk";
+import { chatRoute, workflowRoute, networkRoute } from "@mastra/ai-sdk";
 import { ghibliAgent } from "./agents/ghibli-agent";
 import { weatherAgent } from "./agents/weather-agent";
-import { weatherWorkflow } from "./workflows/weather-workflow";
+import { activitiesWorkflow } from "./workflows/activities-workflow";
+import { routingAgent } from "./agents/routing-agent";
 
 export const mastra = new Mastra({
   agents: {
     ghibliAgent,
     weatherAgent,
+    routingAgent,
   },
   workflows: {
-    weatherWorkflow,
+    activitiesWorkflow,
   },
   storage: new LibSQLStore({
     url: ":memory:",
@@ -29,6 +31,10 @@ export const mastra = new Mastra({
       }),
       workflowRoute({
         path: "/workflow/:workflowId",
+      }),
+      networkRoute({
+        path: "/network",
+        agent: "routingAgent",
       }),
       registerCopilotKit({
         path: "/copilotkit",

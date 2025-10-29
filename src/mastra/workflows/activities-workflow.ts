@@ -20,7 +20,7 @@ const fetchWeather = createStep({
 
 const planActivities = createStep({
   id: "plan-activities",
-  description: "Suggests activities based on weather conditions",
+  description: "Suggests activities based on weather conditions for a given location",
   inputSchema: forecastSchema,
   outputSchema: z.object({
     activities: z.string(),
@@ -99,8 +99,9 @@ const planActivities = createStep({
   },
 });
 
-const weatherWorkflow = createWorkflow({
+const activitiesWorkflow = createWorkflow({
   id: "weather-workflow",
+  description: "This workflow suggests activities for a location based on the weather forecast. It first fetches the weather and then plans activities accordingly.",
   inputSchema: z.object({
     location: z.string().describe("The location to get the weather for"),
   }),
@@ -111,6 +112,6 @@ const weatherWorkflow = createWorkflow({
   .then(fetchWeather)
   .then(planActivities);
 
-weatherWorkflow.commit();
+activitiesWorkflow.commit();
 
-export { weatherWorkflow };
+export { activitiesWorkflow };

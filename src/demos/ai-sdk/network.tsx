@@ -13,13 +13,7 @@ import {
   PromptInputAttachment,
   PromptInputAttachments,
   PromptInputBody,
-  PromptInputButton,
   type PromptInputMessage,
-  PromptInputModelSelect,
-  PromptInputModelSelectContent,
-  PromptInputModelSelectItem,
-  PromptInputModelSelectTrigger,
-  PromptInputModelSelectValue,
   PromptInputSubmit,
   PromptInputTextarea,
   PromptInputFooter,
@@ -29,7 +23,7 @@ import { Action, Actions } from "@/components/ai-elements/actions";
 import { Fragment, useState } from "react";
 import { useChat } from "@ai-sdk/react";
 import { Response } from "@/components/ai-elements/response";
-import { CopyIcon, GlobeIcon, RefreshCcwIcon } from "lucide-react";
+import { CopyIcon, RefreshCcwIcon } from "lucide-react";
 import {
   Source,
   Sources,
@@ -43,32 +37,12 @@ import {
 } from "@/components/ai-elements/reasoning";
 import { Loader } from "@/components/ai-elements/loader";
 import { DefaultChatTransport } from "ai";
-import { Suggestion, Suggestions } from "@/components/ai-elements/suggestion";
 
-const models = [
-  {
-    name: "GPT 4o Mini",
-    value: "openai/gpt-4o-mini",
-  },
-  {
-    name: "Deepseek R1",
-    value: "vercel/deepseek/deepseek-r1",
-  },
-];
-
-const suggestions = [
-  "Tell me about the movie Spirited Away",
-  "Who are the main characters in Princess Mononoke?",
-  "Can you summarize the plot of Howl's Moving Castle?",
-];
-
-export const AISdkDemo = () => {
+export const NetworkDemo = () => {
   const [input, setInput] = useState("");
-  const [model, setModel] = useState<string>(models[0].value);
-  const [webSearch, setWebSearch] = useState(false);
   const { messages, sendMessage, status, regenerate } = useChat({
     transport: new DefaultChatTransport({
-      api: "http://localhost:4111/chat/ghibliAgent",
+      api: "http://localhost:4111/network",
     }),
   });
 
@@ -84,20 +58,10 @@ export const AISdkDemo = () => {
       {
         text: message.text || "Sent with attachments",
         files: message.files,
-      },
-      {
-        body: {
-          model: model,
-          webSearch: webSearch,
-        },
-      },
+      }
     );
     setInput("");
   };
-
-  const handleSuggestionClick = (suggestion: string) => {
-    sendMessage({ text: suggestion });
-  }
 
   return (
     <div className="max-w-4xl mx-auto p-6 relative size-full">
@@ -187,12 +151,6 @@ export const AISdkDemo = () => {
           <ConversationScrollButton />
         </Conversation>
 
-        <Suggestions>
-          {suggestions.map((suggestion) => (
-            <Suggestion key={suggestion} onClick={handleSuggestionClick} suggestion={suggestion} />
-          ))}
-        </Suggestions>
-
         <PromptInput
           onSubmit={handleSubmit}
           className="mt-4"
@@ -216,33 +174,6 @@ export const AISdkDemo = () => {
                   <PromptInputActionAddAttachments />
                 </PromptInputActionMenuContent>
               </PromptInputActionMenu>
-              <PromptInputButton
-                variant={webSearch ? "default" : "ghost"}
-                onClick={() => setWebSearch(!webSearch)}
-              >
-                <GlobeIcon size={16} />
-                <span>Search</span>
-              </PromptInputButton>
-              <PromptInputModelSelect
-                onValueChange={(value) => {
-                  setModel(value);
-                }}
-                value={model}
-              >
-                <PromptInputModelSelectTrigger>
-                  <PromptInputModelSelectValue />
-                </PromptInputModelSelectTrigger>
-                <PromptInputModelSelectContent>
-                  {models.map((model) => (
-                    <PromptInputModelSelectItem
-                      key={model.value}
-                      value={model.value}
-                    >
-                      {model.name}
-                    </PromptInputModelSelectItem>
-                  ))}
-                </PromptInputModelSelectContent>
-              </PromptInputModelSelect>
             </PromptInputTools>
             <PromptInputSubmit disabled={!input && !status} status={status} />
           </PromptInputFooter>
