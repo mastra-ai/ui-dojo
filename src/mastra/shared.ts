@@ -107,6 +107,8 @@ interface WeatherResponse {
   };
 }
 
+export type Forecast = z.infer<typeof forecastSchema>;
+
 export const forecastSchema = z.object({
   date: z.string(),
   maxTemp: z.number(),
