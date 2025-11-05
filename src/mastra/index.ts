@@ -21,6 +21,9 @@ export const mastra = new Mastra({
   storage: new LibSQLStore({
     url: ":memory:",
   }),
+  bundler: {
+    externals: ["@ag-ui/mastra"],
+  },
   server: {
     cors: {
       origin: "*",
