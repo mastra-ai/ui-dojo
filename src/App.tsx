@@ -29,6 +29,7 @@ import { AISdkDemo } from "@/demos/ai-sdk";
 import { CopilotKitDemo } from "@/demos/copilot-kit";
 import { AssistantUIDemo } from "@/demos/assistant-ui";
 import { GenerativeUserInterfacesDemo } from "./demos/ai-sdk/generative-user-interfaces";
+import { GenerativeUserInterfacesCustomEventsDemo } from "./demos/ai-sdk/generative-user-interfaces-custom-events";
 import { WorkflowDemo } from "./demos/ai-sdk/workflow";
 import { NetworkDemo } from "./demos/ai-sdk/network";
 import { ClientAISdkDemo } from "./demos/client-sdk/ai-sdk";
@@ -43,6 +44,7 @@ type SidebarId =
   | "generative-user-interfaces"
   | "workflow"
   | "agent-network"
+  | "generative-user-interfaces-with-custom-events"
   | "client-ai-sdk"
   | "client-assistant-ui"
   | "client-copilot-kit";
@@ -110,26 +112,38 @@ const SIDEBAR: SidebarGroupEntry[] = [
     ],
   },
   {
+    groupId: "with-custom-events",
+    groupName: "With Custom Events",
+    items: [
+      {
+        id: "generative-user-interfaces-with-custom-events",
+        name: "Generative UIs",
+        icon: AppWindowMac,
+        description: "How to use custom events with Generative UIs",
+      },
+    ],
+  },
+  {
     groupId: "client-js",
-    groupName: "Mastra Client SDK",
+    groupName: "With Client Tools",
     items: [
       {
         id: "client-ai-sdk",
         name: "AI SDK",
         icon: Sparkles,
-        description: "How to call frontend tools with AI SDK + Mastra Client SDK",
+        description: "How to call frontend tools with AI SDK + Client Tools",
       },
       {
         id: "client-assistant-ui",
         name: "Assistant UI",
         icon: Bot,
-        description: "How to call frontend tools in Asssistant UI + Mastra Client SDK",
+        description: "How to call frontend tools in Asssistant UI + Client Tools",
       },
       {
         id: "client-copilot-kit",
         name: "Copilot Kit",
         icon: MessageSquare,
-        description: "How to call frontend tools in Copilot Kit + Mastra Client SDK",
+        description: "How to call frontend tools in Copilot Kit + Client Tools",
       },
     ],
   },
@@ -152,6 +166,8 @@ export default function Page() {
         return <WorkflowDemo />;
       case "agent-network":
         return <NetworkDemo />;
+      case "generative-user-interfaces-with-custom-events":
+        return <GenerativeUserInterfacesCustomEventsDemo />;
       case "client-ai-sdk":
         return <ClientAISdkDemo />;
       case "client-assistant-ui":
