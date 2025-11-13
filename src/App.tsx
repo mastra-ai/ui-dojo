@@ -135,9 +135,9 @@ const SIDEBAR: SidebarGroupEntry[] = [
       },
       {
         id: "agent-network-with-custom-events",
-        name: "Agent Network",
+        name: "Report Agent Network",
         icon: Network,
-        description: "How to use custom events with Agent Network",
+        description: "How to use custom events with Report Agent Network",
       },
     ],
   },

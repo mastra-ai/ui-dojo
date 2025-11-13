@@ -13,7 +13,8 @@ import { orderProcessingAgent } from "./agents/order-processing-agent";
 import { orderFulfillmentWorkflow } from "./workflows/order-fulfillment-workflow";
 import { dataAnalysisAgent } from "./agents/data-analysis-agent";
 import { reportGenerationAgent } from "./agents/report-generation-agent";
-import { networkRoutingAgent } from "./agents/network-routing-agent";
+import { reportReviewAgent } from "./agents/report-review-agent";
+import { reportAgentNetwork } from "./agents/network-routing-agent";
 
 export const mastra = new Mastra({
   agents: {
@@ -26,7 +27,8 @@ export const mastra = new Mastra({
     orderProcessingAgent,
     dataAnalysisAgent,
     reportGenerationAgent,
-    networkRoutingAgent,
+    reportReviewAgent,
+    reportAgentNetwork,
   },
   workflows: {
     activitiesWorkflow,
@@ -57,7 +59,7 @@ export const mastra = new Mastra({
       }),
       networkRoute({
         path: "/network-custom-events",
-        agent: "networkRoutingAgent",
+        agent: "reportAgentNetwork",
       }),
       // @ts-expect-error - resourceId not necessary
       registerCopilotKit({

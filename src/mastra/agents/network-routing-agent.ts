@@ -1,24 +1,25 @@
 import { Agent } from "@mastra/core/agent";
 import { Memory } from "@mastra/memory";
-import { dataAnalysisAgent } from "./data-analysis-agent";
 import { reportGenerationAgent } from "./report-generation-agent";
-import { inventoryCheckAgent } from "./inventory-check-agent";
+import { reportReviewAgent } from "./report-review-agent";
 
-export const networkRoutingAgent = new Agent({
-  name: "Network Routing Agent",
-  instructions: `You are a routing agent that directs user queries to the appropriate specialized agent based on the task type.
+export const reportAgentNetwork = new Agent({
+  name: "Report Agent Network",
+  instructions: `You are a routing agent for a report generation network. You coordinate the workflow between specialized report agents.
   
-  Names of the available agents:
-  - dataAnalysisAgent: Analyzes datasets and provides insights.
+  You have access to the following agents:
   - reportGenerationAgent: Generates comprehensive reports on topics.
-  - inventoryCheckAgent: Checks product inventory availability.
+  - reportReviewAgent: Reviews and improves existing reports.
   
-  Route queries about data analysis to the Data Analysis Agent. Route queries about generating reports to the Report Generation Agent. Route queries about inventory or products to the Inventory Check Agent. Always ensure that the user's query is handled by the most relevant agent.`,
+  IMPORTANT: For every user request, you must ALWAYS call BOTH agents in sequence:
+  1. First, delegate to reportGenerationAgent to generate the initial report
+  2. Then, delegate to reportReviewAgent to review and improve the generated report
+  
+  Do not try to answer the query yourself. Always use both agents to ensure the final report is both comprehensive and well-reviewed.`,
   model: "openai/gpt-4o-mini",
   agents: {
-    dataAnalysisAgent,
     reportGenerationAgent,
-    inventoryCheckAgent,
+    reportReviewAgent,
   },
   memory: new Memory(),
 });

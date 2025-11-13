@@ -11,9 +11,8 @@ import { Badge } from "@/components/ui/badge";
 import {
   CheckCircle2,
   Loader2,
-  BarChart3,
   FileText,
-  Package,
+  FileCheck,
   Network,
   FileEdit,
 } from "lucide-react";
@@ -21,7 +20,7 @@ import {
 type ProgressData = {
   status: "in-progress" | "done";
   message: string;
-  stage?: "data-analysis" | "report-generation" | "inventory";
+  stage?: "report-generation" | "report-review";
 };
 
 const ProgressIndicator = ({
@@ -35,12 +34,10 @@ const ProgressIndicator = ({
 
   const getIcon = () => {
     switch (progress.stage) {
-      case "data-analysis":
-        return <BarChart3 className="w-5 h-5" />;
       case "report-generation":
         return <FileText className="w-5 h-5" />;
-      case "inventory":
-        return <Package className="w-5 h-5" />;
+      case "report-review":
+        return <FileCheck className="w-5 h-5" />;
       default:
         return <Network className="w-5 h-5" />;
     }
@@ -48,12 +45,10 @@ const ProgressIndicator = ({
 
   const getStageName = () => {
     switch (progress.stage) {
-      case "data-analysis":
-        return "Data Analysis";
       case "report-generation":
         return "Report Generation";
-      case "inventory":
-        return "Inventory Check";
+      case "report-review":
+        return "Report Review";
       default:
         return "Processing";
     }
@@ -117,12 +112,10 @@ export const AgentNetworkCustomEventsDemo = () => {
           const data = (part.data || {}) as ProgressData;
           if (data) {
             let agentName: string | undefined;
-            if (data.stage === "data-analysis") {
-              agentName = "Data Analysis Agent";
-            } else if (data.stage === "report-generation") {
+            if (data.stage === "report-generation") {
               agentName = "Report Generation Agent";
-            } else if (data.stage === "inventory") {
-              agentName = "Inventory Check Agent";
+            } else if (data.stage === "report-review") {
+              agentName = "Report Review Agent";
             }
             events.push({ ...data, agentName });
           }
@@ -155,7 +148,7 @@ export const AgentNetworkCustomEventsDemo = () => {
               <CardTitle>Report Generator</CardTitle>
             </div>
             <CardDescription>
-              Generate a comprehensive report on any topic. The network will route to the appropriate agent.
+              Generate or review reports on any topic. The Report Agent Network will route to the appropriate specialized agent.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -184,12 +177,24 @@ export const AgentNetworkCustomEventsDemo = () => {
         </Card>
       </div>
       <div className="flex-1 min-h-0 overflow-y-auto space-y-4">
-        {messages.map((message, idx) => (
-          <div key={message.id}>
-            <div>
-              {/* Show progress indicators for the latest message */}
-              {idx === messages.length - 1 &&
-                Object.keys(latestByStage).length > 0 && (
+        {messages.map((message, idx) => {
+          // Check if message has any renderable text parts
+          const hasTextParts = message.parts.some(
+            (part) => part.type === "text" && part.text?.trim()
+          );
+          const isLatestMessage = idx === messages.length - 1;
+          const hasProgress = isLatestMessage && Object.keys(latestByStage).length > 0;
+
+          // Only render if there's content to show
+          if (!hasTextParts && !hasProgress) {
+            return null;
+          }
+
+          return (
+            <div key={message.id}>
+              <div>
+                {/* Show progress indicators for the latest message */}
+                {hasProgress && (
                   <div className="my-4 space-y-2">
                     {Object.entries(latestByStage)
                       .map(([stage, event]) => (
@@ -201,32 +206,33 @@ export const AgentNetworkCustomEventsDemo = () => {
                       ))}
                   </div>
                 )}
-              {message.parts.map((part, index) => {
-                if (part.type === "text" && message.role === "user") {
-                  return (
-                    <Message key={index} from={message.role}>
-                      <MessageContent>
-                        <Response>{part.text}</Response>
-                      </MessageContent>
-                    </Message>
-                  );
-                }
+                {message.parts.map((part, index) => {
+                  if (part.type === "text" && message.role === "user" && part.text?.trim()) {
+                    return (
+                      <Message key={index} from={message.role}>
+                        <MessageContent>
+                          <Response>{part.text}</Response>
+                        </MessageContent>
+                      </Message>
+                    );
+                  }
 
-                if (part.type === "text" && message.role === "assistant") {
-                  return (
-                    <Message key={index} from={message.role}>
-                      <MessageContent>
-                        <Response>{part.text}</Response>
-                      </MessageContent>
-                    </Message>
-                  );
-                }
+                  if (part.type === "text" && message.role === "assistant" && part.text?.trim()) {
+                    return (
+                      <Message key={index} from={message.role}>
+                        <MessageContent>
+                          <Response>{part.text}</Response>
+                        </MessageContent>
+                      </Message>
+                    );
+                  }
 
-                return null;
-              })}
+                  return null;
+                })}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
