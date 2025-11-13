@@ -31,6 +31,7 @@ import { AssistantUIDemo } from "@/demos/assistant-ui";
 import { GenerativeUserInterfacesDemo } from "./demos/ai-sdk/generative-user-interfaces";
 import { GenerativeUserInterfacesCustomEventsDemo } from "./demos/ai-sdk/generative-user-interfaces-custom-events";
 import { SubAgentsAndWorkflowsCustomEventsDemo } from "./demos/ai-sdk/sub-agents-and-workflows-custom-events";
+import { AgentNetworkCustomEventsDemo } from "./demos/ai-sdk/agent-network-custom-events";
 import { WorkflowDemo } from "./demos/ai-sdk/workflow";
 import { NetworkDemo } from "./demos/ai-sdk/network";
 import { ClientAISdkDemo } from "./demos/client-sdk/ai-sdk";
@@ -199,8 +200,8 @@ export default function Page() {
         return <GenerativeUserInterfacesCustomEventsDemo />;
       case "sub-agents-and-workflows-with-custom-events":
         return <SubAgentsAndWorkflowsCustomEventsDemo />;
-      // case "agent-network-with-custom-events":
-      //   return <AgentNetworkCustomEventsDemo />;
+      case "agent-network-with-custom-events":
+        return <AgentNetworkCustomEventsDemo />;
       // case "hitl-workflow-suspend-resume":
       //   return <WorkflowSuspendResumeDemo />;
       case "client-ai-sdk":
