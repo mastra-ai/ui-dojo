@@ -84,12 +84,14 @@ Example agents demonstrating different capabilities:
 - **Ghibli Agent** - Studio Ghibli themed responses with image generation
 - **Routing Agent** - Coordinates between multiple specialized agents
 - **Background Color Agent** - Demonstrates UI manipulation through tools
+- **Web Search Agent** - Uses the Exa web search tool to fetch live web results for user queries. Grab your [Exa API KEY](https://docs.exa.ai/reference/search)
 
 ### Tools (`src/mastra/tools/`)
 
 - **Weather Tool** - Fetches weather data for locations
 - **Ghibli Tool** - Generates Studio Ghibli style images
 - **Color Change Tool** - Updates UI background colors
+- **Exa Web Search Tool** - Performs live web searches using the Exa tool.
 
 ### Workflows (`src/mastra/workflows/`)
 

@@ -8,6 +8,7 @@ import { activitiesWorkflow } from "./workflows/activities-workflow";
 import { routingAgent } from "./agents/routing-agent";
 import { bgColorAgent } from "./agents/bg-color-agent";
 import { taskAgent } from "./agents/task-agent";
+import { webSearchAgent } from "./agents/web-search-agent";
 
 export const mastra = new Mastra({
   agents: {
@@ -16,6 +17,7 @@ export const mastra = new Mastra({
     routingAgent,
     bgColorAgent,
     taskAgent,
+    webSearchAgent,
   },
   workflows: {
     activitiesWorkflow,

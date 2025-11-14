@@ -45,6 +45,7 @@ import { Loader } from "@/components/ai-elements/loader";
 import { DefaultChatTransport } from "ai";
 import { Suggestion, Suggestions } from "@/components/ai-elements/suggestion";
 import { MASTRA_BASE_URL } from "@/constants";
+import type { ChatMessage } from "@/mastra/tools/web-search-tool";
 
 const models = [
   {
@@ -59,6 +60,8 @@ const models = [
 
 const suggestions = [
   "Tell me about Spirited Away",
+  "What are Christopher Nolan's top 10 rannked films on IMDB",
+  "How much revenue did the first season of Squid Game generate?",
   "Who are the main characters in Princess Mononoke?",
   "Summarize the plot of Howl's Moving Castle",
 ];
@@ -66,10 +69,10 @@ const suggestions = [
 const AISdkDemo = () => {
   const [input, setInput] = useState("");
   const [model, setModel] = useState<string>(models[0].value);
-  const [webSearch, setWebSearch] = useState(false);
-  const { messages, sendMessage, status, regenerate } = useChat({
+  const [webSearch, setWebSearch] = useState(true);
+  const { messages, sendMessage, status, regenerate } = useChat<ChatMessage>({
     transport: new DefaultChatTransport({
-      api: `${MASTRA_BASE_URL}/chat/ghibliAgent`,
+      api: `${MASTRA_BASE_URL}/chat/${webSearch ? "webSearchAgent" : "ghibliAgent"}`,
     }),
   });
 
@@ -131,58 +134,146 @@ const AISdkDemo = () => {
                         ))}
                     </Sources>
                   )}
-                {message.parts.map((part, i) => {
-                  switch (part.type) {
-                    case "text":
-                      return (
-                        <Fragment key={`${message.id}-${i}`}>
-                          <Message from={message.role}>
-                            <MessageContent>
-                              <Response>{part.text}</Response>
-                            </MessageContent>
-                          </Message>
-                          {message.role === "assistant" &&
-                            i === messages.length - 1 && (
-                              <Actions className="mt-2">
-                                <Action
-                                  onClick={() => regenerate()}
-                                  label="Retry"
-                                >
-                                  <RefreshCcwIcon className="size-3" />
-                                </Action>
-                                <Action
-                                  onClick={() =>
-                                    navigator.clipboard.writeText(part.text)
-                                  }
-                                  label="Copy"
-                                >
-                                  <CopyIcon className="size-3" />
-                                </Action>
-                              </Actions>
-                            )}
-                        </Fragment>
-                      );
-                    case "reasoning":
-                      return (
-                        <Reasoning
-                          key={`${message.id}-${i}`}
-                          className="w-full"
-                          isStreaming={
-                            status === "streaming" &&
-                            i === message.parts.length - 1 &&
-                            message.id === messages.at(-1)?.id
-                          }
-                        >
-                          <ReasoningTrigger />
-                          <ReasoningContent>{part.text}</ReasoningContent>
-                        </Reasoning>
-                      );
-                    default:
-                      return null;
-                  }
-                })}
+                {message.parts
+                  .filter((_, index, arr) => index === arr.length - 1)
+                  .map((part, i) => {
+                    switch (part.type) {
+                      case "text":
+                        return (
+                          <Fragment key={`${message.id}-${i}`}>
+                            <Message from={message.role}>
+                              <MessageContent>
+                                <Response>{part.text}</Response>
+                              </MessageContent>
+                            </Message>
+                            {message.role === "assistant" &&
+                              i === messages.length - 1 && (
+                                <Actions className="mt-2">
+                                  <Action
+                                    onClick={() => regenerate()}
+                                    label="Retry"
+                                  >
+                                    <RefreshCcwIcon className="size-3" />
+                                  </Action>
+                                  <Action
+                                    onClick={() =>
+                                      navigator.clipboard.writeText(part.text)
+                                    }
+                                    label="Copy"
+                                  >
+                                    <CopyIcon className="size-3" />
+                                  </Action>
+                                </Actions>
+                              )}
+                          </Fragment>
+                        );
+                      case "reasoning":
+                        return (
+                          <Reasoning
+                            key={`${message.id}-${i}`}
+                            className="w-full"
+                            isStreaming={
+                              status === "streaming" &&
+                              i === message.parts.length - 1 &&
+                              message.id === messages.at(-1)?.id
+                            }
+                          >
+                            <ReasoningTrigger />
+                            <ReasoningContent>{part.text}</ReasoningContent>
+                          </Reasoning>
+                        );
+                      case "tool-exaSearch":
+                        switch (part.state) {
+                          case "input-streaming":
+                          case "input-available":
+                            return (
+                              <div
+                                key={`${message.id}-exasearch-${i}`}
+                                className="p-2 rounded-lg bg-slate-900 w-fit"
+                              >
+                                <p className="text-sm text-emerald-500 animate-pulse">
+                                  🌐 Searching the web — Calling Exa
+                                </p>
+                              </div>
+                            );
+                          case "output-available":
+                            return (
+                              <div
+                                key={`${message.id}-exasearch-${i}`}
+                                className="p-2 rounded-lg bg-slate-900 w-fit"
+                              >
+                                <p className="text-sm text-emerald-500">
+                                  🏄‍♀️ Finished search, generating response
+                                </p>
+                              </div>
+                            );
+                          case "output-error":
+                            return (
+                              <div key={`${message.id}-${i}`}>
+                                <div className="text-sm text-red-400">
+                                  ❌ Error: {part.errorText}
+                                </div>
+                              </div>
+                            );
+                          default:
+                            return null;
+                        }
+                      default:
+                        return null;
+                    }
+                  })}
               </div>
             ))}
+            {messages
+              .filter((_, index, arr) => index === arr.length - 1)
+              .map((message) => {
+                // grab tool parts that contain exa's search results
+                const toolParts = message.parts?.filter(
+                  (part) =>
+                    part.type === "tool-exaSearch" &&
+                    part.state === "output-available",
+                );
+                const sources =
+                  toolParts?.flatMap((part) => part.output.results ?? []) ?? [];
+
+                if (sources.length === 0) return null;
+                if (status === "streaming") return null;
+
+                return (
+                  <Sources>
+                    <SourcesTrigger count={sources.length} />
+                    <SourcesContent>
+                      {sources.map((source, i) => (
+                        <a
+                          key={i}
+                          href={source.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 p-2 hover:bg-slate-900 rounded-md transition"
+                        >
+                          {source.favicon ? (
+                            <img
+                              src={source.favicon}
+                              alt=""
+                              className="w-4 h-4 rounded-sm object-contain"
+                            />
+                          ) : (
+                            <div className="w-4 h-4 bg-neutral-300 rounded-sm" />
+                          )}
+                          <div className="flex flex-col text-sm">
+                            <span className="font-medium line-clamp-1">
+                              {source.title}
+                            </span>
+                            <span className="text-xs text-neutral-500">
+                              {new URL(source.url).hostname.replace("www.", "")}
+                            </span>
+                          </div>
+                        </a>
+                      ))}
+                    </SourcesContent>
+                  </Sources>
+                );
+              })}
             {status === "submitted" && <Loader />}
           </ConversationContent>
           <ConversationScrollButton />
