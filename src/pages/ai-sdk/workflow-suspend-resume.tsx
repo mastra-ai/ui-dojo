@@ -25,6 +25,7 @@ const STATUS_MAP: Record<WorkflowData["steps"][string]["status"], ToolUIPart["st
   suspended: "input-available",
   success: "output-available",
   failed: "output-error",
+  bailed: "output-error",
 };
 
 const DisplayStep = ({ 
