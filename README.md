@@ -50,29 +50,29 @@ This project provides working examples of Mastra integrated with three major AI 
 
 Compare three different approaches to building chat interfaces with Mastra:
 
-- **AI SDK** (`src/demos/ai-sdk.tsx`) - Built with Vercel's AI SDK and `@mastra/ai-sdk`
-- **Assistant UI** (`src/demos/assistant-ui.tsx`) - Built with Assistant UI's Thread components
-- **CopilotKit** (`src/demos/copilot-kit.tsx`) - Built with CopilotKit's Chat component
+- **AI SDK** (`src/pages/ai-sdk/index.tsx`) - Built with Vercel's AI SDK and `@mastra/ai-sdk`
+- **Assistant UI** (`src/pages/assistant-ui/index.tsx`) - Built with Assistant UI's Thread components and `useExternalStoreRuntime()` to connect Assistant UI to Mastra's memory
+- **CopilotKit** (`src/pages/copilot-kit/index.tsx`) - Built with CopilotKit's Chat component
 
 ### AI SDK UI
 
 Explore advanced AI SDK UI capabilities:
 
-- **Generative UIs** (`src/demos/ai-sdk/generative-user-interfaces.tsx`) - Custom UI components for tool responses
-- **Workflows** (`src/demos/ai-sdk/workflow.tsx`) - Multi-step workflows with the activities workflow
-- **Agent Networks** (`src/demos/ai-sdk/network.tsx`) - Multiple agents coordinating through a routing agent
+- **Generative UIs** (`src/pages/ai-sdk/generative-user-interfaces.tsx`) - Custom UI components for tool responses
+- **Workflows** (`src/pages/ai-sdk/workflow.tsx`) - Multi-step workflows with the activities workflow
+- **Agent Networks** (`src/pages/ai-sdk/network.tsx`) - Multiple agents coordinating through a routing agent
 
 ### Custom Events
 
-- **Generative UIs** (`src/demos/ai-sdk/generative-user-interfaces-custom-events.tsx`) - Custom UI for custom events
+- **Generative UIs** (`src/pages/ai-sdk/generative-user-interfaces-with-custom-events.tsx`) - Custom UI for custom events
 
 ### Client Tools
 
 See how to use client tools with each framework:
 
-- **AI SDK + Client SDK** (`src/demos/client-sdk/ai-sdk.tsx`)
-- **Assistant UI + Client SDK** (`src/demos/client-sdk/assistant-ui.tsx`)
-- **CopilotKit + Client SDK** (`src/demos/client-sdk/copilot-kit.tsx`)
+- **AI SDK + Client SDK** (`src/pages/client-tools/ai-sdk.tsx`)
+- **Assistant UI + Client SDK** (`src/pages/client-tools/assistant-ui.tsx`)
+- **CopilotKit + Client SDK** (`src/pages/client-tools/copilot-kit.tsx`)
 
 ## Architecture
 
@@ -127,7 +127,7 @@ Example agents demonstrating different capabilities:
 
 ### Customization
 
-Modify the agents, tools, and workflows in `src/mastra/` to experiment with different capabilities. Each demo can be found in `src/demos/` and uses components from `src/components/`.
+Modify the agents, tools, and workflows in `src/mastra/` to experiment with different capabilities. Each demo can be found in `src/pages/` and uses components from `src/components/`.
 
 ## Learn More
 
