@@ -19,6 +19,8 @@ import {
   ThreadPrimitive,
 } from "@assistant-ui/react";
 
+import { Reasoning, ReasoningGroup } from "@/components/assistant-ui/reasoning";
+
 import type { FC } from "react";
 import { LazyMotion, MotionConfig, domAnimation } from "motion/react";
 import * as m from "motion/react-m";
@@ -254,6 +256,8 @@ const AssistantMessage: FC = () => {
             components={{
               Text: MarkdownText,
               tools: { Fallback: ToolFallback },
+              Reasoning: Reasoning,
+              ReasoningGroup: ReasoningGroup,
             }}
           />
           <MessageError />
