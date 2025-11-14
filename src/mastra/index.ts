@@ -8,6 +8,14 @@ import { activitiesWorkflow } from "./workflows/activities-workflow";
 import { routingAgent } from "./agents/routing-agent";
 import { bgColorAgent } from "./agents/bg-color-agent";
 import { taskAgent } from "./agents/task-agent";
+import { inventoryCheckAgent } from "./agents/inventory-check-agent";
+import { orderProcessingAgent } from "./agents/order-processing-agent";
+import { orderFulfillmentWorkflow } from "./workflows/order-fulfillment-workflow";
+import { approvalWorkflow } from "./workflows/approval-workflow";
+import { dataAnalysisAgent } from "./agents/data-analysis-agent";
+import { reportGenerationAgent } from "./agents/report-generation-agent";
+import { reportReviewAgent } from "./agents/report-review-agent";
+import { reportAgentNetwork } from "./agents/network-routing-agent";
 
 export const mastra = new Mastra({
   agents: {
@@ -16,9 +24,17 @@ export const mastra = new Mastra({
     routingAgent,
     bgColorAgent,
     taskAgent,
+    inventoryCheckAgent,
+    orderProcessingAgent,
+    dataAnalysisAgent,
+    reportGenerationAgent,
+    reportReviewAgent,
+    reportAgentNetwork,
   },
   workflows: {
     activitiesWorkflow,
+    orderFulfillmentWorkflow,
+    approvalWorkflow,
   },
   storage: new LibSQLStore({
     url: ":memory:",
@@ -49,6 +65,10 @@ export const mastra = new Mastra({
       networkRoute({
         path: "/network",
         agent: "routingAgent",
+      }),
+      networkRoute({
+        path: "/network-custom-events",
+        agent: "reportAgentNetwork",
       }),
       // @ts-expect-error - resourceId not necessary
       registerCopilotKit({

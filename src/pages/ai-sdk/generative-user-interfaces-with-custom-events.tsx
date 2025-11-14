@@ -39,7 +39,7 @@ const ProgressIndicator = ({ progress }: { progress: ProgressData }) => {
       </div>
     </div>
   );
-};
+};                                                                                                                                                                            
 
 const GenerativeUserInterfacesCustomEventsDemo = () => {
   const [input, setInput] = useState("");

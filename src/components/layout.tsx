@@ -97,20 +97,34 @@ const SIDEBAR: SidebarGroupEntry[] = [
   },
   {
     groupId: "with-custom-events",
-    groupName: "With Custom Events",
+    groupName: "AI SDK Custom Events",
     items: [
       {
         id: "generative-user-interfaces-with-custom-events",
-        name: "Generative UIs",
+        name: "Tools",
         url: "/ai-sdk/generative-user-interfaces-with-custom-events",
         icon: AppWindowMac,
         description: "How to use custom events with Generative UIs",
+      },
+      {
+        id: "sub-agents-and-workflows-custom-events",
+        name: "Sub Agents & Workflows",
+        url: "/ai-sdk/sub-agents-and-workflows-custom-events",
+        icon: Workflow,
+        description: "How to use custom events with Sub Agents & Workflows",
+      },
+      {
+        id: "agent-network-custom-events",
+        name: "Report Agent Network",
+        url: "/ai-sdk/agent-network-custom-events",
+        icon: Network,
+        description: "How to use custom events with Report Agent Network",
       },
     ],
   },
   {
     groupId: "client-tools",
-    groupName: "With Client Tools",
+    groupName: "Client Tools",
     items: [
       {
         id: "client-ai-sdk",
@@ -133,6 +147,19 @@ const SIDEBAR: SidebarGroupEntry[] = [
         url: "/client-tools/copilot-kit",
         icon: MessageSquare,
         description: "How to call frontend tools in Copilot Kit + Client Tools",
+      },
+    ],
+  },
+  {
+    groupId: "HITL",
+    groupName: "HITL",
+    items: [
+      {
+        id: "workflow-suspend-resume",
+        name: "Workflow Suspend/Resume",
+        url: "/ai-sdk/workflow-suspend-resume",
+        icon: Workflow,
+        description: "How to suspend and resume a workflow",
       },
     ],
   },
