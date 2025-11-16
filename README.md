@@ -4,7 +4,7 @@ A Mastra showcase demonstrating how to integrate Mastra with popular AI UI frame
 
 This project provides working examples of Mastra integrated with three major AI UI frameworks, plus demonstrations of advanced patterns like generative UIs, workflows, and agent networks. Use this as a reference to understand how Mastra works with different UI approaches and pick the one that fits your needs.
 
-In addition to this project, also consult the official documentation:
+In addition to this project, also consult the official Mastra documentation:
 
 - [AI SDK](https://mastra.ai/docs/frameworks/agentic-uis/ai-sdk)
 - [Assistant UI](https://mastra.ai/docs/frameworks/agentic-uis/assistant-ui)
