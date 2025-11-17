@@ -152,7 +152,7 @@ const SIDEBAR: SidebarGroupEntry[] = [
       },
       {
         id: "agent-network-custom-events",
-        name: "Report Agent Network",
+        name: "Agent Network",
         url: "/ai-sdk/agent-network-custom-events",
         icon: Network,
         description: "Using custom events in an agent network",
