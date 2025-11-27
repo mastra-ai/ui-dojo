@@ -120,7 +120,9 @@ const SIDEBAR: SidebarGroupEntry[] = [
         icon: Workflow,
         description: "Streaming text from an agent in a workflow",
         explanation:
-          "Shows how to stream text from an agent in a workflow step",
+          "Shows how to stream text from an agent in a workflow step, using the includeTextStreamParts option in the workflowRoute() function and piping the agent's stream to the workflow step writer to enable text chunk streaming",
+        docsUrl:
+          "https://mastra.ai/docs/frameworks/agentic-uis/ai-sdk#workflowroute",
       },
       {
         id: "agent-network",
