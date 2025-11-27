@@ -114,15 +114,6 @@ const SIDEBAR: SidebarGroupEntry[] = [
           "Demonstrates Mastra workflows with AI SDK by using prepareSendMessagesRequest() to transform user input into workflow inputData. The activitiesWorkflow returns step-by-step results via data-workflow parts, which can be rendered with custom UI components showing each step's status.",
       },
       {
-        id: "agent-network",
-        name: "Agent Network",
-        url: "/ai-sdk/network",
-        icon: Network,
-        description: "Coordinating multiple AI agents for complex tasks",
-        explanation:
-          "Shows Mastra's agent composition pattern where a routing agent coordinates multiple specialized agents and workflows. The routingAgent uses its agents and workflows properties to delegate requests, with all responses unified in a single chat stream.",
-      },
-      {
         id: "workflow-agent-text-streaming",
         name: "Workflow Agent TextStream",
         url: "/ai-sdk/workflow-agent-text-streaming",
@@ -130,6 +121,15 @@ const SIDEBAR: SidebarGroupEntry[] = [
         description: "Streaming text from an agent in a workflow",
         explanation:
           "Shows how to stream text from an agent in a workflow step",
+      },
+      {
+        id: "agent-network",
+        name: "Agent Network",
+        url: "/ai-sdk/network",
+        icon: Network,
+        description: "Coordinating multiple AI agents for complex tasks",
+        explanation:
+          "Shows Mastra's agent composition pattern where a routing agent coordinates multiple specialized agents and workflows. The routingAgent uses its agents and workflows properties to delegate requests, with all responses unified in a single chat stream.",
       },
     ],
   },
