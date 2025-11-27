@@ -114,6 +114,17 @@ const SIDEBAR: SidebarGroupEntry[] = [
           "Demonstrates Mastra workflows with AI SDK by using prepareSendMessagesRequest() to transform user input into workflow inputData. The activitiesWorkflow returns step-by-step results via data-workflow parts, which can be rendered with custom UI components showing each step's status.",
       },
       {
+        id: "workflow-agent-text-streaming",
+        name: "Workflow Agent TextStream",
+        url: "/ai-sdk/workflow-agent-text-streaming",
+        icon: Workflow,
+        description: "Streaming text from an agent in a workflow",
+        explanation:
+          "Shows how to stream text from an agent in a workflow step, using the includeTextStreamParts option in the workflowRoute() function and piping the agent's stream to the workflow step writer to enable text chunk streaming",
+        docsUrl:
+          "https://mastra.ai/docs/frameworks/agentic-uis/ai-sdk#workflowroute",
+      },
+      {
         id: "agent-network",
         name: "Agent Network",
         url: "/ai-sdk/network",

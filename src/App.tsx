@@ -15,6 +15,7 @@ import AiSdkGenerativeCustomEvents from "@/pages/ai-sdk/generative-user-interfac
 import AiSdkSubAgentsAndWorkflowsCustomEvents from "@/pages/ai-sdk/sub-agents-and-workflows-custom-events";
 import AiSdkAgentNetworkCustomEvents from "@/pages/ai-sdk/agent-network-custom-events";
 import AiSdkWorkflowSuspendResume from "@/pages/ai-sdk/workflow-suspend-resume";
+import AiSdkWorkflowAgentTextStreaming from "@/pages/ai-sdk/workflow-agent-text-streaming";
 
 import ClientToolsAiSdk from "@/pages/client-tools/ai-sdk";
 import ClientToolsAssistantUi from "@/pages/client-tools/assistant-ui";
@@ -59,6 +60,10 @@ export default function Page() {
                   <Route
                     path="workflow-suspend-resume"
                     element={<AiSdkWorkflowSuspendResume />}
+                  />
+                  <Route
+                    path="workflow-agent-text-streaming"
+                    element={<AiSdkWorkflowAgentTextStreaming />}
                   />
                 </Route>
                 <Route path="/client-tools">
