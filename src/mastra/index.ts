@@ -12,6 +12,7 @@ import { inventoryCheckAgent } from "./agents/inventory-check-agent";
 import { orderProcessingAgent } from "./agents/order-processing-agent";
 import { orderFulfillmentWorkflow } from "./workflows/order-fulfillment-workflow";
 import { approvalWorkflow } from "./workflows/approval-workflow";
+import { agentTextStreamWorkflow } from "./workflows/agent-text-stream-workflow";
 import { dataAnalysisAgent } from "./agents/data-analysis-agent";
 import { reportGenerationAgent } from "./agents/report-generation-agent";
 import { reportReviewAgent } from "./agents/report-review-agent";
@@ -35,6 +36,7 @@ export const mastra = new Mastra({
     activitiesWorkflow,
     orderFulfillmentWorkflow,
     approvalWorkflow,
+    agentTextStreamWorkflow,
   },
   storage: new LibSQLStore({
     url: ":memory:",
@@ -62,7 +64,14 @@ export const mastra = new Mastra({
       }),
       // See https://mastra.ai/docs/frameworks/agentic-uis/ai-sdk#workflowroute
       workflowRoute({
-        path: "/workflow/:workflowId",
+        path: "/workflow/:workflowId",  
+      }),
+      // Workflow route with agent text streaming enabled
+      workflowRoute({
+        path: "/workflow-agent-text-stream",
+        workflow: "agentTextStreamWorkflow",
+        // This provides a seamless streaming experience even when agents are running inside workflow steps
+        includeTextStreamParts: true,
       }),
       // See https://mastra.ai/docs/frameworks/agentic-uis/ai-sdk#networkroute
       networkRoute({

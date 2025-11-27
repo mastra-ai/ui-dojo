@@ -122,6 +122,15 @@ const SIDEBAR: SidebarGroupEntry[] = [
         explanation:
           "Shows Mastra's agent composition pattern where a routing agent coordinates multiple specialized agents and workflows. The routingAgent uses its agents and workflows properties to delegate requests, with all responses unified in a single chat stream.",
       },
+      {
+        id: "workflow-agent-text-streaming",
+        name: "Workflow Agent TextStream",
+        url: "/ai-sdk/workflow-agent-text-streaming",
+        icon: Workflow,
+        description: "Streaming text from an agent in a workflow",
+        explanation:
+          "Shows how to stream text from an agent in a workflow step",
+      },
     ],
   },
   {
