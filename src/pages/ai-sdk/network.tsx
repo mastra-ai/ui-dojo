@@ -213,6 +213,14 @@ const NetworkDemo = () => {
                       const networkData = (part as NetworkDataPart)
                         .data as NetworkData;
                       const steps = networkData.steps || [];
+                      
+                      // Count unique agents
+                      const uniqueAgents = new Set(steps.map(s => s.name)).size;
+                      const stepCount = steps.length;
+                      
+                      const description = uniqueAgents === stepCount 
+                        ? `${stepCount} agent${stepCount !== 1 ? "s" : ""} coordinated`
+                        : `${stepCount} step${stepCount !== 1 ? "s" : ""} across ${uniqueAgents} agent${uniqueAgents !== 1 ? "s" : ""}`;
 
                       return (
                         <div key={`${message.id}-${i}`} className="my-4 space-y-4">
@@ -224,8 +232,7 @@ const NetworkDemo = () => {
                                 Agent Network Execution
                               </div>
                               <div className="text-xs text-muted-foreground">
-                                {steps.length} agent{steps.length !== 1 ? "s" : ""}{" "}
-                                coordinated
+                                {description}
                               </div>
                             </div>
                             {networkData.status && (
