@@ -16,7 +16,7 @@ import { agentTextStreamWorkflow } from "./workflows/agent-text-stream-workflow"
 import { dataAnalysisAgent } from "./agents/data-analysis-agent";
 import { reportGenerationAgent } from "./agents/report-generation-agent";
 import { reportReviewAgent } from "./agents/report-review-agent";
-import { reportAgentNetwork } from "./agents/network-routing-agent";
+import { reportAgentNetwork } from "./agents/report-agent-network";
 
 export const mastra = new Mastra({
   agents: {

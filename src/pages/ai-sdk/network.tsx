@@ -17,7 +17,7 @@ import { Fragment, useState } from "react";
 import { useChat } from "@ai-sdk/react";
 import { Response } from "@/components/ai-elements/response";
 import { MASTRA_BASE_URL } from "@/constants";
-import { CopyIcon, RefreshCcwIcon } from "lucide-react";
+import { CopyIcon, RefreshCcwIcon, Network as NetworkIcon } from "lucide-react";
 import {
   Source,
   Sources,
@@ -32,6 +32,73 @@ import {
 import { Loader } from "@/components/ai-elements/loader";
 import { DefaultChatTransport } from "ai";
 import { Suggestion, Suggestions } from "@/components/ai-elements/suggestion";
+import {
+  Tool,
+  ToolContent,
+  ToolHeader,
+  ToolOutput,
+} from "@/components/ai-elements/tool";
+import type { ToolUIPart } from "ai";
+import { Badge } from "@/components/ui/badge";
+import type { NetworkDataPart} from "@mastra/ai-sdk";
+
+
+type NetworkData = NetworkDataPart["data"];
+type StepStatus = NetworkData["steps"][number]["status"];
+
+const STATUS_MAP: Record<StepStatus, ToolUIPart["state"]> = {
+  running: "input-available",
+  success: "output-available",
+  failed: "output-error",
+  suspended: "input-available",
+  waiting: "input-available",
+};
+
+const getAgentDisplayName = (stepName: string) => {
+  // Convert step names like "ghibliAgent" to "Ghibli Agent"
+  return stepName
+    .replace(/([A-Z])/g, " $1")
+    .replace(/^./, (str) => str.toUpperCase())
+    .trim();
+};
+
+const DisplayAgentStep = ({
+  step,
+  stepName,
+}: {
+  step: NetworkData["steps"][number];
+  stepName: string;
+}) => {
+  const displayName = getAgentDisplayName(stepName);
+
+  return (
+    <Tool>
+      <ToolHeader
+        title={displayName}
+        type="tool-data-network"
+        state={STATUS_MAP[step.status]}
+      />
+      <ToolContent>
+        {step.input && (
+          <div className="mb-3 px-4 pt-4">
+            <div className="text-xs font-semibold text-muted-foreground mb-1 uppercase">
+              Input
+            </div>
+            <div className="text-sm bg-muted/50 p-2 rounded">
+              {typeof step.input === "string"
+                ? step.input
+                : JSON.stringify(step.input, null, 2)}
+            </div>
+          </div>
+        )}
+        <ToolOutput
+          output={step.output as ToolUIPart["output"]}
+          errorText={step.status === "failed" ? "Step failed" : undefined}
+        />
+      </ToolContent>
+    </Tool>
+  );
+};
 
 const suggestions = [
   "Tell me about Spirited Away",
@@ -142,6 +209,55 @@ const NetworkDemo = () => {
                           <ReasoningContent>{part.text}</ReasoningContent>
                         </Reasoning>
                       );
+                    case "data-network": {
+                      const networkData = (part as NetworkDataPart)
+                        .data as NetworkData;
+                      const steps = networkData.steps || [];
+
+                      return (
+                        <div key={`${message.id}-${i}`} className="my-4 space-y-4">
+                          {/* Network Header */}
+                          <div className="flex items-center gap-2 p-3 bg-muted/50 rounded-lg border">
+                            <NetworkIcon className="w-5 h-5 text-primary" />
+                            <div className="flex-1">
+                              <div className="font-semibold text-sm">
+                                Agent Network Execution
+                              </div>
+                              <div className="text-xs text-muted-foreground">
+                                {steps.length} agent{steps.length !== 1 ? "s" : ""}{" "}
+                                coordinated
+                              </div>
+                            </div>
+                            {networkData.status && (
+                              <Badge
+                                variant={
+                                  networkData.status === "finished"
+                                    ? "default"
+                                    : networkData.status === "running"
+                                      ? "destructive"
+                                      : "secondary"
+                                }
+                              >
+                                {networkData.status === "running"
+                                  ? "In Progress"
+                                  : networkData.status === "finished"
+                                    ? "Complete"
+                                    : "Running"}
+                              </Badge>
+                            )}
+                          </div>
+
+                          {/* Display each agent step */}
+                          {steps.map((step, stepIndex) => (
+                            <DisplayAgentStep
+                              key={`${step.name}-${stepIndex}`}
+                              step={step}
+                              stepName={step.name}
+                            />
+                          ))}
+                        </div>
+                      );
+                    }
                     default:
                       return null;
                   }
