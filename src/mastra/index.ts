@@ -13,6 +13,7 @@ import { orderProcessingAgent } from "./agents/order-processing-agent";
 import { orderFulfillmentWorkflow } from "./workflows/order-fulfillment-workflow";
 import { approvalWorkflow } from "./workflows/approval-workflow";
 import { agentTextStreamWorkflow } from "./workflows/agent-text-stream-workflow";
+import { branchingWorkflow } from "./workflows/branching-workflow";
 import { dataAnalysisAgent } from "./agents/data-analysis-agent";
 import { reportGenerationAgent } from "./agents/report-generation-agent";
 import { reportReviewAgent } from "./agents/report-review-agent";
@@ -37,6 +38,7 @@ export const mastra = new Mastra({
     orderFulfillmentWorkflow,
     approvalWorkflow,
     agentTextStreamWorkflow,
+    branchingWorkflow,
   },
   storage: new LibSQLStore({
     url: ":memory:",

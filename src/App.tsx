@@ -14,6 +14,7 @@ import AiSdkNetwork from "@/pages/ai-sdk/network";
 import AiSdkGenerativeCustomEvents from "@/pages/ai-sdk/generative-user-interfaces-with-custom-events";
 import AiSdkSubAgentsAndWorkflowsCustomEvents from "@/pages/ai-sdk/sub-agents-and-workflows-custom-events";
 import AiSdkAgentNetworkCustomEvents from "@/pages/ai-sdk/agent-network-custom-events";
+import AiSdkWorkflowCustomEvents from "@/pages/ai-sdk/workflow-custom-events";
 import AiSdkWorkflowSuspendResume from "@/pages/ai-sdk/workflow-suspend-resume";
 import AiSdkWorkflowAgentTextStreaming from "@/pages/ai-sdk/workflow-agent-text-streaming";
 
@@ -56,6 +57,10 @@ export default function Page() {
                   <Route
                     path="agent-network-custom-events"
                     element={<AiSdkAgentNetworkCustomEvents />}
+                  />
+                  <Route
+                    path="workflow-custom-events"
+                    element={<AiSdkWorkflowCustomEvents />}
                   />
                   <Route
                     path="workflow-suspend-resume"

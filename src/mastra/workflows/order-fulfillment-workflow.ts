@@ -20,7 +20,7 @@ const processPayment = createStep({
     const { amount, orderId, productName } = inputData!;
 
     // Emit custom event for payment processing start
-    await writer?.write({
+    await writer?.custom({
       type: "data-tool-progress",
       data: {
         status: "in-progress",
@@ -32,7 +32,7 @@ const processPayment = createStep({
     // Simulate payment processing
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
-    await writer?.write({
+    await writer?.custom({
       type: "data-tool-progress",
       data: {
         status: "in-progress",
@@ -44,7 +44,7 @@ const processPayment = createStep({
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
     // Emit done event
-    await writer?.write({
+    await writer?.custom({
       type: "data-tool-progress",
       data: {
         status: "done",
@@ -81,7 +81,7 @@ const prepareShipping = createStep({
     const { orderId, productName } = inputData!;
 
     // Emit custom event for shipping preparation start
-    await writer?.write({
+    await writer?.custom({
       type: "data-tool-progress",
       data: {
         status: "in-progress",
@@ -93,7 +93,7 @@ const prepareShipping = createStep({
     // Simulate shipping preparation
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
-    await writer?.write({
+    await writer?.custom({
       type: "data-tool-progress",
       data: {
         status: "in-progress",
@@ -105,7 +105,7 @@ const prepareShipping = createStep({
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
     // Emit done event
-    await writer?.write({
+    await writer?.custom({
       type: "data-tool-progress",
       data: {
         status: "done",

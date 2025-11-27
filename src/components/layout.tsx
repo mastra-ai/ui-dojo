@@ -172,6 +172,17 @@ const SIDEBAR: SidebarGroupEntry[] = [
         docsUrl:
           "https://mastra.ai/docs/frameworks/agentic-uis/ai-sdk#custom-tool-streaming",
       },
+      {
+        id: "workflow-custom-events",
+        name: "Workflow Steps",
+        url: "/ai-sdk/workflow-custom-events",
+        icon: Workflow,
+        description: "Custom events from workflow steps with branching",
+        explanation:
+          "Demonstrates custom events from workflow steps with conditional branching using .branch(). The branchingWorkflow validates an order, then branches to either standardWorkflow or expressWorkflow based on order type. Each nested workflow step emits data-tool-progress events using writer.custom() showing how custom events propagate from branched nested workflows to the root stream.",
+        docsUrl:
+          "https://mastra.ai/docs/frameworks/agentic-uis/ai-sdk#custom-tool-streaming",
+      },
     ],
   },
   {
