@@ -17,6 +17,7 @@ import AiSdkAgentNetworkCustomEvents from "@/pages/ai-sdk/agent-network-custom-e
 import AiSdkWorkflowCustomEvents from "@/pages/ai-sdk/workflow-custom-events";
 import AiSdkWorkflowSuspendResume from "@/pages/ai-sdk/workflow-suspend-resume";
 import AiSdkWorkflowAgentTextStream from "@/pages/ai-sdk/workflow-agent-text-stream";
+import AiSdkToolNestedStreams from "@/pages/ai-sdk/tool-nested-streams";
 
 import ClientToolsAiSdk from "@/pages/client-tools/ai-sdk";
 import ClientToolsAssistantUi from "@/pages/client-tools/assistant-ui";
@@ -69,6 +70,10 @@ export default function Page() {
                   <Route
                     path="workflow-agent-text-stream"
                     element={<AiSdkWorkflowAgentTextStream />}
+                  />
+                  <Route
+                    path="tool-nested-streams"
+                    element={<AiSdkToolNestedStreams />}
                   />
                 </Route>
                 <Route path="/client-tools">

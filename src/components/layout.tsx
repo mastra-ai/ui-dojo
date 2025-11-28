@@ -125,6 +125,18 @@ const SIDEBAR: SidebarGroupEntry[] = [
           "https://mastra.ai/docs/frameworks/agentic-uis/ai-sdk#workflowroute",
       },
       {
+        id: "tool-nested-streams",
+        name: "Tool Nested Streams",
+        url: "/ai-sdk/tool-nested-streams",
+        icon: Workflow,
+        description:
+          "Nested agent and workflow streams emitted from within a tool run",
+        explanation:
+          "Demonstrates a tool that calls another Mastra agent and pipes its stream into the tool writer, emitting nested data-tool-agent and data-tool-workflow parts that can be rendered alongside the parent tool run in a single AI SDK UI.",
+        docsUrl:
+          "https://mastra.ai/docs/streaming/tool-streaming#tool-using-an-agent",
+      },
+      {
         id: "agent-network",
         name: "Agent Network",
         url: "/ai-sdk/network",

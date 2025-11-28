@@ -18,6 +18,7 @@ import { dataAnalysisAgent } from "./agents/data-analysis-agent";
 import { reportGenerationAgent } from "./agents/report-generation-agent";
 import { reportReviewAgent } from "./agents/report-review-agent";
 import { reportAgentNetwork } from "./agents/report-agent-network";
+import { weatherForecastAgent } from "./agents/weather-forecast-agent";
 
 export const mastra = new Mastra({
   agents: {
@@ -32,6 +33,7 @@ export const mastra = new Mastra({
     reportGenerationAgent,
     reportReviewAgent,
     reportAgentNetwork,
+    weatherForecastAgent,
   },
   workflows: {
     activitiesWorkflow,
