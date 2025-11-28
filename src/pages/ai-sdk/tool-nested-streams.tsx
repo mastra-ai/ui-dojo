@@ -80,8 +80,8 @@ const ToolNestedStreamsDemo = () => {
                         <CollapsibleTrigger className="group flex w-full items-center justify-between px-4 py-2 text-xs font-semibold uppercase text-muted-foreground hover:text-foreground">
                           <span>
                             {nestedPart.type === "data-tool-agent"
-                              ? "Nested Agent Stream"
-                              : "Nested Workflow Stream"}
+                              ? "Weather Agent Stream"
+                              : "Weather Workflow Stream"}
                           </span>
                           <div className="flex items-center gap-2">
                             <Badge variant="secondary">Tool Nested Stream</Badge>
