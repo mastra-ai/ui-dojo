@@ -143,6 +143,8 @@ const SubAgentsAndWorkflowsCustomEventsDemo = () => {
     return byStage;
   }, [progressEvents]);
 
+  const hasProgress = Object.keys(latestByStage).length > 0;
+
   return (
     <div className="flex flex-col gap-8">
       <Card>
@@ -152,7 +154,9 @@ const SubAgentsAndWorkflowsCustomEventsDemo = () => {
             <CardTitle>Place an Order</CardTitle>
           </div>
           <CardDescription>
-            Enter the product details to process your order
+            Enter the product details to process your order. The agent network
+            will coordinate inventory check, payment, and shipping, while
+            emitting structured progress events.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -212,8 +216,37 @@ const SubAgentsAndWorkflowsCustomEventsDemo = () => {
           </form>
         </CardContent>
       </Card>
+
+      {/* Progress events container, separate from text streaming */}
+      {hasProgress && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-sm">Order Processing Status</CardTitle>
+            <CardDescription>
+              Structured progress events emitted by the sub-agents and
+              workflows. This is separate from the natural-language responses
+              in the chat below.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            {Object.entries(latestByStage)
+              .sort(([a], [b]) => {
+                // Order: inventory -> payment -> shipping
+                const order = { inventory: 0, payment: 1, shipping: 2 };
+                return (
+                  (order[a as keyof typeof order] ?? 99) -
+                  (order[b as keyof typeof order] ?? 99)
+                );
+              })
+              .map(([stage, event]) => (
+                <ProgressIndicator key={stage} progress={event} />
+              ))}
+          </CardContent>
+        </Card>
+      )}
+
       <div className="space-y-4">
-        {messages.map((message, idx) => (
+        {messages.map((message) => (
           <div key={message.id}>
             <div>
               {message.parts.map((part, index) => {
@@ -240,24 +273,6 @@ const SubAgentsAndWorkflowsCustomEventsDemo = () => {
                 return null;
               })}
             </div>
-            {/* Show progress indicators for the latest message */}
-            {idx === messages.length - 1 &&
-              Object.keys(latestByStage).length > 0 && (
-                <div className="my-4 space-y-2">
-                  {Object.entries(latestByStage)
-                    .sort(([a], [b]) => {
-                      // Order: inventory -> payment -> shipping
-                      const order = { inventory: 0, payment: 1, shipping: 2 };
-                      return (
-                        (order[a as keyof typeof order] ?? 99) -
-                        (order[b as keyof typeof order] ?? 99)
-                      );
-                    })
-                    .map(([stage, event]) => (
-                      <ProgressIndicator key={stage} progress={event} />
-                    ))}
-                </div>
-              )}
           </div>
         ))}
       </div>
