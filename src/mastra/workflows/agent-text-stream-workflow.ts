@@ -4,7 +4,8 @@ import { weatherAgent } from "../agents/weather-agent";
 
 const analyzeWeatherWithAgent = createStep({
   id: "analyze-weather",
-  description: "Use an agent to analyze weather conditions and provide insights",
+  description:
+    "Use an agent to analyze weather conditions and provide insights",
   inputSchema: z.object({
     location: z.string().describe("The location to analyze weather for"),
   }),
@@ -12,14 +13,13 @@ const analyzeWeatherWithAgent = createStep({
     analysis: z.string().describe("Weather analysis from the agent"),
     location: z.string(),
   }),
-  execute: async ({ inputData, writer}) => {
+  execute: async ({ inputData, writer }) => {
     // Pipe the agent's stream to the step writer to enable text chunk streaming
-    const response = await weatherAgent
-      .stream(
-        `Analyze the weather conditions in ${inputData.location} and provide detailed insights about temperature, conditions, and recommendations for outdoor activities.`,
-      )
-      
-      await response.fullStream.pipeTo(writer);
+    const response = await weatherAgent.stream(
+      `Analyze the weather conditions in ${inputData.location} and provide detailed insights about temperature, conditions, and recommendations for outdoor activities.`,
+    );
+
+    await response.fullStream.pipeTo(writer);
 
     return {
       analysis: await response.text,
@@ -47,9 +47,10 @@ const calculateComfortScore = createStep({
 
     // Adjust score based on positive keywords
     if (analysis.includes("sunny") || analysis.includes("clear")) score += 20;
-    if (analysis.includes("warm") || analysis.includes("comfortable")) score += 15;
+    if (analysis.includes("warm") || analysis.includes("comfortable"))
+      score += 15;
     if (analysis.includes("cool") || analysis.includes("pleasant")) score += 10;
-    
+
     // Adjust score based on negative keywords
     if (analysis.includes("rain") || analysis.includes("storm")) score -= 20;
     if (analysis.includes("hot") || analysis.includes("humid")) score -= 15;
@@ -91,4 +92,3 @@ export const agentTextStreamWorkflow = createWorkflow({
   .then(calculateComfortScore);
 
 agentTextStreamWorkflow.commit();
-

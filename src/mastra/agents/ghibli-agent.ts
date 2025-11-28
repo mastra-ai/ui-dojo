@@ -3,6 +3,7 @@ import { Memory } from "@mastra/memory";
 import { ghibliFilms, ghibliCharacters } from "../tools/ghibli-tool";
 
 export const ghibliAgent = new Agent({
+  id: "ghibli-agent",
   name: "Ghibli Agent",
   description:
     "This agent answers questions about Studio Ghibli films and characters.",

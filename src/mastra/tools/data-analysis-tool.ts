@@ -18,7 +18,7 @@ export const dataAnalysisTool = createTool({
       type: "data-tool-progress",
       data: {
         status: "in-progress",
-        message: `📊 Analyzing dataset: ${dataset}`,
+        message: `Analyzing dataset: ${dataset}`,
         stage: "data-analysis",
       },
     });
@@ -29,7 +29,7 @@ export const dataAnalysisTool = createTool({
       type: "data-tool-progress",
       data: {
         status: "in-progress",
-        message: `🔍 Processing data patterns...`,
+        message: `Processing data patterns...`,
         stage: "data-analysis",
       },
     });
@@ -40,7 +40,7 @@ export const dataAnalysisTool = createTool({
       type: "data-tool-progress",
       data: {
         status: "done",
-        message: `✅ Analysis completed for: ${dataset}`,
+        message: `Analysis completed for: ${dataset}`,
         stage: "data-analysis",
       },
     });

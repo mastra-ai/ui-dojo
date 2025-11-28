@@ -24,7 +24,7 @@ const processPayment = createStep({
       type: "data-tool-progress",
       data: {
         status: "in-progress",
-        message: `💳 Processing payment of $${amount.toFixed(2)}...`,
+        message: `Processing payment of $${amount.toFixed(2)}...`,
         stage: "payment",
       },
     });
@@ -36,7 +36,7 @@ const processPayment = createStep({
       type: "data-tool-progress",
       data: {
         status: "in-progress",
-        message: `🔐 Verifying payment method...`,
+        message: `Verifying payment method...`,
         stage: "payment",
       },
     });
@@ -48,7 +48,7 @@ const processPayment = createStep({
       type: "data-tool-progress",
       data: {
         status: "done",
-        message: `✅ Payment processed successfully`,
+        message: `Payment processed successfully`,
         stage: "payment",
       },
     });
@@ -85,7 +85,7 @@ const prepareShipping = createStep({
       type: "data-tool-progress",
       data: {
         status: "in-progress",
-        message: `📦 Preparing order ${orderId} for shipping...`,
+        message: `Preparing order ${orderId} for shipping...`,
         stage: "shipping",
       },
     });
@@ -97,7 +97,7 @@ const prepareShipping = createStep({
       type: "data-tool-progress",
       data: {
         status: "in-progress",
-        message: `🏷️ Labeling package for ${productName}...`,
+        message: `Labeling package for ${productName}...`,
         stage: "shipping",
       },
     });
@@ -109,7 +109,7 @@ const prepareShipping = createStep({
       type: "data-tool-progress",
       data: {
         status: "done",
-        message: `✅ Order ready for shipment`,
+        message: `Order ready for shipment`,
         stage: "shipping",
       },
     });

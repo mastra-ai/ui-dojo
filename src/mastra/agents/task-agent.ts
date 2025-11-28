@@ -3,6 +3,7 @@ import { Memory } from "@mastra/memory";
 import { taskTool } from "../tools/task-tool";
 
 export const taskAgent = new Agent({
+  id: "task-agent",
   name: "Task Agent",
   description: "This agent processes tasks and provides progress updates",
   instructions: `

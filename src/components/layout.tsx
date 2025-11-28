@@ -141,7 +141,8 @@ const SIDEBAR: SidebarGroupEntry[] = [
         name: "Agent Network",
         url: "/ai-sdk/network",
         icon: Network,
-        description: "Coordinating multiple AI agents with full lifecycle visibility",
+        description:
+          "Coordinating multiple AI agents with full lifecycle visibility",
         explanation:
           "Shows Mastra's agent composition pattern where a routing agent coordinates multiple specialized agents and workflows. The data-network events display each delegated agent's execution as steps, showing their status, input, and output - providing transparency into which agents were called and what they did.",
       },

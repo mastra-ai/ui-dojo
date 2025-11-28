@@ -1,3 +1,7 @@
 # Ignore artifacts:
 build
 coverage
+pnpm-lock.yaml
+.mastra
+dist
+node_modules

@@ -21,7 +21,7 @@ export const reportReviewTool = createTool({
       type: "data-tool-progress",
       data: {
         status: "in-progress",
-        message: `🔍 Reviewing report on ${topic}...`,
+        message: `Reviewing report on ${topic}...`,
         stage: "report-review",
       },
     });
@@ -34,7 +34,7 @@ export const reportReviewTool = createTool({
       type: "data-tool-progress",
       data: {
         status: "in-progress",
-        message: `✏️ Editing and improving report structure...`,
+        message: `Editing and improving report structure...`,
         stage: "report-review",
       },
     });
@@ -46,7 +46,7 @@ export const reportReviewTool = createTool({
       type: "data-tool-progress",
       data: {
         status: "done",
-        message: `✅ Report review completed for ${topic}`,
+        message: `Report review completed for ${topic}`,
         stage: "report-review",
       },
     });

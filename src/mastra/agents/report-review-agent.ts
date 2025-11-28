@@ -3,6 +3,7 @@ import { Memory } from "@mastra/memory";
 import { reportReviewTool } from "../tools/report-review-tool";
 
 export const reportReviewAgent = new Agent({
+  id: "report-review-agent",
   name: "Report Review Agent",
   description: "This agent reviews and improves reports",
   instructions: `

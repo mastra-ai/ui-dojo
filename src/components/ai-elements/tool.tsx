@@ -114,12 +114,14 @@ export const ToolInput = ({ className, input, ...props }: ToolInputProps) => (
 export type ToolOutputProps = ComponentProps<"div"> & {
   output: ToolUIPart["output"];
   errorText: ToolUIPart["errorText"];
+  language?: string;
 };
 
 export const ToolOutput = ({
   className,
   output,
   errorText,
+  language = "json",
   ...props
 }: ToolOutputProps) => {
   if (!(output || errorText)) {
@@ -130,10 +132,10 @@ export const ToolOutput = ({
 
   if (typeof output === "object" && !isValidElement(output)) {
     Output = (
-      <CodeBlock code={JSON.stringify(output, null, 2)} language="json" />
+      <CodeBlock code={JSON.stringify(output, null, 2)} language={language} />
     );
   } else if (typeof output === "string") {
-    Output = <CodeBlock code={output} language="json" />;
+    Output = <CodeBlock code={output} language={language} />;
   }
 
   return (

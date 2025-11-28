@@ -3,6 +3,7 @@ import { Memory } from "@mastra/memory";
 import { weatherTool } from "../tools/weather-tool";
 
 export const weatherAgent = new Agent({
+  id: "weather-agent",
   name: "Weather Agent",
   description: "This agent provides weather information for a given location",
   instructions: `

@@ -60,7 +60,7 @@ export const mastra = new Mastra({
       }),
       // See https://mastra.ai/docs/frameworks/agentic-uis/ai-sdk#workflowroute
       workflowRoute({
-        path: "/workflow/:workflowId",  
+        path: "/workflow/:workflowId",
       }),
       // Workflow route with agent text streaming enabled
       workflowRoute({

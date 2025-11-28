@@ -14,14 +14,7 @@ import { DefaultChatTransport } from "ai";
 import { useMemo, useState } from "react";
 import { MASTRA_BASE_URL } from "@/constants";
 import { Badge } from "@/components/ui/badge";
-import {
-  CheckCircle2,
-  Loader2,
-  Package,
-  Rocket,
-  GitBranch,
-  CheckCheck,
-} from "lucide-react";
+import { CheckCircle2, Loader2, GitBranch } from "lucide-react";
 
 type ProgressData = {
   status: "in-progress" | "done";
@@ -36,19 +29,6 @@ const ProgressIndicator = ({
 }) => {
   if (!progress) return null;
 
-  const getIcon = () => {
-    switch (progress.stage) {
-      case "validation":
-        return <CheckCheck className="w-5 h-5" />;
-      case "standard-processing":
-        return <Package className="w-5 h-5" />;
-      case "express-processing":
-        return <Rocket className="w-5 h-5" />;
-      default:
-        return null;
-    }
-  };
-
   const getStageName = () => {
     switch (progress.stage) {
       case "validation":
@@ -62,47 +42,29 @@ const ProgressIndicator = ({
     }
   };
 
-  const getBorderColor = () => {
-    switch (progress.stage) {
-      case "validation":
-        return "border-l-purple-500";
-      case "standard-processing":
-        return "border-l-blue-500";
-      case "express-processing":
-        return "border-l-orange-500";
-      default:
-        return "border-l-blue-500";
-    }
-  };
-
   return (
-    <div
-      className={`flex items-center gap-3 p-4 bg-muted rounded-lg border-l-4 ${getBorderColor()}`}
-    >
+    <div className="grid gap-3 p-4 bg-muted rounded-lg">
       <div className="flex items-center gap-2">
-        {progress.status === "in-progress" ? (
-          <Loader2 className="w-5 h-5 animate-spin text-blue-500" />
-        ) : (
-          <CheckCircle2 className="w-5 h-5 text-green-500" />
-        )}
-        {getIcon()}
-      </div>
-      <div className="flex-1">
-        <div className="flex items-center gap-2 mb-1">
-          <div className="font-semibold text-sm text-muted-foreground">
-            {getStageName()}
-          </div>
-          <Badge
-            variant={
-              progress.status === "in-progress" ? "default" : "secondary"
-            }
-            className="text-xs"
-          >
-            {progress.status === "in-progress" ? "In Progress" : "Done"}
-          </Badge>
+        <Badge
+          variant={progress.status === "in-progress" ? "default" : "outline"}
+          className="text-xs"
+        >
+          {progress.status === "in-progress" ? (
+            <>
+              <Loader2 className="w-5 h-5 animate-spin text-blue-500" /> In
+              Progress
+            </>
+          ) : (
+            <>
+              <CheckCircle2 className="w-5 h-5 text-green-500" /> Done
+            </>
+          )}
+        </Badge>
+        <div className="font-semibold text-sm text-muted-foreground">
+          {getStageName()}
         </div>
-        <div className="font-medium text-sm">{progress.message}</div>
       </div>
+      <div className="font-medium text-sm">{progress.message}</div>
     </div>
   );
 };
@@ -204,7 +166,7 @@ const WorkflowCustomEventsDemo = () => {
                   id="orderId"
                   value={orderId}
                   onChange={(e) => setOrderId(e.target.value)}
-                  placeholder="e.g., ORD-12345"
+                  placeholder="ORD-12345"
                   required
                 />
               </div>
@@ -219,7 +181,7 @@ const WorkflowCustomEventsDemo = () => {
                   min="0"
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
-                  placeholder="e.g., 99.99"
+                  placeholder="99.99"
                   required
                 />
               </div>
@@ -308,4 +270,3 @@ const WorkflowCustomEventsDemo = () => {
 };
 
 export default WorkflowCustomEventsDemo;
-

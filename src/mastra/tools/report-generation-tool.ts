@@ -17,7 +17,7 @@ export const reportGenerationTool = createTool({
       type: "data-tool-progress",
       data: {
         status: "in-progress",
-        message: `📝 Generating report on: ${topic}`,
+        message: `Generating report on: ${topic}`,
         stage: "report-generation",
       },
     });
@@ -28,7 +28,7 @@ export const reportGenerationTool = createTool({
       type: "data-tool-progress",
       data: {
         status: "in-progress",
-        message: `✍️ Writing report sections...`,
+        message: `Writing report sections...`,
         stage: "report-generation",
       },
     });
@@ -39,7 +39,7 @@ export const reportGenerationTool = createTool({
       type: "data-tool-progress",
       data: {
         status: "done",
-        message: `✅ Report generated for: ${topic}`,
+        message: `Report generated for: ${topic}`,
         stage: "report-generation",
       },
     });

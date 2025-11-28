@@ -14,14 +14,7 @@ import { DefaultChatTransport } from "ai";
 import { useMemo, useState } from "react";
 import { MASTRA_BASE_URL } from "@/constants";
 import { Badge } from "@/components/ui/badge";
-import {
-  CheckCircle2,
-  Loader2,
-  Package,
-  CreditCard,
-  Truck,
-  ShoppingCart,
-} from "lucide-react";
+import { CheckCircle2, Loader2, ShoppingCart } from "lucide-react";
 
 type ProgressData = {
   status: "in-progress" | "done";
@@ -35,19 +28,6 @@ const ProgressIndicator = ({
   progress: ProgressData & { stage?: string };
 }) => {
   if (!progress) return null;
-
-  const getIcon = () => {
-    switch (progress.stage) {
-      case "inventory":
-        return <Package className="w-5 h-5" />;
-      case "payment":
-        return <CreditCard className="w-5 h-5" />;
-      case "shipping":
-        return <Truck className="w-5 h-5" />;
-      default:
-        return null;
-    }
-  };
 
   const getStageName = () => {
     switch (progress.stage) {
@@ -63,30 +43,30 @@ const ProgressIndicator = ({
   };
 
   return (
-    <div className="flex items-center gap-3 p-4 bg-muted rounded-lg border-l-4 border-l-blue-500">
+    <div className="flex items-center gap-3 p-4 bg-muted rounded-lg">
       <div className="flex items-center gap-2">
-        {progress.status === "in-progress" ? (
-          <Loader2 className="w-5 h-5 animate-spin text-blue-500" />
-        ) : (
-          <CheckCircle2 className="w-5 h-5 text-green-500" />
-        )}
-        {getIcon()}
+        <Badge
+          variant={progress.status === "in-progress" ? "secondary" : "outline"}
+        >
+          {progress.status === "in-progress" ? (
+            <>
+              <Loader2 className="w-5 h-5 animate-spin text-blue-500" /> In
+              Progress
+            </>
+          ) : (
+            <>
+              <CheckCircle2 className="w-5 h-5 text-green-500" /> Done
+            </>
+          )}
+        </Badge>
       </div>
       <div className="flex-1">
         <div className="flex items-center gap-2 mb-1">
           <div className="font-semibold text-sm text-muted-foreground">
             {getStageName()}
           </div>
-          <Badge
-            variant={
-              progress.status === "in-progress" ? "default" : "secondary"
-            }
-            className="text-xs"
-          >
-            {progress.status === "in-progress" ? "In Progress" : "Done"}
-          </Badge>
+          <div className="font-medium text-sm">{progress.message}</div>
         </div>
-        <div className="font-medium text-sm">{progress.message}</div>
       </div>
     </div>
   );
@@ -170,7 +150,7 @@ const SubAgentsAndWorkflowsCustomEventsDemo = () => {
                   id="product"
                   value={productId}
                   onChange={(e) => setProductId(e.target.value)}
-                  placeholder="e.g., ABC123"
+                  placeholder="ABC123"
                   required
                 />
               </div>
@@ -184,7 +164,7 @@ const SubAgentsAndWorkflowsCustomEventsDemo = () => {
                   min="1"
                   value={quantity}
                   onChange={(e) => setQuantity(e.target.value)}
-                  placeholder="e.g., 2"
+                  placeholder="2"
                   required
                 />
               </div>
@@ -199,7 +179,7 @@ const SubAgentsAndWorkflowsCustomEventsDemo = () => {
                   min="0"
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
-                  placeholder="e.g., 29.99"
+                  placeholder="29.99"
                   required
                 />
               </div>
@@ -224,8 +204,8 @@ const SubAgentsAndWorkflowsCustomEventsDemo = () => {
             <CardTitle className="text-sm">Order Processing Status</CardTitle>
             <CardDescription>
               Structured progress events emitted by the sub-agents and
-              workflows. This is separate from the natural-language responses
-              in the chat below.
+              workflows. This is separate from the natural-language responses in
+              the chat below.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">

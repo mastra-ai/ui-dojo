@@ -4,6 +4,7 @@ import { reportGenerationAgent } from "./report-generation-agent";
 import { reportReviewAgent } from "./report-review-agent";
 
 export const reportAgentNetwork = new Agent({
+  id: "report-agent-network",
   name: "Report Agent Network",
   instructions: `You are a routing agent for a report generation network. You coordinate the workflow between specialized report agents.
   

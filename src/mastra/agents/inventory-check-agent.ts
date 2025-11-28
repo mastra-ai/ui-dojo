@@ -3,6 +3,7 @@ import { Memory } from "@mastra/memory";
 import { inventoryCheckTool } from "../tools/inventory-check-tool";
 
 export const inventoryCheckAgent = new Agent({
+  id: "inventory-check-agent",
   name: "Inventory Check Agent",
   description: "This agent checks if products are available in inventory",
   instructions: `

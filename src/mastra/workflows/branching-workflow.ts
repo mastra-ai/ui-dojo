@@ -21,7 +21,7 @@ const validateOrder = createStep({
       type: "data-tool-progress",
       data: {
         status: "in-progress",
-        message: `🔍 Validating order ${inputData.orderId}...`,
+        message: `Validating order ${inputData.orderId}...`,
         stage: "validation",
       },
     });
@@ -32,7 +32,7 @@ const validateOrder = createStep({
       type: "data-tool-progress",
       data: {
         status: "done",
-        message: `✅ Order validated successfully`,
+        message: `Order validated successfully`,
         stage: "validation",
       },
     });
@@ -64,7 +64,7 @@ const standardProcessStep = createStep({
       type: "data-tool-progress",
       data: {
         status: "in-progress",
-        message: `📦 Processing standard order ${inputData.orderId}...`,
+        message: `Processing standard order ${inputData.orderId}...`,
         stage: "standard-processing",
       },
     });
@@ -75,7 +75,7 @@ const standardProcessStep = createStep({
       type: "data-tool-progress",
       data: {
         status: "in-progress",
-        message: `🚚 Preparing standard shipping (5-7 business days)...`,
+        message: `Preparing standard shipping (5-7 business days)...`,
         stage: "standard-processing",
       },
     });
@@ -86,7 +86,7 @@ const standardProcessStep = createStep({
       type: "data-tool-progress",
       data: {
         status: "done",
-        message: `✅ Standard order processed successfully`,
+        message: `Standard order processed successfully`,
         stage: "standard-processing",
       },
     });
@@ -137,7 +137,7 @@ const expressProcessStep = createStep({
       type: "data-tool-progress",
       data: {
         status: "in-progress",
-        message: `⚡ Processing express order ${inputData.orderId}...`,
+        message: `Processing express order ${inputData.orderId}...`,
         stage: "express-processing",
       },
     });
@@ -148,7 +148,7 @@ const expressProcessStep = createStep({
       type: "data-tool-progress",
       data: {
         status: "in-progress",
-        message: `📮 Priority handling activated...`,
+        message: `Priority handling activated...`,
         stage: "express-processing",
       },
     });
@@ -159,7 +159,7 @@ const expressProcessStep = createStep({
       type: "data-tool-progress",
       data: {
         status: "in-progress",
-        message: `🚀 Preparing express shipping (1-2 business days)...`,
+        message: `Preparing express shipping (1-2 business days)...`,
         stage: "express-processing",
       },
     });
@@ -170,7 +170,7 @@ const expressProcessStep = createStep({
       type: "data-tool-progress",
       data: {
         status: "done",
-        message: `✅ Express order processed successfully`,
+        message: `Express order processed successfully`,
         stage: "express-processing",
       },
     });
@@ -232,4 +232,3 @@ export const branchingWorkflow = createWorkflow({
   ]);
 
 branchingWorkflow.commit();
-

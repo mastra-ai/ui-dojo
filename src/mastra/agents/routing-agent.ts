@@ -7,6 +7,7 @@ import { Memory } from "@mastra/memory";
 import { activitiesWorkflow } from "../workflows/activities-workflow";
 
 export const routingAgent = new Agent({
+  id: "routing-agent",
   name: "Routing Agent",
   instructions: `You are a routing agent that directs user queries to the appropriate specialized agent based on the topic of the query.
   

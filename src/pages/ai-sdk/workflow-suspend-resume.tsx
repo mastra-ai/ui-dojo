@@ -34,7 +34,6 @@ const STATUS_MAP: Record<
   suspended: "input-available",
   success: "output-available",
   failed: "output-error",
-  bailed: "output-error",
 };
 
 const DisplayStep = ({
@@ -209,7 +208,7 @@ const WorkflowSuspendResumeDemo = () => {
                 id="requestType"
                 value={requestType}
                 onChange={(e) => setRequestType(e.target.value)}
-                placeholder="e.g., Expense, Vacation, Purchase"
+                placeholder="Expense, Vacation, Purchase"
                 required
                 disabled={!canStart}
               />
@@ -336,9 +335,9 @@ const WorkflowSuspendResumeDemo = () => {
                                   const message = output.message;
                                   return typeof message === "string"
                                     ? message
-                                    : null;
+                                    : undefined;
                                 }
-                                return null;
+                                return undefined;
                               })()}
                             </Response>
                           </MessageContent>

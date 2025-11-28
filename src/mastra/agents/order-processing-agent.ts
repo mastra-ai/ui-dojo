@@ -4,6 +4,7 @@ import { inventoryCheckAgent } from "./inventory-check-agent";
 import { orderFulfillmentWorkflow } from "../workflows/order-fulfillment-workflow";
 
 export const orderProcessingAgent = new Agent({
+  id: "order-processing-agent",
   name: "Order Processing Agent",
   description:
     "This agent processes orders by first checking inventory, then fulfilling the order",

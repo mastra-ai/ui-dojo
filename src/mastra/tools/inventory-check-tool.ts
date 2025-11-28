@@ -21,7 +21,7 @@ export const inventoryCheckTool = createTool({
       type: "data-tool-progress",
       data: {
         status: "in-progress",
-        message: `🔍 Checking inventory for product ${productId}...`,
+        message: `Checking inventory for product ${productId}...`,
         stage: "inventory",
       },
     });
@@ -33,7 +33,7 @@ export const inventoryCheckTool = createTool({
       type: "data-tool-progress",
       data: {
         status: "in-progress",
-        message: `📦 Verifying stock levels...`,
+        message: `Verifying stock levels...`,
         stage: "inventory",
       },
     });
@@ -45,7 +45,7 @@ export const inventoryCheckTool = createTool({
       type: "data-tool-progress",
       data: {
         status: "done",
-        message: `✅ Inventory check completed`,
+        message: `Inventory check completed`,
         stage: "inventory",
       },
     });

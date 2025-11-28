@@ -3,6 +3,7 @@ import { Memory } from "@mastra/memory";
 import { dataAnalysisTool } from "../tools/data-analysis-tool";
 
 export const dataAnalysisAgent = new Agent({
+  id: "data-analysis-agent",
   name: "Data Analysis Agent",
   description: "This agent analyzes data and provides insights",
   instructions: `
