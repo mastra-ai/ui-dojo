@@ -1,7 +1,7 @@
 import { createTool } from "@mastra/core/tools";
 import { z } from "zod";
 
-async function getFilmByUrl(id: string) {
+async function fetchJson(id: string) {
   const response = await fetch(id, {
     headers: {
       "Content-Type": "application/json",
@@ -15,7 +15,7 @@ export const ghibliFilms = createTool({
   description: "Get information about Ghibli films",
   inputSchema: z.object({}),
   execute: async () => {
-    const films = await getFilmByUrl(`https://ghibliapi.vercel.app/films`);
+    const films = await fetchJson(`https://ghibliapi.vercel.app/films`);
     
     return films.map(
       (film: {
@@ -38,7 +38,7 @@ export const ghibliCharacters = createTool({
   description: "Get information about Ghibli characters",
   inputSchema: z.object({}),
   execute: async () => {
-    const characters = await getFilmByUrl(`https://ghibliapi.vercel.app/people`);
+    const characters = await fetchJson(`https://ghibliapi.vercel.app/people`);
 
     return await Promise.all(
       characters.map(
@@ -55,7 +55,7 @@ export const ghibliCharacters = createTool({
           eye_color: character.eye_color,
           films: await Promise.all(
             character.films.map(async (filmUrl: string) => {
-              const film = await getFilmByUrl(filmUrl);
+              const film = await fetchJson(filmUrl);
               return {
                 title: film.title,
               };
