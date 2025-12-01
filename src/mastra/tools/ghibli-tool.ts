@@ -15,12 +15,8 @@ export const ghibliFilms = createTool({
   description: "Get information about Ghibli films",
   inputSchema: z.object({}),
   execute: async () => {
-    const response = await fetch(`https://ghibliapi.vercel.app/films`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const films = await response.json();
+    const films = await getFilmByUrl(`https://ghibliapi.vercel.app/films`);
+    
     return films.map(
       (film: {
         title: string;
@@ -42,12 +38,7 @@ export const ghibliCharacters = createTool({
   description: "Get information about Ghibli characters",
   inputSchema: z.object({}),
   execute: async () => {
-    const response = await fetch(`https://ghibliapi.vercel.app/people`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const characters = await response.json();
+    const characters = await getFilmByUrl(`https://ghibliapi.vercel.app/people`);
 
     return await Promise.all(
       characters.map(
