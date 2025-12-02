@@ -6,6 +6,7 @@
   "scripts": {
     "mastra:dev": "mastra dev",
     "mastra:build": "mastra build",
+    "mastra:start": "mastra start",
     "vite:dev": "vite",
     "vite:build": "tsc -b && vite build",
     "dev": "concurrently \"pnpm run mastra:dev\" \"pnpm run vite:dev\"",
@@ -95,5 +96,5 @@
     "typescript-eslint": "^8.48.1",
     "vite": "^7.2.6"
   },
-  "packageManager": "pnpm@10.18.2+sha512.9fb969fa749b3ade6035e0f109f0b8a60b5d08a1a87fdf72e337da90dcc93336e2280ca4e44f2358a649b83c17959e9993e777c2080879f3801e6f0d999ad3dd"
+  "packageManager": "pnpm@10.18.2"
 }
