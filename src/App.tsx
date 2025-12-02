@@ -19,6 +19,8 @@ import AiSdkWorkflowSuspendResume from "@/pages/ai-sdk/workflow-suspend-resume";
 import AiSdkWorkflowAgentTextStream from "@/pages/ai-sdk/workflow-agent-text-stream";
 import AiSdkToolNestedStreams from "@/pages/ai-sdk/tool-nested-streams";
 
+import CopilotKitGenerative from "@/pages/copilot-kit/generative-user-interfaces";
+
 import ClientToolsAiSdk from "@/pages/client-tools/ai-sdk";
 import ClientToolsAssistantUi from "@/pages/client-tools/assistant-ui";
 import ClientToolsCopilotKit from "@/pages/client-tools/copilot-kit";
@@ -39,6 +41,10 @@ export default function Page() {
                   path="/assistant-ui/:agentId/chat/:threadId"
                   element={<ChatAssistantUi />}
                 />
+                <Route path="/copilot-kit">
+                  <Route index element={<ChatCopilotKit />} />
+                  <Route path="generative-user-interfaces" element={<CopilotKitGenerative />} />
+                </Route>
                 <Route path="/copilot-kit" element={<ChatCopilotKit />} />
                 <Route path="/ai-sdk">
                   <Route

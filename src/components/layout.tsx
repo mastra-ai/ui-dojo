@@ -233,6 +233,14 @@ const SIDEBAR: SidebarEntry[] = [
         docsUrl: "https://mastra.ai/docs/frameworks/agentic-uis/copilotkit",
       },
       {
+        id: "generative-user-interfaces",
+        title: "Generative UI",
+        url: "/copilot-kit/generative-user-interfaces",
+        description: "Building custom UIs for tool responses",
+        explanation:
+          "TODO.",
+      },
+      {
         id: "client-copilot-kit",
         title: "Client Tools",
         url: "/client-tools/copilot-kit",
