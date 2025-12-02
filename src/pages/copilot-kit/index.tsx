@@ -16,7 +16,7 @@ const suggestions: { title: string; message: string }[] = [
     title: "Summarize the plot of Howl's Moving Castle",
     message: "Summarize the plot of Howl's Moving Castle",
   },
-]
+];
 
 function CopilotKitDemo() {
   return (
@@ -31,6 +31,7 @@ function CopilotKitDemo() {
           initial: "Hi! 👋 Ask me about Ghibli movies, characters, and trivia.",
         }}
         suggestions={suggestions}
+        className="h-full w-full mx-auto"
       />
     </CopilotKit>
   );

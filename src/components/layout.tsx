@@ -89,7 +89,7 @@ const SIDEBAR: SidebarEntry[] = [
         docsUrl:
           "https://mastra.ai/docs/frameworks/agentic-uis/ai-sdk#custom-tool-streaming",
       },
-{
+      {
         id: "client-ai-sdk",
         title: "Client Tools",
         url: "/client-tools/ai-sdk",
@@ -238,7 +238,15 @@ const SIDEBAR: SidebarEntry[] = [
         url: "/copilot-kit/generative-user-interfaces",
         description: "Building custom UIs for tool responses",
         explanation:
-          "TODO.",
+          "Uses useCopilotAction() to intercept tool calls in CopilotKit and render custom UI.",
+      },
+      {
+        id: "human-in-the-loop",
+        title: "Human-in-the-Loop",
+        url: "/copilot-kit/human-in-the-loop",
+        description: "Involving humans in the AI decision-making process",
+        explanation:
+          "Demonstrates how to set up a human-in-the-loop workflow using CopilotKit with Mastra. This example showcases how to route specific tasks to human agents for review or approval before finalizing the AI's response, ensuring higher accuracy and reliability in critical applications.",
       },
       {
         id: "client-copilot-kit",
@@ -368,10 +376,12 @@ export default function Page({ children }: { children: React.ReactNode }) {
     return item.url === normalizedPathname;
   }
 
-  const pageTitleEntry = SIDEBAR.flatMap((group) => group.items).find(findEntry)
-  const pageTitle =
-    pageTitleEntry?.concept ? `${pageTitleEntry.concept}: ${pageTitleEntry.title}` : pageTitleEntry?.title ??
-    "Title missing";
+  const pageTitleEntry = SIDEBAR.flatMap((group) => group.items).find(
+    findEntry,
+  );
+  const pageTitle = pageTitleEntry?.concept
+    ? `${pageTitleEntry.concept}: ${pageTitleEntry.title}`
+    : (pageTitleEntry?.title ?? "Title missing");
   const pageDescription =
     SIDEBAR.flatMap((group) => group.items).find(findEntry)?.description ??
     "Description missing";
@@ -409,14 +419,14 @@ export default function Page({ children }: { children: React.ReactNode }) {
                       </SidebarMenuButton>
                     </CollapsibleTrigger>
                     {sdk.items?.length ? (
-  <CollapsibleContent>
-    <SidebarSection
-      sdk={sdk}
-      activeUrl={normalizedPathname}
-      onNavigate={navigate}
-    />
-  </CollapsibleContent>
-) : null}
+                      <CollapsibleContent>
+                        <SidebarSection
+                          sdk={sdk}
+                          activeUrl={normalizedPathname}
+                          onNavigate={navigate}
+                        />
+                      </CollapsibleContent>
+                    ) : null}
                   </SidebarMenuItem>
                 </Collapsible>
               ))}

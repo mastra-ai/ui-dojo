@@ -44,7 +44,7 @@ const ToolNestedStreamsDemo = () => {
           <Input
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
-            placeholder='Enter a city name'
+            placeholder="Enter a city name"
           />
           <Button type="submit" disabled={status !== "ready"}>
             Get Tomorrow&apos;s Forecast

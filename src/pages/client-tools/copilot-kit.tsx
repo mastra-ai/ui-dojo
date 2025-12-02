@@ -1,6 +1,5 @@
 import { CopilotChat } from "@copilotkit/react-ui";
 import { CopilotKit, useFrontendTool } from "@copilotkit/react-core";
-import "@copilotkit/react-ui/styles.css";
 import { changeBgColor } from "@/mastra/tools/color-change-tool";
 import { MASTRA_BASE_URL } from "@/constants";
 
