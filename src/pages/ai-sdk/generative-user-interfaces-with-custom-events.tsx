@@ -83,7 +83,7 @@ const GenerativeUserInterfacesCustomEventsDemo = () => {
           <Input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder={`Enter a task to process, for example: "Generate report" or "Process data"`}
+            placeholder={`Enter a task to process, e.g. "Generate report" or "Process data"`}
           />
           <Button type="submit" disabled={status !== "ready"}>
             Process Task

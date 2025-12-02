@@ -16,7 +16,7 @@ export const ghibliFilms = createTool({
   inputSchema: z.object({}),
   execute: async () => {
     const films = await fetchJson(`https://ghibliapi.vercel.app/films`);
-    
+
     return films.map(
       (film: {
         title: string;
