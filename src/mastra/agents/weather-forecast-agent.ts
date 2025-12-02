@@ -21,5 +21,3 @@ export const weatherForecastAgent = new Agent({
   tools: { nestedAgentStreamTool: nestedWeatherAgentStreamTool },
   memory: new Memory(),
 });
-
-

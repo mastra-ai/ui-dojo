@@ -146,7 +146,7 @@ const AgentNetworkCustomEventsDemo = () => {
                   id="topic"
                   value={topic}
                   onChange={(e) => setTopic(e.target.value)}
-                  placeholder="e.g., Q4 Performance, Sales Analysis, Market Trends"
+                  placeholder="Q4 Performance, Sales Analysis, Market Trends"
                   required
                 />
               </div>

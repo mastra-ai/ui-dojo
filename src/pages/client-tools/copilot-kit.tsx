@@ -1,8 +1,18 @@
 import { CopilotChat } from "@copilotkit/react-ui";
 import { CopilotKit, useFrontendTool } from "@copilotkit/react-core";
-import "@copilotkit/react-ui/styles.css";
 import { changeBgColor } from "@/mastra/tools/color-change-tool";
 import { MASTRA_BASE_URL } from "@/constants";
+
+const suggestions: { title: string; message: string }[] = [
+  {
+    title: "Dark blue",
+    message: "Change the background color to a dark blue",
+  },
+  {
+    title: "Rebeccapurple",
+    message: "Change the background color to rebeccapurple",
+  },
+];
 
 function ClientCopilotKitDemo() {
   return (
@@ -39,6 +49,7 @@ function Chat() {
         title: "Background Color Changer",
         initial: "Hi! 👋 Ask me to change the background color.",
       }}
+      suggestions={suggestions}
     />
   );
 }

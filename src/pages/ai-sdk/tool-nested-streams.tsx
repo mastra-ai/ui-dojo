@@ -19,7 +19,6 @@ import type { AgentDataPart, WorkflowDataPart } from "@mastra/ai-sdk";
 
 type NestedPart = AgentDataPart | WorkflowDataPart;
 
-
 const ToolNestedStreamsDemo = () => {
   const [question, setQuestion] = useState("");
   const { messages, sendMessage, status } = useChat({
@@ -45,7 +44,7 @@ const ToolNestedStreamsDemo = () => {
           <Input
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
-            placeholder='Ask for a forecast (e.g. "London tomorrow?")'
+            placeholder="Enter a city name"
           />
           <Button type="submit" disabled={status !== "ready"}>
             Get Tomorrow&apos;s Forecast
@@ -84,13 +83,19 @@ const ToolNestedStreamsDemo = () => {
                               : "Weather Workflow Stream"}
                           </span>
                           <div className="flex items-center gap-2">
-                            <Badge variant="secondary">Tool Nested Stream</Badge>
+                            <Badge variant="secondary">
+                              Tool Nested Stream
+                            </Badge>
                             <ChevronDownIcon className="size-4 transition-transform group-data-[state=open]:rotate-180" />
                           </div>
                         </CollapsibleTrigger>
                         <CollapsibleContent className="data-[state=closed]:animate-out data-[state=open]:animate-in data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 px-4 pb-4 pt-2">
                           <CodeBlock
-                            code={JSON.stringify(nestedPart.data ?? {}, null, 2)}
+                            code={JSON.stringify(
+                              nestedPart.data ?? {},
+                              null,
+                              2,
+                            )}
                             language="json"
                             showLineNumbers={false}
                           />
@@ -112,5 +117,3 @@ const ToolNestedStreamsDemo = () => {
 };
 
 export default ToolNestedStreamsDemo;
-
-
