@@ -40,7 +40,7 @@ import {
 } from "@/components/ai-elements/tool";
 import type { ToolUIPart } from "ai";
 import { Badge } from "@/components/ui/badge";
-import type { NetworkDataPart } from "@mastra/ai-sdk";
+import type { AgentDataPart, NetworkDataPart } from "@mastra/ai-sdk";
 import { CodeBlock } from "@/components/ai-elements/code-block";
 
 type NetworkData = NetworkDataPart["data"];
@@ -65,14 +65,17 @@ const getAgentDisplayName = (stepName: string) => {
 const DisplayAgentStep = ({
   step,
   stepName,
+  task,
 }: {
   step: NetworkData["steps"][number];
   stepName: string;
+  task: NetworkDataPart["data"]["steps"][number]["task"];
 }) => {
   const displayName = getAgentDisplayName(stepName);
+  const [open, setOpen] = useState(false);
 
   return (
-    <Tool>
+    <Tool open={open || step.status === "running"} onOpenChange={setOpen}>
       <ToolHeader
         title={displayName}
         type="tool-data-network"
@@ -95,7 +98,7 @@ const DisplayAgentStep = ({
           </div>
         )}
         <ToolOutput
-          output={step.output as ToolUIPart["output"]}
+          output={ (task as AgentDataPart['data'])?.text || step.output as ToolUIPart["output"]}
           errorText={step.status === "failed" ? "Step failed" : undefined}
           language="markdown"
         />
@@ -132,9 +135,10 @@ const NetworkDemo = () => {
     setInput("");
   };
 
-  const handleSuggestionClick = (suggestion: string) => {
+const handleSuggestionClick = (suggestion: string) => {
     sendMessage({ text: suggestion });
   };
+
 
   return (
     <div className="max-w-4xl mx-auto p-0 md:p-6 relative size-full">
@@ -269,6 +273,8 @@ const NetworkDemo = () => {
                               key={`${step.name}-${stepIndex}`}
                               step={step}
                               stepName={step.name}
+                             // @ts-expect-error - task is not typed, 
+                              task={(step)?.task}
                             />
                           ))}
                         </div>
