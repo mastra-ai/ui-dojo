@@ -6,6 +6,9 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function newThreadLink(rootPath: string, agentId: string): `/${string}/${string}/chat/${string}?new=true` {
+export function newThreadLink(
+  rootPath: string,
+  agentId: string,
+): `/${string}/${string}/chat/${string}?new=true` {
   return `/${rootPath}/${agentId}/chat/${uuid()}?new=true`;
 }

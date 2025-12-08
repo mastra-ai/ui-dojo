@@ -4,7 +4,7 @@ import {
   useChat,
   type MastraUIMessage,
 } from "@mastra/react";
-import { toAISdkV5Messages } from '@mastra/ai-sdk/ui';
+import { toAISdkV5Messages } from "@mastra/ai-sdk/ui";
 import { useEffect, useRef } from "react";
 import { Thread } from "@/components/assistant-ui/thread";
 import { useAgent } from "@/hooks/use-agent";
@@ -45,8 +45,8 @@ const suggestions = [
 const AssistantUIDemo = () => {
   const { agentId, threadId } = useParams();
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams()
-  const isNewThread = searchParams.get('new') === 'true'
+  const [searchParams] = useSearchParams();
+  const isNewThread = searchParams.get("new") === "true";
 
   const { data: agent, isLoading: isAgentLoading } = useAgent(agentId!);
   const { data: memory } = useMemory(agentId!);
@@ -132,7 +132,11 @@ const Chat = ({
   return (
     <CustomRuntimeProvider
       key={threadId}
-      initialMessages={data?.messages ? (toAISdkV5Messages(data.messages) as MastraUIMessage[]) : []}
+      initialMessages={
+        data?.messages
+          ? (toAISdkV5Messages(data.messages) as MastraUIMessage[])
+          : []
+      }
       agentId={agentId}
       threadId={threadId}
       refreshThreadList={refreshThreadList}

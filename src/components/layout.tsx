@@ -368,13 +368,10 @@ function SidebarSection({
 export default function Page({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
   const location = useLocation();
-
-  const normalizedPathname = location.pathname.includes("/chat/")
-    ? location.pathname.split("/chat/")[0] + "/chat/new"
-    : location.pathname;
+  const fullUrl = location.pathname + location.search;
 
   function findEntry(item: SidebarItemEntry): boolean {
-    return item.url === normalizedPathname;
+    return item.url === fullUrl;
   }
 
   const pageTitleEntry = SIDEBAR.flatMap((group) => group.items).find(
@@ -423,7 +420,7 @@ export default function Page({ children }: { children: React.ReactNode }) {
                       <CollapsibleContent>
                         <SidebarSection
                           sdk={sdk}
-                          activeUrl={normalizedPathname}
+                          activeUrl={fullUrl}
                           onNavigate={navigate}
                         />
                       </CollapsibleContent>
