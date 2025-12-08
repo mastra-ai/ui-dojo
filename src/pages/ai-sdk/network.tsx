@@ -69,6 +69,7 @@ const DisplayAgentStep = ({
 }: {
   step: NetworkData["steps"][number];
   stepName: string;
+  // @ts-expect-error - task is not typed yet , it will be typed in the future version of the @mastra/ai-sdk package
   task: NetworkDataPart["data"]["steps"][number]["task"];
 }) => {
   const displayName = getAgentDisplayName(stepName);
@@ -273,7 +274,7 @@ const handleSuggestionClick = (suggestion: string) => {
                               key={`${step.name}-${stepIndex}`}
                               step={step}
                               stepName={step.name}
-                             // @ts-expect-error - task is not typed, 
+                             // @ts-expect-error - task is not typed yet , it will be typed in the future version of the @mastra/ai-sdk package
                               task={(step)?.task}
                             />
                           ))}
