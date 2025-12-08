@@ -132,3 +132,8 @@
 .list-inside {
   list-style-position: inside;
 }
+
+.copilotKitMessagesFooter {
+  width: 95% !important;
+  padding: 0.75rem 0 !important;
+}

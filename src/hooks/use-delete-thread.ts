@@ -13,7 +13,7 @@ export const useDeleteThread = () => {
       threadId: string;
       agentId: string;
     }) => {
-      const thread = client.getMemoryThread(threadId, agentId);
+      const thread = client.getMemoryThread({ threadId, agentId });
       return thread.delete();
     },
     onSuccess: (_, variables) => {
