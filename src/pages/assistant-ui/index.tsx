@@ -1,10 +1,10 @@
-import { Link, useNavigate, useParams } from "react-router";
-import { v4 as uuid } from "@lukeed/uuid";
+import { Link, useNavigate, useParams, useSearchParams } from "react-router";
 import {
   toAssistantUIMessage,
   useChat,
   type MastraUIMessage,
 } from "@mastra/react";
+import { toAISdkV5Messages } from '@mastra/ai-sdk/ui';
 import { useEffect, useRef } from "react";
 import { Thread } from "@/components/assistant-ui/thread";
 import { useAgent } from "@/hooks/use-agent";
@@ -21,6 +21,7 @@ import { PlusIcon, X } from "lucide-react";
 import type { StorageThreadType } from "@mastra/core/memory";
 import { ThreadListSkeleton } from "@/components/assistant-ui/thread-list";
 import { useDeleteThread } from "@/hooks/use-delete-thread";
+import { newThreadLink } from "@/lib/utils";
 
 const suggestions = [
   {
@@ -41,13 +42,11 @@ const suggestions = [
   },
 ];
 
-function newThreadLink(agentId: string) {
-  return `/assistant-ui/${agentId}/chat/${uuid()}`;
-}
-
 const AssistantUIDemo = () => {
   const { agentId, threadId } = useParams();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams()
+  const isNewThread = searchParams.get('new') === 'true'
 
   const { data: agent, isLoading: isAgentLoading } = useAgent(agentId!);
   const { data: memory } = useMemory(agentId!);
@@ -63,15 +62,15 @@ const AssistantUIDemo = () => {
   const { mutateAsync } = useDeleteThread();
 
   useEffect(() => {
-    if (memory?.result && (!threadId || threadId === "new")) {
-      navigate(newThreadLink(agentId!));
+    if (memory?.result && !threadId) {
+      navigate(newThreadLink("assistant-ui", agentId!));
     }
-  }, [memory?.result, threadId, agentId, navigate]);
+  }, [memory?.result, threadId, navigate, agentId]);
 
   const handleDelete = async (deleteId: string) => {
     await mutateAsync({ threadId: deleteId!, agentId: agentId! });
     if (deleteId === threadId) {
-      navigate(newThreadLink(agentId!));
+      navigate(newThreadLink("assistant-ui", agentId!));
     }
   };
 
@@ -95,6 +94,7 @@ const AssistantUIDemo = () => {
         threadId={threadId}
         memory={memory?.result}
         refreshThreadList={refreshThreads}
+        isNewThread={isNewThread}
       />
     </div>
   );
@@ -117,10 +117,11 @@ const Chat = ({
   memory,
   agentName,
   refreshThreadList,
-}: Omit<ChatProps, "initialMessages">) => {
-  const { data: messages, isLoading: isMessagesLoading } = useAgentMessages({
+  isNewThread,
+}: Omit<ChatProps, "initialMessages"> & { isNewThread?: boolean }) => {
+  const { data, isLoading: isMessagesLoading } = useAgentMessages({
     agentId: agentId,
-    threadId: threadId ?? "",
+    threadId: isNewThread ? undefined : threadId!,
     memory: memory ?? false,
   });
 
@@ -130,7 +131,8 @@ const Chat = ({
 
   return (
     <CustomRuntimeProvider
-      initialMessages={(messages?.uiMessages || []) as MastraUIMessage[]}
+      key={threadId}
+      initialMessages={data?.messages ? (toAISdkV5Messages(data.messages) as MastraUIMessage[]) : []}
       agentId={agentId}
       threadId={threadId}
       refreshThreadList={refreshThreadList}
@@ -258,7 +260,7 @@ const Sidebar = ({
           variant="outline"
           asChild
         >
-          <Link to={newThreadLink(agentId)}>
+          <Link to={newThreadLink("assistant-ui", agentId)}>
             <PlusIcon />
             New Thread
           </Link>

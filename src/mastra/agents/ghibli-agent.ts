@@ -18,5 +18,9 @@ export const ghibliAgent = new Agent({
     },
   ],
   tools: { ghibliFilms, ghibliCharacters },
-  memory: new Memory(),
+  memory: new Memory({
+    options: {
+      generateTitle: true
+    }
+  }),
 });
