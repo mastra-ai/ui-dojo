@@ -1,4 +1,4 @@
-import { createTool } from "@mastra/core";
+import { createTool } from '@mastra/core/tools';
 import { z } from "zod";
 
 export const reportReviewTool = createTool({
@@ -13,11 +13,11 @@ export const reportReviewTool = createTool({
     reviewedReport: z.string().describe("The reviewed and improved report"),
     changes: z.array(z.string()).describe("List of changes made to the report"),
   }),
-  execute: async ({ context, writer }) => {
-    const { reportContent, topic } = context;
+  execute: async (inputData, context) => {
+    const { reportContent, topic } = inputData;
 
     // Emit in-progress event
-    await writer?.custom({
+    await context?.writer?.custom({
       type: "data-tool-progress",
       data: {
         status: "in-progress",
@@ -30,7 +30,7 @@ export const reportReviewTool = createTool({
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
     // Emit progress update
-    await writer?.custom({
+    await context?.writer?.custom({
       type: "data-tool-progress",
       data: {
         status: "in-progress",
@@ -42,7 +42,7 @@ export const reportReviewTool = createTool({
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
     // Emit done event
-    await writer?.custom({
+    await context?.writer?.custom({
       type: "data-tool-progress",
       data: {
         status: "done",

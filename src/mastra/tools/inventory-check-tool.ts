@@ -13,11 +13,11 @@ export const inventoryCheckTool = createTool({
     availableQuantity: z.number(),
     productName: z.string(),
   }),
-  execute: async ({ context, writer }) => {
-    const { productId, quantity } = context;
+  execute: async (inputData, context) => {
+    const { productId, quantity } = inputData;
 
     // Emit "in progress" custom event
-    await writer?.custom({
+    await context?.writer?.custom({
       type: "data-tool-progress",
       data: {
         status: "in-progress",
@@ -29,7 +29,7 @@ export const inventoryCheckTool = createTool({
     // Simulate inventory check
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
-    await writer?.custom({
+    await context?.writer?.custom({
       type: "data-tool-progress",
       data: {
         status: "in-progress",
@@ -41,7 +41,7 @@ export const inventoryCheckTool = createTool({
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     // Emit "done" custom event
-    await writer?.custom({
+    await context?.writer?.custom({
       type: "data-tool-progress",
       data: {
         status: "done",

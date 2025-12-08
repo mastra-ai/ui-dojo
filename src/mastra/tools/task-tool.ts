@@ -11,11 +11,11 @@ export const taskTool = createTool({
     result: z.string(),
     status: z.string(),
   }),
-  execute: async ({ context, writer }) => {
-    const { task } = context;
+  execute: async (inputData, context) => {
+    const { task } = inputData;
 
     // Emit "in progress" custom event
-    await writer?.custom({
+    await context?.writer?.custom({
       type: "data-tool-progress",
       data: {
         status: "in-progress",
@@ -27,7 +27,7 @@ export const taskTool = createTool({
     await new Promise((resolve) => setTimeout(resolve, 5000));
 
     // Emit "done" custom event
-    await writer?.custom({
+    await context?.writer?.custom({
       type: "data-tool-progress",
       data: {
         status: "done",

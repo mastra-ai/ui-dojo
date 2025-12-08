@@ -9,7 +9,7 @@ export const weatherTool = createTool({
     location: z.string().describe("The location to get the weather for"),
   }),
   outputSchema: forecastSchema,
-  execute: async ({ context }) => {
-    return await getWeather(context.location);
+  execute: async (inputData) => {
+    return await getWeather(inputData.location);
   },
 });

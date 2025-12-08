@@ -45,6 +45,7 @@ export const mastra = new Mastra({
     branchingWorkflow,
   },
   storage: new LibSQLStore({
+    id: "mastra-storage",
     url: ":memory:",
   }),
   bundler: {
@@ -83,9 +84,9 @@ export const mastra = new Mastra({
         path: "/network-custom-events",
         agent: "reportAgentNetwork",
       }),
-      // @ts-expect-error - resourceId not necessary
       registerCopilotKit({
         path: "/copilotkit",
+        resourceId: "copilotkit-resource",
       }),
     ],
   },

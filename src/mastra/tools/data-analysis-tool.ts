@@ -11,10 +11,10 @@ export const dataAnalysisTool = createTool({
     insights: z.string(),
     summary: z.string(),
   }),
-  execute: async ({ context, writer }) => {
-    const { dataset } = context;
+  execute: async (inputData, context) => {
+    const { dataset } = inputData;
 
-    await writer?.custom({
+    await context?.writer?.custom({
       type: "data-tool-progress",
       data: {
         status: "in-progress",
@@ -25,7 +25,7 @@ export const dataAnalysisTool = createTool({
 
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
-    await writer?.custom({
+    await context?.writer?.custom({
       type: "data-tool-progress",
       data: {
         status: "in-progress",
@@ -36,7 +36,7 @@ export const dataAnalysisTool = createTool({
 
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
-    await writer?.custom({
+    await context?.writer?.custom({
       type: "data-tool-progress",
       data: {
         status: "done",

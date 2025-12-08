@@ -3,6 +3,7 @@ import { Memory } from "@mastra/memory";
 import { nestedWeatherAgentStreamTool } from "../tools/nested-agent-stream-tool";
 
 export const weatherForecastAgent = new Agent({
+  id: "weather-forecast-agent",
   name: "Weather Forecast Agent",
   description:
     "Forecasts tomorrow's weather by analyzing today's conditions via a nested streaming tool.",

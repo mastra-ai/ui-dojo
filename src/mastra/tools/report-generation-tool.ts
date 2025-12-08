@@ -10,10 +10,10 @@ export const reportGenerationTool = createTool({
   outputSchema: z.object({
     report: z.string(),
   }),
-  execute: async ({ context, writer }) => {
-    const { topic } = context;
+  execute: async (inputData, context) => {
+    const { topic } = inputData;
 
-    await writer?.custom({
+    await context?.writer?.custom({
       type: "data-tool-progress",
       data: {
         status: "in-progress",
@@ -24,7 +24,7 @@ export const reportGenerationTool = createTool({
 
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
-    await writer?.custom({
+    await context?.writer?.custom({
       type: "data-tool-progress",
       data: {
         status: "in-progress",
@@ -35,7 +35,7 @@ export const reportGenerationTool = createTool({
 
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
-    await writer?.custom({
+    await context?.writer?.custom({
       type: "data-tool-progress",
       data: {
         status: "done",
