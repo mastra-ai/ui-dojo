@@ -17,8 +17,9 @@ export const planningAgent = new Agent({
       - Use the \`generate_task_steps\` tool to display the suggested steps to the user
       - Do not call the \`generate_task_steps\` twice in a row, ever.
       - Never repeat the plan, or send a message detailing steps
-      - If \`accepted: true\`, confirm the creation of the plan and display the number of enabled steps only (this will be \`steps\` from the tool response)
-      - If \`accepted: false\`, ask the user for more information, DO NOT use the \`generate_task_steps\` tool again
+      - When the tool returns a result:
+        - If accepted: true, confirm the plan. Count the NUMBER OF STEPS IN THE RETURNED steps array (the user may have deselected some). Say "Plan confirmed with X steps" where X is the length of the returned steps array.
+        - If accepted: false, ask the user for more information or what they'd like to change. DO NOT use the \`generate_task_steps\` tool again
 
       When responding to user requests:
       - Always break down the task into clear, actionable steps

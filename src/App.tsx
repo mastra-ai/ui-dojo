@@ -85,7 +85,10 @@ export default function Page() {
                     path="client-tools"
                     element={<ClientToolsAssistantUi />}
                   />
-                  <Route path="human-in-the-loop" element={<AssistantUiHitl />} />
+                  <Route
+                    path="human-in-the-loop"
+                    element={<AssistantUiHitl />}
+                  />
                 </Route>
                 <Route path="/copilot-kit">
                   <Route index element={<ChatCopilotKit />} />
