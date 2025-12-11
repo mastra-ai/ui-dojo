@@ -38,7 +38,7 @@ import {
 import { cn } from "@/lib/utils";
 
 interface ThreadSuggestionsProps {
-  suggestions: {
+  suggestions?: {
     title: string;
     action: string;
   }[];
@@ -147,7 +147,7 @@ const ThreadWelcome: FC<ThreadWelcomeProps> = ({
 const ThreadSuggestions: FC<ThreadSuggestionsProps> = ({ suggestions }) => {
   return (
     <div className="aui-thread-welcome-suggestions grid w-full gap-2 pb-4 @md:grid-cols-2">
-      {suggestions.map((suggestedAction, index) => (
+      {suggestions?.map((suggestedAction, index) => (
         <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

@@ -93,7 +93,7 @@ const SIDEBAR: SidebarEntry[] = [
       {
         id: "client-ai-sdk",
         title: "Client Tools",
-        url: "/client-tools/ai-sdk",
+        url: "/ai-sdk/client-tools",
         description: "Calling frontend tools with AI SDK",
         explanation:
           "Demonstrates client-side tool execution using AI SDK's onToolCall callback. When the bgColorAgent calls colorChangeTool, the callback intercepts it on the client and executes the DOM manipulation directly in the browser instead of on the server.",
@@ -212,10 +212,18 @@ const SIDEBAR: SidebarEntry[] = [
       {
         id: "client-assistant-ui",
         title: "Client Tools",
-        url: "/client-tools/assistant-ui",
+        url: "/assistant-ui/client-tools",
         description: "Calling frontend tools in Assistant UI",
         explanation:
           "Same client-side tool pattern using Assistant UI's onToolCall callback in useChatRuntime(). The colorChangeTool is intercepted and executed client-side, showing how to implement browser-only tools with any UI framework that exposes tool call hooks.",
+      },
+      {
+        id: "assistant-ui-human-in-the-loop",
+        title: "Human-in-the-Loop",
+        url: "/assistant-ui/human-in-the-loop",
+        description: "Involving humans in the AI decision-making process",
+        explanation:
+          "TODO",
       },
     ],
   },
@@ -242,7 +250,7 @@ const SIDEBAR: SidebarEntry[] = [
           "Uses useCopilotAction() to intercept tool calls in CopilotKit and render custom UI.",
       },
       {
-        id: "human-in-the-loop",
+        id: "copilot-kit-human-in-the-loop",
         title: "Human-in-the-Loop",
         url: "/copilot-kit/human-in-the-loop",
         description: "Involving humans in the AI decision-making process",
@@ -252,7 +260,7 @@ const SIDEBAR: SidebarEntry[] = [
       {
         id: "client-copilot-kit",
         title: "Client Tools",
-        url: "/client-tools/copilot-kit",
+        url: "/copilot-kit/client-tools",
         description: "Calling frontend tools in Copilot Kit",
         explanation:
           "Uses CopilotKit's useFrontendTool() hook to register client-side tools. The colorChangeTool is defined with parameters and a handler that runs in the browser, allowing the Mastra agent to trigger frontend-only actions without server roundtrips.",

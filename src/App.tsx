@@ -4,10 +4,11 @@ import { BrowserRouter, Routes, Route } from "react-router";
 import { ThemeProvider } from "@/components/theme-provider";
 import Layout from "@/components/layout";
 
-import ChatAiSdk from "@/pages/ai-sdk";
 import ChatAssistantUi from "@/pages/assistant-ui";
-import ChatCopilotKit from "@/pages/copilot-kit";
+import ClientToolsAssistantUi from "@/pages/client-tools/assistant-ui";
+import AssistantUiHitl from "@/pages/assistant-ui/human-in-the-loop";
 
+import ChatAiSdk from "@/pages/ai-sdk";
 import AiSdkGenerative from "@/pages/ai-sdk/generative-user-interfaces";
 import AiSdkWorkflow from "@/pages/ai-sdk/workflow";
 import AiSdkNetwork from "@/pages/ai-sdk/network";
@@ -18,13 +19,13 @@ import AiSdkWorkflowCustomEvents from "@/pages/ai-sdk/workflow-custom-events";
 import AiSdkWorkflowSuspendResume from "@/pages/ai-sdk/workflow-suspend-resume";
 import AiSdkWorkflowAgentTextStream from "@/pages/ai-sdk/workflow-agent-text-stream";
 import AiSdkToolNestedStreams from "@/pages/ai-sdk/tool-nested-streams";
+import ClientToolsAiSdk from "@/pages/client-tools/ai-sdk";
 
+import ChatCopilotKit from "@/pages/copilot-kit";
 import CopilotKitGenerative from "@/pages/copilot-kit/generative-user-interfaces";
 import CopilotKitHITL from "@/pages/copilot-kit/human-in-the-loop";
-
-import ClientToolsAiSdk from "@/pages/client-tools/ai-sdk";
-import ClientToolsAssistantUi from "@/pages/client-tools/assistant-ui";
 import ClientToolsCopilotKit from "@/pages/client-tools/copilot-kit";
+
 import { MASTRA_BASE_URL } from "@/constants";
 
 export default function Page() {
@@ -38,22 +39,8 @@ export default function Page() {
             <Layout>
               <Routes>
                 <Route path="/" index element={<ChatAiSdk />} />
-                <Route
-                  path="/assistant-ui/:agentId/chat/:threadId"
-                  element={<ChatAssistantUi />}
-                />
-                <Route path="/copilot-kit">
-                  <Route index element={<ChatCopilotKit />} />
-                  <Route
-                    path="generative-user-interfaces"
-                    element={<CopilotKitGenerative />}
-                  />
-                  <Route
-                    path="human-in-the-loop"
-                    element={<CopilotKitHITL />}
-                  />
-                </Route>
                 <Route path="/ai-sdk">
+                  <Route path="client-tools" element={<ClientToolsAiSdk />} />
                   <Route
                     path="generative-user-interfaces"
                     element={<AiSdkGenerative />}
@@ -89,14 +76,29 @@ export default function Page() {
                     element={<AiSdkToolNestedStreams />}
                   />
                 </Route>
-                <Route path="/client-tools">
-                  <Route path="ai-sdk" element={<ClientToolsAiSdk />} />
+                <Route path="/assistant-ui">
                   <Route
-                    path="assistant-ui"
-                    element={<ClientToolsAssistantUi />}
+                    path=":agentId/chat/:threadId"
+                    element={<ChatAssistantUi />}
                   />
                   <Route
-                    path="copilot-kit"
+                    path="client-tools"
+                    element={<ClientToolsAssistantUi />}
+                  />
+                  <Route path="human-in-the-loop" element={<AssistantUiHitl />} />
+                </Route>
+                <Route path="/copilot-kit">
+                  <Route index element={<ChatCopilotKit />} />
+                  <Route
+                    path="generative-user-interfaces"
+                    element={<CopilotKitGenerative />}
+                  />
+                  <Route
+                    path="human-in-the-loop"
+                    element={<CopilotKitHITL />}
+                  />
+                  <Route
+                    path="client-tools"
                     element={<ClientToolsCopilotKit />}
                   />
                 </Route>
