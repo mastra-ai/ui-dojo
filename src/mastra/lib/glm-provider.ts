@@ -7,4 +7,4 @@ export const glm = createOpenAI({
 });
 
 // Helper function for GLM 4.7
-export const glm47 = (options?: any) => glm('glm-4-7b', options);
+export const glm47 = (options?: any) => glm('glm-4-flash', options);

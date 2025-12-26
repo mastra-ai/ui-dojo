@@ -30,6 +30,7 @@
     "@copilotkit/runtime": "^1.10.6",
     "@icons-pack/react-simple-icons": "^13.8.0",
     "@lukeed/uuid": "^2.0.1",
+    "@mastra/github": "^0.3.0",
     "@mastra/ai-sdk": "1.0.0-beta.8",
     "@mastra/client-js": "1.0.0-beta.11",
     "@mastra/core": "1.0.0-beta.11",
