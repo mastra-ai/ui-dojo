@@ -106,44 +106,48 @@ const AISdkDemo = () => {
       <div className="flex flex-col h-full">
         <Conversation className="h-full">
           <ConversationContent>
-            {messages.map((message) => (
-              <div key={message.id}>
-                {message.role === "assistant" &&
-                  message.parts.filter((part) => part.type === "source-url")
-                    .length > 0 && (
-                    <Sources>
-                      <SourcesTrigger
-                        count={
-                          message.parts.filter(
-                            (part) => part.type === "source-url",
-                          ).length
-                        }
-                      />
-                      {message.parts
-                        .filter((part) => part.type === "source-url")
-                        .map((part, i) => (
-                          <SourcesContent key={`${message.id}-${i}`}>
-                            <Source
-                              key={`${message.id}-${i}`}
-                              href={part.url}
-                              title={part.url}
-                            />
-                          </SourcesContent>
-                        ))}
-                    </Sources>
-                  )}
-                {message.parts.map((part, i) => {
-                  switch (part.type) {
-                    case "text":
-                      return (
-                        <Fragment key={`${message.id}-${i}`}>
-                          <Message from={message.role}>
-                            <MessageContent>
-                              <Response>{part.text}</Response>
-                            </MessageContent>
-                          </Message>
-                          {message.role === "assistant" &&
-                            i === messages.length - 1 && (
+            {messages.map((message, messageIndex) => {
+              const isLastAssistantMessage =
+                message.role === "assistant" &&
+                messageIndex === messages.length - 1;
+
+              return (
+                <div key={message.id}>
+                  {message.role === "assistant" &&
+                    message.parts.filter((part) => part.type === "source-url")
+                      .length > 0 && (
+                      <Sources>
+                        <SourcesTrigger
+                          count={
+                            message.parts.filter(
+                              (part) => part.type === "source-url",
+                            ).length
+                          }
+                        />
+                        {message.parts
+                          .filter((part) => part.type === "source-url")
+                          .map((part, i) => (
+                            <SourcesContent key={`${message.id}-${i}`}>
+                              <Source
+                                key={`${message.id}-${i}`}
+                                href={part.url}
+                                title={part.url}
+                              />
+                            </SourcesContent>
+                          ))}
+                      </Sources>
+                    )}
+                  {message.parts.map((part, i) => {
+                    switch (part.type) {
+                      case "text":
+                        return (
+                          <Fragment key={`${message.id}-${i}`}>
+                            <Message from={message.role}>
+                              <MessageContent>
+                                <Response>{part.text}</Response>
+                              </MessageContent>
+                            </Message>
+                            {isLastAssistantMessage && (
                               <Actions className="mt-2">
                                 <Action
                                   onClick={() => regenerate()}
@@ -161,29 +165,30 @@ const AISdkDemo = () => {
                                 </Action>
                               </Actions>
                             )}
-                        </Fragment>
-                      );
-                    case "reasoning":
-                      return (
-                        <Reasoning
-                          key={`${message.id}-${i}`}
-                          className="w-full"
-                          isStreaming={
-                            status === "streaming" &&
-                            i === message.parts.length - 1 &&
-                            message.id === messages.at(-1)?.id
-                          }
-                        >
-                          <ReasoningTrigger />
-                          <ReasoningContent>{part.text}</ReasoningContent>
-                        </Reasoning>
-                      );
-                    default:
-                      return null;
-                  }
-                })}
-              </div>
-            ))}
+                          </Fragment>
+                        );
+                      case "reasoning":
+                        return (
+                          <Reasoning
+                            key={`${message.id}-${i}`}
+                            className="w-full"
+                            isStreaming={
+                              status === "streaming" &&
+                              i === message.parts.length - 1 &&
+                              message.id === messages.at(-1)?.id
+                            }
+                          >
+                            <ReasoningTrigger />
+                            <ReasoningContent>{part.text}</ReasoningContent>
+                          </Reasoning>
+                        );
+                      default:
+                        return null;
+                    }
+                  })}
+                </div>
+              );
+            })}
             {status === "submitted" && <Loader />}
           </ConversationContent>
           <ConversationScrollButton />
