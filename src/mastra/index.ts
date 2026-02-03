@@ -55,9 +55,6 @@ export const mastra = new Mastra({
     name: "Mastra",
     level: "info",
   }),
-  bundler: {
-    externals: ["@copilotkit/runtime"],
-  },
   server: {
     // Use a non-default port to avoid conflicts with other Mastra servers running locally
     port: 4750,
