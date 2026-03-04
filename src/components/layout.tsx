@@ -81,6 +81,15 @@ const SIDEBAR: SidebarEntry[] = [
         docsUrl: "https://mastra.ai/docs/frameworks/agentic-uis/ai-sdk",
       },
       {
+        id: "resumable-streams",
+        title: "Resume Streams",
+        url: "/ai-sdk/resumable-streams",
+        description: "Resume interrupted chat streams with useChat",
+        explanation:
+          "Demonstrates AI SDK resume streams with Mastra custom routes. A POST route starts a chat stream and stores its stream ID by chat ID, and a GET route reconnects with the latest stream so useChat({ resume: true }) can continue after refresh or reconnect.",
+        docsUrl: "https://ai-sdk.dev/docs/ai-sdk-ui/chatbot-resume-streams",
+      },
+      {
         id: "sub-agents-and-workflows-custom-events",
         title: "Sub Agents & Workflows",
         url: "/ai-sdk/sub-agents-and-workflows-custom-events",

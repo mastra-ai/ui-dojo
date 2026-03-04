@@ -22,6 +22,11 @@ import { reportAgentNetwork } from "./agents/report-agent-network";
 import { weatherForecastAgent } from "./agents/weather-forecast-agent";
 import { planningAgent } from "./agents/planning-agent";
 import { hitlPlanningAgent } from "./agents/hitl-planning-agent";
+import {
+  resumableChatGetRoute,
+  resumableChatMessagesRoute,
+  resumableChatPostRoute,
+} from "./routes/resumable-chat-route";
 
 export const mastra = new Mastra({
   agents: {
@@ -91,6 +96,9 @@ export const mastra = new Mastra({
         path: "/network-custom-events",
         agent: "reportAgentNetwork",
       }),
+      resumableChatPostRoute,
+      resumableChatGetRoute,
+      resumableChatMessagesRoute,
       registerCopilotKit({
         path: "/copilotkit",
         resourceId: "copilotkit-resource",
