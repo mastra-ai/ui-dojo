@@ -48,6 +48,7 @@ type StepStatus = NetworkData["steps"][number]["status"];
 
 const STATUS_MAP: Record<StepStatus, ToolUIPart["state"]> = {
   running: "input-available",
+  paused: "input-available",
   success: "output-available",
   failed: "output-error",
   suspended: "input-available",

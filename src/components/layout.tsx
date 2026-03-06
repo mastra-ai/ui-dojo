@@ -173,6 +173,18 @@ const SIDEBAR: SidebarEntry[] = [
         concept: "UI",
       },
       {
+        id: "tool-approval",
+        title: "Tool Approval",
+        url: "/ai-sdk/tool-approval",
+        description:
+          "Human-in-the-loop tool approval using requireApproval",
+        explanation:
+          "Demonstrates Mastra's requireApproval tool option with AI SDK. When the agent calls a tool marked with requireApproval: true, the stream emits a data-tool-call-approval part instead of executing immediately. The UI renders approve/decline buttons, and sends resumeData with the runId to continue or skip execution.",
+        docsUrl:
+          "https://mastra.ai/docs/agents/agent-approval",
+        concept: "UI",
+      },
+      {
         id: "agent-network",
         title: "Basic",
         url: "/ai-sdk/network",
