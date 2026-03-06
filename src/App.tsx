@@ -19,6 +19,7 @@ import AiSdkWorkflowCustomEvents from "@/pages/ai-sdk/workflow-custom-events";
 import AiSdkWorkflowSuspendResume from "@/pages/ai-sdk/workflow-suspend-resume";
 import AiSdkWorkflowAgentTextStream from "@/pages/ai-sdk/workflow-agent-text-stream";
 import AiSdkToolNestedStreams from "@/pages/ai-sdk/tool-nested-streams";
+import AiSdkResumableStreams from "@/pages/ai-sdk/resumable-streams";
 import ClientToolsAiSdk from "@/pages/client-tools/ai-sdk";
 
 import ChatCopilotKit from "@/pages/copilot-kit";
@@ -74,6 +75,10 @@ export default function Page() {
                   <Route
                     path="tool-nested-streams"
                     element={<AiSdkToolNestedStreams />}
+                  />
+                  <Route
+                    path="resumable-streams"
+                    element={<AiSdkResumableStreams />}
                   />
                 </Route>
                 <Route path="/assistant-ui">
