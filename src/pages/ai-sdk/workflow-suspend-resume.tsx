@@ -30,7 +30,6 @@ const STATUS_MAP: Record<
   ToolUIPart["state"]
 > = {
   running: "input-available",
-  paused: "input-available",
   waiting: "input-available",
   suspended: "input-available",
   success: "output-available",
