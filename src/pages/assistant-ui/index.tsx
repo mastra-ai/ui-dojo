@@ -171,7 +171,7 @@ const CustomRuntimeProvider = ({
     setMessages,
   } = useChat({
     agentId,
-    initializeMessages: () => initialMessages || [],
+    initialMessages: initialMessages || [],
   });
 
   const abortControllerRef = useRef<AbortController | null>(null);
