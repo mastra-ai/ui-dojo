@@ -1,3 +1,4 @@
+import type { ComponentType } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -20,7 +21,6 @@ import {
   Sparkles,
   Bot,
   MessageSquare,
-  type LucideIcon,
   Info,
   Minus,
   Plus,
@@ -41,7 +41,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "./ui/collapsible";
-import { newThreadLink } from "@/lib/utils";
+import { cn, newThreadLink } from "@/lib/utils";
 
 type SidebarItemEntry = {
   id: string;
@@ -56,7 +56,7 @@ type SidebarItemEntry = {
 type SidebarEntry = {
   id: string;
   title: string;
-  icon: LucideIcon;
+  icon: ComponentType<{ className?: string }>;
   items: SidebarItemEntry[];
 };
 
@@ -64,6 +64,10 @@ type GroupedItems = {
   rootItems: SidebarItemEntry[];
   conceptGroups: Record<string, SidebarItemEntry[]>;
 };
+
+function MastraLogo({ className }: { className?: string }) {
+  return <img alt="" className={cn("size-4", className)} src="/mastra.svg" />;
+}
 
 const SIDEBAR: SidebarEntry[] = [
   {
@@ -276,6 +280,32 @@ const SIDEBAR: SidebarEntry[] = [
         description: "Calling frontend tools in Copilot Kit",
         explanation:
           "Uses CopilotKit's useFrontendTool() hook to register client-side tools. The colorChangeTool is defined with parameters and a handler that runs in the browser, allowing the Mastra agent to trigger frontend-only actions without server roundtrips.",
+      },
+    ],
+  },
+  {
+    id: "mastra-client-sdk",
+    title: "Mastra Client SDK",
+    icon: MastraLogo,
+    items: [
+      {
+        id: "mastra-client-sdk-chat",
+        title: "Chat",
+        url: "/mastra-client-sdk/chat",
+        description: "Simple chat with MastraClient and agent.stream().",
+        explanation:
+          "Uses client.getAgent('ghibliAgent') and agent.stream() directly in the browser. The example only keeps local chat state and appends text from processDataStream as chunks arrive.",
+        docsUrl: "https://mastra.ai/reference/client-js/agents#stream",
+      },
+      {
+        id: "mastra-client-sdk-responses-api",
+        title: "Responses API Chat",
+        url: "/mastra-client-sdk/responses-api",
+        description:
+          "Simple OpenAI Responses API-style chat using previous_response_id.",
+        explanation:
+          "Uses client.responses.stream() with store: true. After each completed turn, the example saves response.id and sends it back as previous_response_id on the next turn to continue the same response chain.",
+        docsUrl: "https://mastra.ai/reference/client-js/responses",
       },
     ],
   },

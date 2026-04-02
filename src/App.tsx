@@ -22,6 +22,8 @@ import AiSdkWorkflowAgentTextStream from "@/pages/ai-sdk/workflow-agent-text-str
 import AiSdkToolNestedStreams from "@/pages/ai-sdk/tool-nested-streams";
 import AiSdkToolApproval from "@/pages/ai-sdk/tool-approval";
 import ClientToolsAiSdk from "@/pages/client-tools/ai-sdk";
+import MastraClientAgentStream from "@/pages/mastra-client-sdk/agent-stream";
+import MastraClientResponsesApi from "@/pages/mastra-client-sdk/responses-api";
 
 import ChatCopilotKit from "@/pages/copilot-kit";
 import CopilotKitGenerative from "@/pages/copilot-kit/generative-user-interfaces";
@@ -110,6 +112,13 @@ export default function Page() {
                   <Route
                     path="client-tools"
                     element={<ClientToolsCopilotKit />}
+                  />
+                </Route>
+                <Route path="/mastra-client-sdk">
+                  <Route path="chat" element={<MastraClientAgentStream />} />
+                  <Route
+                    path="responses-api"
+                    element={<MastraClientResponsesApi />}
                   />
                 </Route>
               </Routes>
