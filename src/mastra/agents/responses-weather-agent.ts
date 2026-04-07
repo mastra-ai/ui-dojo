@@ -1,11 +1,13 @@
 import { Agent } from "@mastra/core/agent";
+import { LibSQLStore } from "@mastra/libsql";
 import { Memory } from "@mastra/memory";
 import { weatherTool } from "../tools/weather-tool";
 
-export const weatherAgent = new Agent({
-  id: "weather-agent",
-  name: "Weather Agent",
-  description: "This agent provides weather information for a given location",
+export const responsesWeatherAgent = new Agent({
+  id: "responses-weather-agent",
+  name: "Responses Weather Agent",
+  description:
+    "This agent powers the Responses API weather demo with persistent memory",
   instructions: `
       You are a helpful weather assistant that provides accurate weather information.
 
@@ -18,7 +20,12 @@ export const weatherAgent = new Agent({
 
       Use the weatherTool to fetch current weather data.
 `,
-  model: "openai/gpt-4o-mini",
+  model: "openai/gpt-4o",
   tools: { weatherTool },
-  memory: new Memory(),
+  memory: new Memory({
+    storage: new LibSQLStore({
+      id: "responses-weather-agent-memory",
+      url: "file:mastra.db",
+    }),
+  }),
 });

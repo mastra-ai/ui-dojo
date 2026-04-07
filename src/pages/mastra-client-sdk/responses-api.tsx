@@ -30,7 +30,7 @@ const suggestions = [
   "Compare the weather in Lagos and London",
 ];
 
-const RESPONSES_AGENT_ID = "weatherAgent";
+const RESPONSES_AGENT_ID = "responsesWeatherAgent";
 const RESPONSES_MODEL = "openai/gpt-4o";
 
 type ChatMessage = {

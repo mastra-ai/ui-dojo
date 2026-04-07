@@ -4,6 +4,7 @@ import { PinoLogger } from "@mastra/loggers";
 import { LibSQLStore } from "@mastra/libsql";
 import { chatRoute, workflowRoute, networkRoute } from "@mastra/ai-sdk";
 import { ghibliAgent } from "./agents/ghibli-agent";
+import { responsesWeatherAgent } from "./agents/responses-weather-agent";
 import { weatherAgent } from "./agents/weather-agent";
 import { activitiesWorkflow } from "./workflows/activities-workflow";
 import { routingAgent } from "./agents/routing-agent";
@@ -27,6 +28,7 @@ import { weatherApprovalAgent } from "./agents/weather-approval-agent";
 export const mastra = new Mastra({
   agents: {
     ghibliAgent,
+    responsesWeatherAgent,
     weatherAgent,
     routingAgent,
     bgColorAgent,
