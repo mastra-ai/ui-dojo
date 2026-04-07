@@ -188,6 +188,10 @@ export default function ResponsesApiPage() {
           ))}
         </Suggestions>
 
+        <div className="mt-3 rounded-md border border-border/60 bg-muted/40 px-3 py-2 font-mono text-[11px] text-muted-foreground">
+          previous_response_id: {previousResponseId ?? "null"}
+        </div>
+
         <PromptInput className="mt-4" onSubmit={handleSubmit}>
           <PromptInputBody>
             <PromptInputTextarea
