@@ -49,10 +49,9 @@ export const mastra = new Mastra({
     agentTextStreamWorkflow,
     branchingWorkflow,
   },
-  // TODO: Support agent configured memory in Mastra Responses API.
   storage: new LibSQLStore({
     id: "mastra-storage",
-    url: "file:mastra.db",
+    url: ":memory:",
   }),
   logger: new PinoLogger({
     name: "Mastra",
