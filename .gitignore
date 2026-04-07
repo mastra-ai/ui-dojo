@@ -23,6 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 .mastra
-src/mastra/public/*.db
+src/mastra/public/*.db*
 
 .env
