@@ -1,5 +1,4 @@
 import { Agent } from "@mastra/core/agent";
-import { Memory } from "@mastra/memory";
 
 /**
  * This agent will be used by CopilotKit for human-in-the-loop planning.
@@ -27,6 +26,7 @@ export const planningAgent = new Agent({
       - Keep steps concise but descriptive
       - Make sure steps are in logical order
 `,
-  model: "openai/gpt-4o-mini",
-  memory: new Memory(),
+  model: "mastra/openai/gpt-5-mini",
+  // Using Mastra Memory Gateway instead of direct memory.
+  // memory: new Memory(),
 });

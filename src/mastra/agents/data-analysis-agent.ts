@@ -1,5 +1,4 @@
 import { Agent } from "@mastra/core/agent";
-import { Memory } from "@mastra/memory";
 import { dataAnalysisTool } from "../tools/data-analysis-tool";
 
 export const dataAnalysisAgent = new Agent({
@@ -10,7 +9,8 @@ export const dataAnalysisAgent = new Agent({
     You are a data analysis assistant. When given a dataset, use the analyze-data tool 
     to process it and provide insights. The tool will show progress updates as it works.
   `,
-  model: "openai/gpt-4o-mini",
+  model: "mastra/openai/gpt-5-mini",
   tools: { dataAnalysisTool },
-  memory: new Memory(),
+  // Using Mastra Memory Gateway instead of direct memory.
+  // memory: new Memory(),
 });

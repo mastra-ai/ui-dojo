@@ -1,5 +1,4 @@
 import { Agent } from "@mastra/core/agent";
-import { Memory } from "@mastra/memory";
 import { weatherTool } from "../tools/weather-tool";
 
 export const weatherAgent = new Agent({
@@ -18,7 +17,8 @@ export const weatherAgent = new Agent({
 
       Use the weatherTool to fetch current weather data.
 `,
-  model: "openai/gpt-4o-mini",
+  model: "mastra/openai/gpt-5-mini",
   tools: { weatherTool },
-  memory: new Memory(),
+  // Using Mastra Memory Gateway instead of direct memory.
+  // memory: new Memory(),
 });

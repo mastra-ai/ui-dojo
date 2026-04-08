@@ -48,12 +48,8 @@ import { MASTRA_BASE_URL } from "@/constants";
 
 const models = [
   {
-    name: "GPT 4o Mini",
-    value: "openai/gpt-4o-mini",
-  },
-  {
-    name: "Deepseek R1",
-    value: "vercel/deepseek/deepseek-r1",
+    name: "GPT 5 Mini",
+    value: "mastra/openai/gpt-5-mini",
   },
 ];
 

@@ -3,7 +3,6 @@ import { weatherAgent } from "./weather-agent";
 import { ghibliAgent } from "./ghibli-agent";
 import { weatherTool } from "../tools/weather-tool";
 import { ghibliCharacters, ghibliFilms } from "../tools/ghibli-tool";
-import { Memory } from "@mastra/memory";
 import { activitiesWorkflow } from "../workflows/activities-workflow";
 
 export const routingAgent = new Agent({
@@ -19,7 +18,7 @@ export const routingAgent = new Agent({
   - activitiesWorkflow: Helps plan activities in various cities.
   
   If the query is about weather, route it to the Weather Agent. If they want to plan activities in a city, route it to the activities workflow. If it's about Studio Ghibli films or characters, route it to the Ghibli Agent. Always ensure that the user's query is handled by the most relevant agent or workflow.`,
-  model: "openai/gpt-4o-mini",
+  model: "mastra/openai/gpt-5-mini",
   agents: {
     weatherAgent,
     ghibliAgent,
@@ -32,5 +31,6 @@ export const routingAgent = new Agent({
     ghibliFilms,
     ghibliCharacters,
   },
-  memory: new Memory(),
+  // Using Mastra Memory Gateway instead of direct memory.
+  // memory: new Memory(),
 });

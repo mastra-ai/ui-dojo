@@ -1,5 +1,4 @@
 import { Agent } from "@mastra/core/agent";
-import { Memory } from "@mastra/memory";
 import { nestedWeatherAgentStreamTool } from "../tools/nested-agent-stream-tool";
 
 export const weatherForecastAgent = new Agent({
@@ -18,7 +17,8 @@ export const weatherForecastAgent = new Agent({
 
     If the user does not specify a city, ask them to clarify the location before using the tool.
   `,
-  model: "openai/gpt-4o-mini",
+  model: "mastra/openai/gpt-5-mini",
   tools: { nestedAgentStreamTool: nestedWeatherAgentStreamTool },
-  memory: new Memory(),
+  // Using Mastra Memory Gateway instead of direct memory.
+  // memory: new Memory(),
 });
