@@ -18,7 +18,7 @@ export const routingAgent = new Agent({
   - activitiesWorkflow: Helps plan activities in various cities.
   
   If the query is about weather, route it to the Weather Agent. If they want to plan activities in a city, route it to the activities workflow. If it's about Studio Ghibli films or characters, route it to the Ghibli Agent. Always ensure that the user's query is handled by the most relevant agent or workflow.`,
-  model: "mastra/openai/gpt-5-mini",
+  model: "mastra/openai/gpt-4o",
   agents: {
     weatherAgent,
     ghibliAgent,

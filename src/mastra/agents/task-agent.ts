@@ -10,7 +10,7 @@ export const taskAgent = new Agent({
     use the process-task tool to handle it. The tool will show progress updates 
     as it works on the task.
   `,
-  model: "mastra/openai/gpt-5-mini",
+  model: "mastra/openai/gpt-4o",
   tools: { taskTool },
   // Using Mastra Memory Gateway instead of direct memory.
   // memory: new Memory(),

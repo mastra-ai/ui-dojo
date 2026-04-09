@@ -10,7 +10,7 @@ export const reportReviewAgent = new Agent({
     to analyze and improve the report's quality, clarity, and structure. The tool will show progress 
     updates as it works.
   `,
-  model: "mastra/openai/gpt-5-mini",
+  model: "mastra/openai/gpt-4o",
   tools: { reportReviewTool },
   // Using Mastra Memory Gateway instead of direct memory.
   // memory: new Memory(),

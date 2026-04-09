@@ -45,11 +45,12 @@ import { Loader } from "@/components/ai-elements/loader";
 import { DefaultChatTransport } from "ai";
 import { Suggestion, Suggestions } from "@/components/ai-elements/suggestion";
 import { MASTRA_BASE_URL } from "@/constants";
+import { getVisibleReasoningText } from "@/lib/reasoning";
 
 const models = [
   {
-    name: "GPT 5 Mini",
-    value: "mastra/openai/gpt-5-mini",
+    name: "GPT-4o",
+    value: "mastra/openai/gpt-4o",
   },
 ];
 
@@ -106,6 +107,11 @@ const AISdkDemo = () => {
               const isLastAssistantMessage =
                 message.role === "assistant" &&
                 messageIndex === messages.length - 1;
+              const reasoningText = getVisibleReasoningText(message.parts);
+              const isReasoningStreaming =
+                isLastAssistantMessage &&
+                status === "streaming" &&
+                message.parts.at(-1)?.type === "reasoning";
 
               return (
                 <div key={message.id}>
@@ -133,6 +139,15 @@ const AISdkDemo = () => {
                           ))}
                       </Sources>
                     )}
+                  {reasoningText && (
+                    <Reasoning
+                      className="w-full"
+                      isStreaming={isReasoningStreaming}
+                    >
+                      <ReasoningTrigger />
+                      <ReasoningContent>{reasoningText}</ReasoningContent>
+                    </Reasoning>
+                  )}
                   {message.parts.map((part, i) => {
                     switch (part.type) {
                       case "text":
@@ -164,20 +179,7 @@ const AISdkDemo = () => {
                           </Fragment>
                         );
                       case "reasoning":
-                        return (
-                          <Reasoning
-                            key={`${message.id}-${i}`}
-                            className="w-full"
-                            isStreaming={
-                              status === "streaming" &&
-                              i === message.parts.length - 1 &&
-                              message.id === messages.at(-1)?.id
-                            }
-                          >
-                            <ReasoningTrigger />
-                            <ReasoningContent>{part.text}</ReasoningContent>
-                          </Reasoning>
-                        );
+                        return null;
                       default:
                         return null;
                     }

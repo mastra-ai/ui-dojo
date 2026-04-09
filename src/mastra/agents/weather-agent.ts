@@ -17,7 +17,7 @@ export const weatherAgent = new Agent({
 
       Use the weatherTool to fetch current weather data.
 `,
-  model: "mastra/openai/gpt-5-mini",
+  model: "mastra/openai/gpt-4o",
   tools: { weatherTool },
   // Using Mastra Memory Gateway instead of direct memory.
   // memory: new Memory(),

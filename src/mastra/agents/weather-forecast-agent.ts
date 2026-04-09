@@ -17,7 +17,7 @@ export const weatherForecastAgent = new Agent({
 
     If the user does not specify a city, ask them to clarify the location before using the tool.
   `,
-  model: "mastra/openai/gpt-5-mini",
+  model: "mastra/openai/gpt-4o",
   tools: { nestedAgentStreamTool: nestedWeatherAgentStreamTool },
   // Using Mastra Memory Gateway instead of direct memory.
   // memory: new Memory(),

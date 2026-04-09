@@ -16,7 +16,7 @@ export const reportAgentNetwork = new Agent({
   2. Then, delegate to reportReviewAgent to review and improve the generated report
   
   Do not try to answer the query yourself. Always use both agents to ensure the final report is both comprehensive and well-reviewed.`,
-  model: "mastra/openai/gpt-5-mini",
+  model: "mastra/openai/gpt-4o",
   agents: {
     reportGenerationAgent,
     reportReviewAgent,
