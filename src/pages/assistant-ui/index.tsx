@@ -42,6 +42,29 @@ const suggestions = [
   },
 ];
 
+const threadDateFormatter = new Intl.DateTimeFormat("en-US", {
+  month: "short",
+  day: "numeric",
+  hour: "numeric",
+  minute: "2-digit",
+  second: "2-digit",
+});
+
+const getThreadDisplayTitle = (thread: StorageThreadType) => {
+  const title = thread.title?.trim();
+  if (title) {
+    return title;
+  }
+
+  const threadDate = new Date(thread.updatedAt ?? thread.createdAt);
+
+  if (Number.isNaN(threadDate.getTime())) {
+    return "Untitled Thread";
+  }
+
+  return threadDateFormatter.format(threadDate).replace(", ", " at ");
+};
+
 const AssistantUIDemo = () => {
   const { agentId, threadId } = useParams();
   const navigate = useNavigate();
@@ -294,7 +317,7 @@ const Sidebar = ({
                 className="flex items-center min-w-0 w-full"
                 to={threadLink}
               >
-                <span className="truncate">{thread.title}</span>
+                <span className="truncate">{getThreadDisplayTitle(thread)}</span>
               </Link>
             </Button>
             <Button
