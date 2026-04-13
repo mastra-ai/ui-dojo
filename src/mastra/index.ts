@@ -1,7 +1,12 @@
 import { Mastra } from "@mastra/core/mastra";
 import { registerCopilotKit } from "@ag-ui/mastra/copilotkit";
-import { PinoLogger } from "@mastra/loggers";
 import { LibSQLStore } from "@mastra/libsql";
+import {
+  CloudExporter,
+  DefaultExporter,
+  Observability,
+  SensitiveDataFilter,
+} from "@mastra/observability";
 import { chatRoute, workflowRoute, networkRoute } from "@mastra/ai-sdk";
 import { ghibliAgent } from "./agents/ghibli-agent";
 import { responsesWeatherAgent } from "./agents/responses-weather-agent";
@@ -55,9 +60,14 @@ export const mastra = new Mastra({
     id: "mastra-storage",
     url: ":memory:",
   }),
-  logger: new PinoLogger({
-    name: "Mastra",
-    level: "info",
+  observability: new Observability({
+    configs: {
+      default: {
+        serviceName: "ui-dojo",
+        exporters: [new DefaultExporter(), new CloudExporter()],
+        spanOutputProcessors: [new SensitiveDataFilter()],
+      },
+    },
   }),
   bundler: {
     externals: ["@copilotkit/runtime", "@ag-ui/mastra"],

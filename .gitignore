@@ -23,6 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 .mastra
+.mastra-project.json
 src/mastra/public/*.db*
 
 .env
