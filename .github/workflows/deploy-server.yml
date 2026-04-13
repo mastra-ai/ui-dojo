@@ -22,3 +22,5 @@ jobs:
       - run: pnpm mastra server deploy --yes --config .mastra-project.json
         env:
           MASTRA_API_TOKEN: ${{ secrets.MASTRA_API_TOKEN }}
+          MASTRA_ORG_ID: ${{ secrets.MASTRA_ORG_ID }}
+          MASTRA_PROJECT_ID: ${{ secrets.MASTRA_PROJECT_ID }}
