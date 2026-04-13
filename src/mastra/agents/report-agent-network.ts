@@ -1,5 +1,4 @@
 import { Agent } from "@mastra/core/agent";
-import { Memory } from "@mastra/memory";
 import { reportGenerationAgent } from "./report-generation-agent";
 import { reportReviewAgent } from "./report-review-agent";
 
@@ -17,10 +16,11 @@ export const reportAgentNetwork = new Agent({
   2. Then, delegate to reportReviewAgent to review and improve the generated report
   
   Do not try to answer the query yourself. Always use both agents to ensure the final report is both comprehensive and well-reviewed.`,
-  model: "openai/gpt-4o-mini",
+  model: "mastra/openai/gpt-4o",
   agents: {
     reportGenerationAgent,
     reportReviewAgent,
   },
-  memory: new Memory(),
+  // Using Mastra Memory Gateway instead of direct memory.
+  // memory: new Memory(),
 });

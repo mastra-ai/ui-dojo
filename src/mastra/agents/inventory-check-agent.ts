@@ -1,5 +1,4 @@
 import { Agent } from "@mastra/core/agent";
-import { Memory } from "@mastra/memory";
 import { inventoryCheckTool } from "../tools/inventory-check-tool";
 
 export const inventoryCheckAgent = new Agent({
@@ -10,7 +9,8 @@ export const inventoryCheckAgent = new Agent({
     You are an inventory checker. When given a product ID and quantity, use the check-inventory tool 
     to verify if the items are in stock. The tool will show progress updates as it checks.
   `,
-  model: "openai/gpt-4o-mini",
+  model: "mastra/openai/gpt-4o",
   tools: { inventoryCheckTool },
-  memory: new Memory(),
+  // Using Mastra Memory Gateway instead of direct memory.
+  // memory: new Memory(),
 });

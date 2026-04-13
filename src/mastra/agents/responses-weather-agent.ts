@@ -1,6 +1,6 @@
 import { Agent } from "@mastra/core/agent";
-import { LibSQLStore } from "@mastra/libsql";
-import { Memory } from "@mastra/memory";
+// import { LibSQLStore } from "@mastra/libsql";
+// import { Memory } from "@mastra/memory";
 import { weatherTool } from "../tools/weather-tool";
 
 export const responsesWeatherAgent = new Agent({
@@ -20,12 +20,13 @@ export const responsesWeatherAgent = new Agent({
 
       Use the weatherTool to fetch current weather data.
 `,
-  model: "openai/gpt-4o",
+  model: "mastra/openai/gpt-4o",
   tools: { weatherTool },
-  memory: new Memory({
-    storage: new LibSQLStore({
-      id: "responses-weather-agent-memory",
-      url: "file:mastra.db",
-    }),
-  }),
+  // TODO: Mastra cloud -> Mastra migration deprecates this. Uncomment this when we have a persistent memory solution
+  // memory: new Memory({
+  //   storage: new LibSQLStore({
+  //     id: "responses-weather-agent-memory",
+  //     url: "file:mastra.db",
+  //   }),
+  // }),
 });

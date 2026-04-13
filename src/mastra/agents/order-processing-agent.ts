@@ -1,5 +1,4 @@
 import { Agent } from "@mastra/core/agent";
-import { Memory } from "@mastra/memory";
 import { inventoryCheckAgent } from "./inventory-check-agent";
 import { orderFulfillmentWorkflow } from "../workflows/order-fulfillment-workflow";
 
@@ -17,12 +16,13 @@ export const orderProcessingAgent = new Agent({
     Always explain what you're doing at each step. The inventory check agent and workflow steps will show 
     progress updates as they work.
   `,
-  model: "openai/gpt-4o-mini",
+  model: "mastra/openai/gpt-4o",
   agents: {
     inventoryCheckAgent,
   },
   workflows: {
     orderFulfillmentWorkflow,
   },
-  memory: new Memory(),
+  // Using Mastra Memory Gateway instead of direct memory.
+  // memory: new Memory(),
 });

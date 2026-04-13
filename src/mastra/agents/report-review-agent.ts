@@ -1,5 +1,4 @@
 import { Agent } from "@mastra/core/agent";
-import { Memory } from "@mastra/memory";
 import { reportReviewTool } from "../tools/report-review-tool";
 
 export const reportReviewAgent = new Agent({
@@ -11,7 +10,8 @@ export const reportReviewAgent = new Agent({
     to analyze and improve the report's quality, clarity, and structure. The tool will show progress 
     updates as it works.
   `,
-  model: "openai/gpt-4o-mini",
+  model: "mastra/openai/gpt-4o",
   tools: { reportReviewTool },
-  memory: new Memory(),
+  // Using Mastra Memory Gateway instead of direct memory.
+  // memory: new Memory(),
 });

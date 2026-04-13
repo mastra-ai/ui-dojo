@@ -38,7 +38,7 @@ export default function Page() {
   return (
     <ThemeProvider>
       <Analytics />
-      <MastraReactProvider baseUrl={MASTRA_BASE_URL}>
+      <MastraReactProvider baseUrl={MASTRA_BASE_URL} credentials="omit">
         <QueryClientProvider client={queryClient}>
           <BrowserRouter>
             <Layout>

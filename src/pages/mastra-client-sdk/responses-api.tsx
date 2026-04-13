@@ -216,7 +216,9 @@ export default function ResponsesApiPage() {
           </PromptInputFooter>
         </PromptInput>
 
-        {error ? <p className="mt-3 text-destructive text-sm">{error}</p> : null}
+        {error ? (
+          <p className="mt-3 text-destructive text-sm">{error}</p>
+        ) : null}
       </div>
     </div>
   );

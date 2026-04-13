@@ -1,7 +1,12 @@
 import { Mastra } from "@mastra/core/mastra";
 import { registerCopilotKit } from "@ag-ui/mastra/copilotkit";
-import { PinoLogger } from "@mastra/loggers";
 import { LibSQLStore } from "@mastra/libsql";
+import {
+  CloudExporter,
+  DefaultExporter,
+  Observability,
+  SensitiveDataFilter,
+} from "@mastra/observability";
 import { chatRoute, workflowRoute, networkRoute } from "@mastra/ai-sdk";
 import { ghibliAgent } from "./agents/ghibli-agent";
 import { responsesWeatherAgent } from "./agents/responses-weather-agent";
@@ -55,9 +60,14 @@ export const mastra = new Mastra({
     id: "mastra-storage",
     url: ":memory:",
   }),
-  logger: new PinoLogger({
-    name: "Mastra",
-    level: "info",
+  observability: new Observability({
+    configs: {
+      default: {
+        serviceName: "ui-dojo",
+        exporters: [new DefaultExporter(), new CloudExporter()],
+        spanOutputProcessors: [new SensitiveDataFilter()],
+      },
+    },
   }),
   bundler: {
     externals: ["@copilotkit/runtime", "@ag-ui/mastra"],
@@ -74,10 +84,12 @@ export const mastra = new Mastra({
       // See https://mastra.ai/docs/frameworks/agentic-uis/ai-sdk#chatroute
       chatRoute({
         path: "/chat/:agentId",
+        sendReasoning: true,
       }),
       // See https://mastra.ai/docs/frameworks/agentic-uis/ai-sdk#workflowroute
       workflowRoute({
         path: "/workflow/:workflowId",
+        sendReasoning: true,
       }),
       // Workflow route with agent text streaming enabled
       workflowRoute({
@@ -85,6 +97,7 @@ export const mastra = new Mastra({
         workflow: "agentTextStreamWorkflow",
         // This provides a seamless streaming experience even when agents are running inside workflow steps
         includeTextStreamParts: true,
+        sendReasoning: true,
       }),
       // See https://mastra.ai/docs/frameworks/agentic-uis/ai-sdk#networkroute
       networkRoute({

@@ -1,5 +1,4 @@
 import { Agent } from "@mastra/core/agent";
-import { Memory } from "@mastra/memory";
 import { generateTaskStepsTool } from "../tools/generate-task-steps-tool";
 
 /**
@@ -30,8 +29,9 @@ export const hitlPlanningAgent = new Agent({
     - Keep steps concise but descriptive
     - Make sure steps are in logical order
   `,
-  model: "openai/gpt-4o-mini",
-  memory: new Memory(),
+  model: "mastra/openai/gpt-4o",
+  // Using Mastra Memory Gateway instead of direct memory.
+  // memory: new Memory(),
   tools: {
     generateTaskStepsTool,
   },

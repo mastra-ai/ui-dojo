@@ -297,16 +297,17 @@ const SIDEBAR: SidebarEntry[] = [
           "Uses client.getAgent('ghibliAgent') and agent.stream() directly in the browser. The example only keeps local chat state and appends text from processDataStream as chunks arrive.",
         docsUrl: "https://mastra.ai/reference/client-js/agents#stream",
       },
-      {
-        id: "mastra-client-sdk-responses-api",
-        title: "Responses API Chat",
-        url: "/mastra-client-sdk/responses-api",
-        description:
-          "Simple OpenAI Responses API-style chat using previous_response_id.",
-        explanation:
-          "Uses client.responses.stream() with store: true. After each completed turn, the example saves response.id and sends it back as previous_response_id on the next turn to continue the same response chain.",
-        docsUrl: "https://mastra.ai/reference/client-js/responses",
-      },
+      // Temporarily hide the Responses API example from the sidebar.
+      // {
+      //   id: "mastra-client-sdk-responses-api",
+      //   title: "Responses API Chat",
+      //   url: "/mastra-client-sdk/responses-api",
+      //   description:
+      //     "Simple OpenAI Responses API-style chat using previous_response_id.",
+      //   explanation:
+      //     "Uses client.responses.stream() with store: true. After each completed turn, the example saves response.id and sends it back as previous_response_id on the next turn to continue the same response chain.",
+      //   docsUrl: "https://mastra.ai/reference/client-js/responses",
+      // },
     ],
   },
 ];

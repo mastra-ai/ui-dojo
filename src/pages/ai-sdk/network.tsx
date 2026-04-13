@@ -42,6 +42,7 @@ import type { ToolUIPart } from "ai";
 import { Badge } from "@/components/ui/badge";
 import type { AgentDataPart, NetworkDataPart } from "@mastra/ai-sdk";
 import { CodeBlock } from "@/components/ai-elements/code-block";
+import { getVisibleReasoningText } from "@/lib/reasoning";
 
 type NetworkData = NetworkDataPart["data"];
 type StepStatus = NetworkData["steps"][number]["status"];
@@ -149,44 +150,62 @@ const NetworkDemo = () => {
       <div className="flex flex-col h-full">
         <Conversation className="h-full">
           <ConversationContent>
-            {messages.map((message) => (
-              <div key={message.id}>
-                {message.role === "assistant" &&
-                  message.parts.filter((part) => part.type === "source-url")
-                    .length > 0 && (
-                    <Sources>
-                      <SourcesTrigger
-                        count={
-                          message.parts.filter(
-                            (part) => part.type === "source-url",
-                          ).length
-                        }
-                      />
-                      {message.parts
-                        .filter((part) => part.type === "source-url")
-                        .map((part, i) => (
-                          <SourcesContent key={`${message.id}-${i}`}>
-                            <Source
-                              key={`${message.id}-${i}`}
-                              href={part.url}
-                              title={part.url}
-                            />
-                          </SourcesContent>
-                        ))}
-                    </Sources>
+            {messages.map((message, messageIndex) => {
+              const isLastAssistantMessage =
+                message.role === "assistant" &&
+                messageIndex === messages.length - 1;
+              const reasoningText = getVisibleReasoningText(message.parts);
+              const isReasoningStreaming =
+                isLastAssistantMessage &&
+                status === "streaming" &&
+                message.parts.at(-1)?.type === "reasoning";
+
+              return (
+                <div key={message.id}>
+                  {message.role === "assistant" &&
+                    message.parts.filter((part) => part.type === "source-url")
+                      .length > 0 && (
+                      <Sources>
+                        <SourcesTrigger
+                          count={
+                            message.parts.filter(
+                              (part) => part.type === "source-url",
+                            ).length
+                          }
+                        />
+                        {message.parts
+                          .filter((part) => part.type === "source-url")
+                          .map((part, i) => (
+                            <SourcesContent key={`${message.id}-${i}`}>
+                              <Source
+                                key={`${message.id}-${i}`}
+                                href={part.url}
+                                title={part.url}
+                              />
+                            </SourcesContent>
+                          ))}
+                      </Sources>
+                    )}
+                  {reasoningText && (
+                    <Reasoning
+                      className="w-full"
+                      isStreaming={isReasoningStreaming}
+                    >
+                      <ReasoningTrigger />
+                      <ReasoningContent>{reasoningText}</ReasoningContent>
+                    </Reasoning>
                   )}
-                {message.parts.map((part, i) => {
-                  switch (part.type) {
-                    case "text":
-                      return (
-                        <Fragment key={`${message.id}-${i}`}>
-                          <Message from={message.role}>
-                            <MessageContent>
-                              <Response>{part.text}</Response>
-                            </MessageContent>
-                          </Message>
-                          {message.role === "assistant" &&
-                            i === messages.length - 1 && (
+                  {message.parts.map((part, i) => {
+                    switch (part.type) {
+                      case "text":
+                        return (
+                          <Fragment key={`${message.id}-${i}`}>
+                            <Message from={message.role}>
+                              <MessageContent>
+                                <Response>{part.text}</Response>
+                              </MessageContent>
+                            </Message>
+                            {isLastAssistantMessage && (
                               <Actions className="mt-2">
                                 <Action
                                   onClick={() => regenerate()}
@@ -204,92 +223,80 @@ const NetworkDemo = () => {
                                 </Action>
                               </Actions>
                             )}
-                        </Fragment>
-                      );
-                    case "reasoning":
-                      return (
-                        <Reasoning
-                          key={`${message.id}-${i}`}
-                          className="w-full"
-                          isStreaming={
-                            status === "streaming" &&
-                            i === message.parts.length - 1 &&
-                            message.id === messages.at(-1)?.id
-                          }
-                        >
-                          <ReasoningTrigger />
-                          <ReasoningContent>{part.text}</ReasoningContent>
-                        </Reasoning>
-                      );
-                    case "data-network": {
-                      const networkData = (part as NetworkDataPart)
-                        .data as NetworkData;
-                      const steps = networkData.steps || [];
+                          </Fragment>
+                        );
+                      case "reasoning":
+                        return null;
+                      case "data-network": {
+                        const networkData = (part as NetworkDataPart)
+                          .data as NetworkData;
+                        const steps = networkData.steps || [];
 
-                      // Count unique agents
-                      const uniqueAgents = new Set(steps.map((s) => s.name))
-                        .size;
-                      const stepCount = steps.length;
+                        // Count unique agents
+                        const uniqueAgents = new Set(steps.map((s) => s.name))
+                          .size;
+                        const stepCount = steps.length;
 
-                      const description =
-                        uniqueAgents === stepCount
-                          ? `${stepCount} agent${stepCount !== 1 ? "s" : ""} coordinated`
-                          : `${stepCount} step${stepCount !== 1 ? "s" : ""} across ${uniqueAgents} agent${uniqueAgents !== 1 ? "s" : ""}`;
+                        const description =
+                          uniqueAgents === stepCount
+                            ? `${stepCount} agent${stepCount !== 1 ? "s" : ""} coordinated`
+                            : `${stepCount} step${stepCount !== 1 ? "s" : ""} across ${uniqueAgents} agent${uniqueAgents !== 1 ? "s" : ""}`;
 
-                      return (
-                        <div
-                          key={`${message.id}-${i}`}
-                          className="my-4 space-y-4"
-                        >
-                          {/* Network Header */}
-                          <div className="flex items-center gap-2 p-3 bg-muted/50 rounded-lg border">
-                            <NetworkIcon className="w-5 h-5 text-primary" />
-                            <div className="flex-1">
-                              <div className="font-semibold text-sm">
-                                Agent Network Execution
+                        return (
+                          <div
+                            key={`${message.id}-${i}`}
+                            className="my-4 space-y-4"
+                          >
+                            {/* Network Header */}
+                            <div className="flex items-center gap-2 p-3 bg-muted/50 rounded-lg border">
+                              <NetworkIcon className="w-5 h-5 text-primary" />
+                              <div className="flex-1">
+                                <div className="font-semibold text-sm">
+                                  Agent Network Execution
+                                </div>
+                                <div className="text-xs text-muted-foreground">
+                                  {description}
+                                </div>
                               </div>
-                              <div className="text-xs text-muted-foreground">
-                                {description}
-                              </div>
+                              {networkData.status && (
+                                <Badge
+                                  variant={
+                                    networkData.status === "finished"
+                                      ? "default"
+                                      : networkData.status === "running"
+                                        ? "outline"
+                                        : "secondary"
+                                  }
+                                >
+                                  {networkData.status === "running"
+                                    ? "In Progress"
+                                    : networkData.status === "finished"
+                                      ? "Complete"
+                                      : "Running"}
+                                </Badge>
+                              )}
                             </div>
-                            {networkData.status && (
-                              <Badge
-                                variant={
-                                  networkData.status === "finished"
-                                    ? "default"
-                                    : networkData.status === "running"
-                                      ? "outline"
-                                      : "secondary"
-                                }
-                              >
-                                {networkData.status === "running"
-                                  ? "In Progress"
-                                  : networkData.status === "finished"
-                                    ? "Complete"
-                                    : "Running"}
-                              </Badge>
-                            )}
-                          </div>
 
-                          {/* Display each agent step */}
-                          {steps.map((step, stepIndex) => (
-                            <DisplayAgentStep
-                              key={`${step.name}-${stepIndex}`}
-                              step={step}
-                              stepName={step.name}
-                              // @ts-expect-error - task is not typed yet , it will be typed in the future version of the @mastra/ai-sdk package
-                              task={step?.task}
-                            />
-                          ))}
-                        </div>
-                      );
+                            {/* Display each agent step */}
+                            {steps.map((step, stepIndex) => (
+                              <DisplayAgentStep
+                                key={`${step.name}-${stepIndex}`}
+                                step={step}
+                                stepName={step.name}
+                                // @ts-expect-error - task is not typed yet , it will be typed in the future version of the @mastra/ai-sdk package
+                                task={step?.task}
+                              />
+                            ))}
+                          </div>
+                        );
+                      }
+                      default:
+                        return null;
                     }
-                    default:
-                      return null;
-                  }
-                })}
-              </div>
-            ))}
+                  })}
+                </div>
+              );
+            })}
             {status === "submitted" && <Loader />}
           </ConversationContent>
           <ConversationScrollButton />
