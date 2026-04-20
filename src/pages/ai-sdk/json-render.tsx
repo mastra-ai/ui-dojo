@@ -101,7 +101,10 @@ export default function AiSdkJsonRenderPage() {
           {isStreaming ? (
             <Loader />
           ) : spec ? (
-            <JSONUIProvider registry={jsonRenderRegistry}>
+            <JSONUIProvider
+              initialState={spec.state}
+              registry={jsonRenderRegistry}
+            >
               <Renderer registry={jsonRenderRegistry} spec={spec} />
             </JSONUIProvider>
           ) : (
