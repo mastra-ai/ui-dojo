@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router";
 import { ThemeProvider } from "@/components/theme-provider";
 import Layout from "@/components/layout";
-import { Analytics } from '@vercel/analytics/react';
+import { Analytics } from "@vercel/analytics/react";
 
 import ChatAssistantUi from "@/pages/assistant-ui";
 import ClientToolsAssistantUi from "@/pages/client-tools/assistant-ui";
@@ -23,6 +23,8 @@ import AiSdkToolNestedStreams from "@/pages/ai-sdk/tool-nested-streams";
 import AiSdkToolApproval from "@/pages/ai-sdk/tool-approval";
 import ClientToolsAiSdk from "@/pages/client-tools/ai-sdk";
 import MastraClientAgentStream from "@/pages/mastra-client-sdk/agent-stream";
+import MastraClientJsonRender from "@/pages/mastra-client-sdk/json-render";
+import MastraClientJsonRenderHook from "@/pages/mastra-client-sdk/json-render-hook";
 import MastraClientResponsesApi from "@/pages/mastra-client-sdk/responses-api";
 
 import ChatCopilotKit from "@/pages/copilot-kit";
@@ -80,10 +82,7 @@ export default function Page() {
                     path="tool-nested-streams"
                     element={<AiSdkToolNestedStreams />}
                   />
-                  <Route
-                    path="tool-approval"
-                    element={<AiSdkToolApproval />}
-                  />
+                  <Route path="tool-approval" element={<AiSdkToolApproval />} />
                 </Route>
                 <Route path="/assistant-ui">
                   <Route
@@ -116,6 +115,14 @@ export default function Page() {
                 </Route>
                 <Route path="/mastra-client-sdk">
                   <Route path="chat" element={<MastraClientAgentStream />} />
+                  <Route
+                    path="json-render"
+                    element={<MastraClientJsonRender />}
+                  />
+                  <Route
+                    path="json-render-hook"
+                    element={<MastraClientJsonRenderHook />}
+                  />
                   <Route
                     path="responses-api"
                     element={<MastraClientResponsesApi />}

@@ -29,6 +29,7 @@ import { weatherForecastAgent } from "./agents/weather-forecast-agent";
 import { planningAgent } from "./agents/planning-agent";
 import { hitlPlanningAgent } from "./agents/hitl-planning-agent";
 import { weatherApprovalAgent } from "./agents/weather-approval-agent";
+import { jsonRenderAgent } from "./agents/json-render-agent";
 
 export const mastra = new Mastra({
   agents: {
@@ -48,6 +49,7 @@ export const mastra = new Mastra({
     planningAgent,
     hitlPlanningAgent,
     weatherApprovalAgent,
+    jsonRenderAgent,
   },
   workflows: {
     activitiesWorkflow,

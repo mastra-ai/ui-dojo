@@ -17,14 +17,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import {
-  Sparkles,
-  Bot,
-  MessageSquare,
-  Info,
-  Minus,
-  Plus,
-} from "lucide-react";
+import { Sparkles, Bot, MessageSquare, Info, Minus, Plus } from "lucide-react";
 import { SiGithub } from "@icons-pack/react-simple-icons";
 import { Button } from "@/components/ui/button";
 import {
@@ -180,12 +173,10 @@ const SIDEBAR: SidebarEntry[] = [
         id: "tool-approval",
         title: "Tool Approval",
         url: "/ai-sdk/tool-approval",
-        description:
-          "Human-in-the-loop tool approval using requireApproval",
+        description: "Human-in-the-loop tool approval using requireApproval",
         explanation:
           "Demonstrates Mastra's requireApproval tool option with AI SDK. When the agent calls a tool marked with requireApproval: true, the stream emits a data-tool-call-approval part instead of executing immediately. The UI renders approve/decline buttons, and sends resumeData with the runId to continue or skip execution.",
-        docsUrl:
-          "https://mastra.ai/docs/agents/agent-approval",
+        docsUrl: "https://mastra.ai/docs/agents/agent-approval",
         concept: "UI",
       },
       {
@@ -296,6 +287,25 @@ const SIDEBAR: SidebarEntry[] = [
         explanation:
           "Uses client.getAgent('ghibliAgent') and agent.stream() directly in the browser. The example only keeps local chat state and appends text from processDataStream as chunks arrive.",
         docsUrl: "https://mastra.ai/reference/client-js/agents#stream",
+      },
+      {
+        id: "mastra-client-sdk-json-render",
+        title: "JSON Render",
+        url: "/mastra-client-sdk/json-render",
+        description:
+          "Generate a json-render spec with Mastra structured output.",
+        explanation:
+          "Uses a small useJsonRender() hook to call agent.generate() with structuredOutput and return a validated json-render spec. The browser then renders that spec with @json-render/react.",
+        docsUrl: "https://mastra.ai/docs/agents/structured-output",
+      },
+      {
+        id: "mastra-client-sdk-json-render-hook",
+        title: "JSON Render Hook",
+        url: "/mastra-client-sdk/json-render-hook",
+        description: "A smaller page built on top of the useJsonRender hook.",
+        explanation:
+          "Demonstrates the same json-render flow with a simpler form UI, reusing the shared useJsonRender() hook instead of page-local Mastra client logic.",
+        docsUrl: "https://mastra.ai/docs/agents/structured-output",
       },
       // Temporarily hide the Responses API example from the sidebar.
       // {
