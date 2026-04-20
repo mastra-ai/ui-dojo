@@ -180,6 +180,16 @@ const SIDEBAR: SidebarEntry[] = [
         concept: "UI",
       },
       {
+        id: "ai-sdk-json-render",
+        title: "JSON Render",
+        url: "/ai-sdk/json-render",
+        description: "Use json-render's streaming hook with a Mastra route.",
+        explanation:
+          "Uses json-render's useUIStream() hook to POST prompts to a custom Mastra route that streams JSONL patches. The page compiles those patches into a spec and renders them with @json-render/react.",
+        docsUrl: "https://json-render.dev/docs/ai-sdk",
+        concept: "UI",
+      },
+      {
         id: "agent-network",
         title: "Basic",
         url: "/ai-sdk/network",
@@ -295,16 +305,7 @@ const SIDEBAR: SidebarEntry[] = [
         description:
           "Generate a json-render spec with Mastra structured output.",
         explanation:
-          "Uses a small useJsonRender() hook to call agent.generate() with structuredOutput and return a validated json-render spec. The browser then renders that spec with @json-render/react.",
-        docsUrl: "https://mastra.ai/docs/agents/structured-output",
-      },
-      {
-        id: "mastra-client-sdk-json-render-hook",
-        title: "JSON Render Hook",
-        url: "/mastra-client-sdk/json-render-hook",
-        description: "A smaller page built on top of the useJsonRender hook.",
-        explanation:
-          "Demonstrates the same json-render flow with a simpler form UI, reusing the shared useJsonRender() hook instead of page-local Mastra client logic.",
+          "Uses client.getAgent('json-render-agent') and agent.generate() with structuredOutput to return a validated json-render spec. The browser then renders that spec with @json-render/react.",
         docsUrl: "https://mastra.ai/docs/agents/structured-output",
       },
       // Temporarily hide the Responses API example from the sidebar.

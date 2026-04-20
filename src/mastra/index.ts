@@ -8,6 +8,7 @@ import {
   SensitiveDataFilter,
 } from "@mastra/observability";
 import { chatRoute, workflowRoute, networkRoute } from "@mastra/ai-sdk";
+import { jsonRenderStreamRoute } from "./routes/json-render-stream";
 import { ghibliAgent } from "./agents/ghibli-agent";
 import { responsesWeatherAgent } from "./agents/responses-weather-agent";
 import { weatherAgent } from "./agents/weather-agent";
@@ -114,6 +115,7 @@ export const mastra = new Mastra({
         path: "/copilotkit",
         resourceId: "copilotkit-resource",
       }),
+      jsonRenderStreamRoute,
     ],
   },
 });

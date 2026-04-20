@@ -21,10 +21,10 @@ import AiSdkWorkflowSuspendResume from "@/pages/ai-sdk/workflow-suspend-resume";
 import AiSdkWorkflowAgentTextStream from "@/pages/ai-sdk/workflow-agent-text-stream";
 import AiSdkToolNestedStreams from "@/pages/ai-sdk/tool-nested-streams";
 import AiSdkToolApproval from "@/pages/ai-sdk/tool-approval";
+import AiSdkJsonRender from "@/pages/ai-sdk/json-render";
 import ClientToolsAiSdk from "@/pages/client-tools/ai-sdk";
 import MastraClientAgentStream from "@/pages/mastra-client-sdk/agent-stream";
 import MastraClientJsonRender from "@/pages/mastra-client-sdk/json-render";
-import MastraClientJsonRenderHook from "@/pages/mastra-client-sdk/json-render-hook";
 import MastraClientResponsesApi from "@/pages/mastra-client-sdk/responses-api";
 
 import ChatCopilotKit from "@/pages/copilot-kit";
@@ -83,6 +83,7 @@ export default function Page() {
                     element={<AiSdkToolNestedStreams />}
                   />
                   <Route path="tool-approval" element={<AiSdkToolApproval />} />
+                  <Route path="json-render" element={<AiSdkJsonRender />} />
                 </Route>
                 <Route path="/assistant-ui">
                   <Route
@@ -118,10 +119,6 @@ export default function Page() {
                   <Route
                     path="json-render"
                     element={<MastraClientJsonRender />}
-                  />
-                  <Route
-                    path="json-render-hook"
-                    element={<MastraClientJsonRenderHook />}
                   />
                   <Route
                     path="responses-api"

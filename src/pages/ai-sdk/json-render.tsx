@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { MastraClient } from "@mastra/client-js";
-import { JSONUIProvider, Renderer } from "@json-render/react";
+import { JSONUIProvider, Renderer, useUIStream } from "@json-render/react";
 import { Loader } from "@/components/ai-elements/loader";
 import {
   PromptInput,
@@ -14,17 +13,7 @@ import {
 import { Suggestion, Suggestions } from "@/components/ai-elements/suggestion";
 import { Button } from "@/components/ui/button";
 import { MASTRA_BASE_URL } from "@/constants";
-import {
-  jsonRenderRegistry,
-  jsonRenderSpecSchema,
-  type JsonRenderSpec,
-} from "@/lib/json-render";
-
-const client = new MastraClient({
-  baseUrl: MASTRA_BASE_URL,
-});
-
-const agent = client.getAgent("json-render-agent");
+import { jsonRenderRegistry } from "@/lib/json-render";
 
 const suggestions = [
   "Create a simple trip checklist for a weekend in Lagos",
@@ -32,45 +21,23 @@ const suggestions = [
   "Create a recipe summary for jollof rice",
 ];
 
-export default function JsonRenderPage() {
+export default function AiSdkJsonRenderPage() {
   const [input, setInput] = useState("");
-  const [spec, setSpec] = useState<JsonRenderSpec | null>(null);
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const { clear, error, isStreaming, send, spec, usage } = useUIStream({
+    api: `${MASTRA_BASE_URL}/json-render-stream`,
+  });
 
   async function generateUi(prompt: string) {
-    if (!prompt.trim() || isGenerating) {
+    const trimmedPrompt = prompt.trim();
+
+    if (!trimmedPrompt || isStreaming) {
       return;
     }
 
+    await send(trimmedPrompt, spec ? { previousSpec: spec } : undefined).catch(
+      () => null,
+    );
     setInput("");
-    setError(null);
-    setIsGenerating(true);
-
-    try {
-      const result = await agent.generate(prompt, {
-        structuredOutput: {
-          schema: jsonRenderSpecSchema,
-          jsonPromptInjection: true,
-        },
-      } as never);
-
-      const nextSpec = result.object as unknown as JsonRenderSpec | undefined;
-
-      if (!nextSpec) {
-        throw new Error("Mastra did not return a UI spec.");
-      }
-
-      setSpec(nextSpec);
-    } catch (generationError) {
-      setError(
-        generationError instanceof Error
-          ? generationError.message
-          : "UI generation failed.",
-      );
-    } finally {
-      setIsGenerating(false);
-    }
   }
 
   function handleSubmit(message: PromptInputMessage) {
@@ -85,8 +52,9 @@ export default function JsonRenderPage() {
     <div className="relative mx-auto size-full max-w-4xl p-0 md:p-6">
       <div className="flex h-full flex-col gap-6">
         <div className="rounded-xl border border-border/60 bg-muted/30 p-4 text-sm text-muted-foreground">
-          Mastra generates a validated `json-render` spec with structured
-          output, then the client renders that spec with `Renderer`.
+          Uses `json-render`&apos;s `useUIStream()` hook to stream JSONL patches
+          from a Mastra route. If a spec is already visible, the next prompt
+          refines it instead of starting over.
         </div>
 
         <Suggestions>
@@ -103,7 +71,7 @@ export default function JsonRenderPage() {
           <PromptInputBody>
             <PromptInputTextarea
               onChange={(event) => setInput(event.target.value)}
-              placeholder="Describe a small interface to generate..."
+              placeholder="Describe a small interface to generate or refine..."
               value={input}
             />
           </PromptInputBody>
@@ -112,8 +80,8 @@ export default function JsonRenderPage() {
               <Button
                 className="h-8"
                 onClick={() => {
-                  setSpec(null);
-                  setError(null);
+                  clear();
+                  setInput("");
                 }}
                 size="sm"
                 type="button"
@@ -123,14 +91,14 @@ export default function JsonRenderPage() {
               </Button>
             </PromptInputTools>
             <PromptInputSubmit
-              disabled={!input && !isGenerating}
-              status={isGenerating ? "streaming" : "ready"}
+              disabled={!input && !isStreaming}
+              status={isStreaming ? "streaming" : "ready"}
             />
           </PromptInputFooter>
         </PromptInput>
 
         <div className="min-h-80 rounded-xl border border-border/60 bg-background p-4">
-          {isGenerating ? (
+          {isStreaming ? (
             <Loader />
           ) : spec ? (
             <JSONUIProvider registry={jsonRenderRegistry}>
@@ -143,7 +111,15 @@ export default function JsonRenderPage() {
           )}
         </div>
 
-        {error ? <p className="text-destructive text-sm">{error}</p> : null}
+        {usage ? (
+          <p className="text-muted-foreground text-xs">
+            Tokens: {usage.promptTokens} prompt / {usage.completionTokens}{" "}
+            completion
+          </p>
+        ) : null}
+        {error ? (
+          <p className="text-destructive text-sm">{error.message}</p>
+        ) : null}
       </div>
     </div>
   );
