@@ -1,246 +1,177 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { CopilotChat } from "@copilotkit/react-ui";
-import { CopilotKit, useHumanInTheLoop } from "@copilotkit/react-core";
+import "@copilotkit/react-core/v2/styles.css";
+import { useMemo, useState } from "react";
+import { CopilotKit } from "@copilotkit/react-core";
+import {
+  CopilotChat,
+  CopilotChatConfigurationProvider,
+  useConfigureSuggestions,
+  useInterrupt,
+} from "@copilotkit/react-core/v2";
 import { MASTRA_BASE_URL } from "@/constants";
-import React from "react";
 import {
   Card,
   CardContent,
-  CardFooter,
+  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 
-const StepContainer = ({ children }: { children: React.ReactNode }) => (
-  <Card>{children}</Card>
-);
+// Native Human-in-the-Loop via Mastra's suspend/resume. The ck_interrupt agent
+// calls the schedule_meeting tool, which suspend()s; the @ag-ui/mastra bridge
+// emits both the legacy `on_interrupt` CUSTOM event and (emitInterruptOutcome
+// defaults on) the standard RUN_FINISHED interrupt outcome. CopilotKit v2's
+// useInterrupt renders the picker; resolve() resumes the suspended tool with the
+// user's choice via RunAgentInput.resume (requires CopilotKit >= 1.61.2).
 
-const StepHeader = ({
-  enabledCount,
-  totalCount,
-  status,
-  showStatus = false,
-}: {
-  enabledCount: number;
-  totalCount: number;
-  status: "executing" | "complete" | "inProgress";
-  showStatus?: boolean;
-}) => (
-  <CardHeader className="flex flex-row justify-between items-center">
-    <CardTitle>
-      <h2 className="text-xl">Select Steps</h2>
-    </CardTitle>
-    <div className="flex flex-row gap-4 items-center">
-      <div>
-        {enabledCount}/{totalCount} Selected
-      </div>
-      {showStatus ? (
-        <Badge>{status === "executing" ? "Ready" : "Waiting"}</Badge>
-      ) : null}
-    </div>
-  </CardHeader>
-);
-
-const StepItem = ({
-  step,
-  onToggle,
-  disabled = false,
-}: {
-  step: Step;
-  onToggle: () => void;
-  disabled?: boolean;
-}) => (
-  <div className="flex items-center gap-3">
-    <input
-      type="checkbox"
-      checked={step.status === "enabled"}
-      onChange={onToggle}
-      disabled={disabled}
-    />
-    <Label htmlFor={step.description}>{step.description}</Label>
-  </div>
-);
-
-const ActionButton = ({
-  children,
-  disabled,
-  onClick,
-  variant,
-}: {
-  children: React.ReactNode;
-  disabled?: boolean;
-  onClick?: () => void;
-  variant: "outline" | "destructive";
-}) => (
-  <Button variant={variant} disabled={disabled} onClick={onClick}>
-    {children}
-  </Button>
-);
-
-interface Step {
-  description: string;
-  status: "disabled" | "enabled" | "executing";
+interface SuspendPayload {
+  topic?: string;
+  attendee?: string;
 }
 
-const suggestions: { title: string; message: string }[] = [
-  {
-    title: "Simple plan to Mars",
-    message: "Please plan a trip to mars in 5 steps.",
-  },
-];
+interface TimeSlot {
+  iso: string;
+  label: string;
+}
 
-function StepsFeedback({
-  args,
-  respond,
-  status,
-}: {
-  args: any;
-  respond: ((result: any) => void) | undefined;
-  status: "executing" | "complete" | "inProgress";
-}) {
-  const [localSteps, setLocalSteps] = React.useState<Step[]>([]);
-  const [accepted, setAccepted] = React.useState<boolean | null>(null);
-
-  React.useEffect(() => {
-    if (status === "executing" && localSteps.length === 0) {
-      setLocalSteps(args.steps);
-    }
-  }, [status, args.steps, localSteps]);
-
-  if (args.steps === undefined || args.steps.length === 0) {
-    return <></>;
-  }
-
-  const steps = localSteps.length > 0 ? localSteps : args.steps;
-  const enabledCount = steps.filter(
-    (step: any) => step.status === "enabled",
-  ).length;
-
-  const handleStepToggle = (index: number) => {
-    setLocalSteps((prevSteps) =>
-      prevSteps.map((step, i) =>
-        i === index
-          ? {
-              ...step,
-              status: step.status === "enabled" ? "disabled" : "enabled",
-            }
-          : step,
-      ),
-    );
-  };
-
-  const handleReject = () => {
-    if (respond) {
-      setAccepted(false);
-      respond({ accepted: false });
-    }
-  };
-
-  const handleConfirm = () => {
-    if (respond) {
-      setAccepted(true);
-      respond({
-        accepted: true,
-        steps: localSteps.filter((step) => step.status === "enabled"),
+function generateSlots(): TimeSlot[] {
+  const slots: TimeSlot[] = [];
+  const now = new Date();
+  for (let day = 1; day <= 2; day++) {
+    for (const hour of [10, 14]) {
+      const d = new Date(now);
+      d.setDate(now.getDate() + day);
+      d.setHours(hour, 0, 0, 0);
+      slots.push({
+        iso: d.toISOString(),
+        label: d.toLocaleString(undefined, {
+          weekday: "short",
+          month: "short",
+          day: "numeric",
+          hour: "numeric",
+          minute: "2-digit",
+        }),
       });
     }
-  };
+  }
+  return slots;
+}
+
+function TimePickerCard({
+  topic,
+  attendee,
+  onPick,
+  onCancel,
+}: {
+  topic: string;
+  attendee?: string;
+  onPick: (slot: TimeSlot) => void;
+  onCancel: () => void;
+}) {
+  const slots = useMemo(() => generateSlots(), []);
+  const [done, setDone] = useState<TimeSlot | "cancelled" | null>(null);
+
+  // Once resolved, render nothing: resolve() resumes the run and this interrupt
+  // unmounts, with the agent's text as the confirmation.
+  if (done) return null;
 
   return (
-    <StepContainer>
-      <StepHeader
-        enabledCount={enabledCount}
-        totalCount={steps.length}
-        status={status}
-        showStatus={true}
-      />
-      <CardContent className="flex flex-col gap-4">
-        {steps.map((step: Step, index: number) => (
-          <StepItem
-            key={index}
-            step={step}
-            onToggle={() => handleStepToggle(index)}
-            disabled={status !== "executing"}
-          />
-        ))}
+    <Card className="mx-auto my-2 w-full max-w-md">
+      <CardHeader>
+        <CardTitle className="text-base capitalize">{topic}</CardTitle>
+        {attendee ? <CardDescription>with {attendee}</CardDescription> : null}
+      </CardHeader>
+      <CardContent className="space-y-3">
+        <p className="text-xs font-medium text-muted-foreground">Pick a time</p>
+        <div className="grid grid-cols-2 gap-2">
+          {slots.map((slot) => (
+            <Button
+              key={slot.iso}
+              variant="outline"
+              className="h-auto py-2.5 text-sm font-medium"
+              onClick={() => {
+                setDone(slot);
+                onPick(slot);
+              }}
+            >
+              {slot.label}
+            </Button>
+          ))}
+        </div>
+        <Button
+          variant="ghost"
+          className="w-full text-muted-foreground"
+          onClick={() => {
+            setDone("cancelled");
+            onCancel();
+          }}
+        >
+          Cancel
+        </Button>
       </CardContent>
-      {accepted === null ? (
-        <CardFooter className="flex gap-4">
-          <ActionButton
-            variant="destructive"
-            disabled={status !== "executing"}
-            onClick={handleReject}
-          >
-            Reject
-          </ActionButton>
-          <ActionButton
-            variant="outline"
-            disabled={status !== "executing"}
-            onClick={handleConfirm}
-          >
-            Confirm
-          </ActionButton>
-        </CardFooter>
-      ) : null}
-      {accepted !== null ? (
-        <CardFooter>{accepted ? "Accepted" : "Rejected"}</CardFooter>
-      ) : null}
-    </StepContainer>
+    </Card>
   );
 }
 
-function HumanInTheLoopCopilotKitDemo() {
-  return (
-    <CopilotKit
-      // Defined through registerCopilotKit() in src/mastra/index.ts
-      runtimeUrl={`${MASTRA_BASE_URL}/copilotkit`}
-      agent="planningAgent"
-    >
-      <Chat />
-    </CopilotKit>
-  );
-}
-
-function Chat() {
-  useHumanInTheLoop({
-    name: "generate_task_steps",
-    description: "Generates a list of steps for the user to perform",
-    parameters: [
+function ChatContent() {
+  useConfigureSuggestions({
+    suggestions: [
       {
-        name: "steps",
-        type: "object[]",
-        attributes: [
-          {
-            name: "description",
-            type: "string",
-          },
-          {
-            name: "status",
-            type: "string",
-            enum: ["enabled", "disabled", "executing"],
-          },
-        ],
+        title: "Book a call with sales",
+        message: "Book an intro call with the sales team to discuss pricing.",
+      },
+      {
+        title: "Schedule a 1:1 with Alice",
+        message: "Schedule a 1:1 with Alice next week to review Q2 goals.",
       },
     ],
-    available: "enabled",
-    render: ({ args, respond, status }) => {
-      return <StepsFeedback args={args} respond={respond} status={status} />;
+    available: "always",
+  });
+
+  useInterrupt({
+    agentId: "ck_interrupt",
+    renderInChat: true,
+    render: ({ event, resolve }) => {
+      const raw = event.value ?? {};
+      const parsed = (typeof raw === "string" ? JSON.parse(raw) : raw) as {
+        suspendPayload?: SuspendPayload;
+      };
+      const payload = parsed.suspendPayload ?? {};
+      return (
+        <TimePickerCard
+          topic={payload.topic ?? "a call"}
+          attendee={payload.attendee}
+          onPick={(slot) =>
+            resolve({ chosen_time: slot.iso, chosen_label: slot.label })
+          }
+          onCancel={() => resolve({ cancelled: true })}
+        />
+      );
     },
   });
 
   return (
-    <CopilotChat
-      labels={{
-        title: "Planning Agent",
-        initial: "Hi! 👋 Ask me to make a plan.",
-      }}
-      suggestions={suggestions}
-      className="h-full w-full mx-auto"
-    />
+    <div className="flex justify-center items-center h-full w-full">
+      <div className="h-full w-full md:w-8/10 md:h-8/10 rounded-lg">
+        <CopilotChat
+          agentId="ck_interrupt"
+          className="h-full rounded-2xl max-w-4xl mx-auto"
+        />
+      </div>
+    </div>
   );
 }
 
-export default HumanInTheLoopCopilotKitDemo;
+export default function HumanInTheLoopCopilotKitDemo() {
+  return (
+    <CopilotKit
+      runtimeUrl={`${MASTRA_BASE_URL}/copilotkit`}
+      showDevConsole={false}
+      agent="ck_interrupt"
+    >
+      <CopilotChatConfigurationProvider agentId="ck_interrupt">
+        <ChatContent />
+      </CopilotChatConfigurationProvider>
+    </CopilotKit>
+  );
+}

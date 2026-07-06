@@ -26,3 +26,6 @@ dist-ssr
 src/mastra/public/*.db*
 
 .env
+
+.mastra-demo.db
+.mastra-demo.db-*

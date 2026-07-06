@@ -30,7 +30,18 @@ import MastraClientResponsesApi from "@/pages/mastra-client-sdk/responses-api";
 import ChatCopilotKit from "@/pages/copilot-kit";
 import CopilotKitGenerative from "@/pages/copilot-kit/generative-user-interfaces";
 import CopilotKitHITL from "@/pages/copilot-kit/human-in-the-loop";
-import ClientToolsCopilotKit from "@/pages/client-tools/copilot-kit";
+import CopilotKitToolRendering from "@/pages/copilot-kit/tool-rendering";
+import CopilotKitReasoning from "@/pages/copilot-kit/reasoning";
+import CopilotKitFrontendTools from "@/pages/copilot-kit/frontend-tools";
+import CopilotKitMultimodal from "@/pages/copilot-kit/multimodal";
+import CopilotKitSubagents from "@/pages/copilot-kit/subagents";
+import CopilotKitOpenGenUI from "@/pages/copilot-kit/open-generative-ui";
+import CopilotKitSharedState from "@/pages/copilot-kit/shared-state";
+import CopilotKitBackgroundTasks from "@/pages/copilot-kit/background-tasks";
+import CopilotKitObservationalMemory from "@/pages/copilot-kit/observational-memory";
+import CopilotKitA2UI from "@/pages/copilot-kit/a2ui";
+import CopilotKitByoc from "@/pages/copilot-kit/byoc";
+import CopilotKitMcpApps from "@/pages/copilot-kit/mcp-apps";
 
 import { MASTRA_BASE_URL } from "@/constants";
 
@@ -110,9 +121,35 @@ export default function Page() {
                     element={<CopilotKitHITL />}
                   />
                   <Route
-                    path="client-tools"
-                    element={<ClientToolsCopilotKit />}
+                    path="tool-rendering"
+                    element={<CopilotKitToolRendering />}
                   />
+                  <Route path="reasoning" element={<CopilotKitReasoning />} />
+                  <Route
+                    path="frontend-tools"
+                    element={<CopilotKitFrontendTools />}
+                  />
+                  <Route path="multimodal" element={<CopilotKitMultimodal />} />
+                  <Route path="subagents" element={<CopilotKitSubagents />} />
+                  <Route
+                    path="open-generative-ui"
+                    element={<CopilotKitOpenGenUI />}
+                  />
+                  <Route
+                    path="shared-state"
+                    element={<CopilotKitSharedState />}
+                  />
+                  <Route
+                    path="background-tasks"
+                    element={<CopilotKitBackgroundTasks />}
+                  />
+                  <Route
+                    path="observational-memory"
+                    element={<CopilotKitObservationalMemory />}
+                  />
+                  <Route path="a2ui" element={<CopilotKitA2UI />} />
+                  <Route path="byoc" element={<CopilotKitByoc />} />
+                  <Route path="mcp-apps" element={<CopilotKitMcpApps />} />
                 </Route>
                 <Route path="/mastra-client-sdk">
                   <Route path="chat" element={<MastraClientAgentStream />} />
