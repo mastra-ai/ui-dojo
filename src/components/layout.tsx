@@ -17,7 +17,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { Sparkles, Bot, MessageSquare, Info, Minus, Plus } from "lucide-react";
+import { Sparkles, Bot, Info, Minus, Plus } from "lucide-react";
 import { SiGithub } from "@icons-pack/react-simple-icons";
 import { Button } from "@/components/ui/button";
 import {
@@ -63,6 +63,12 @@ type GroupedItems = {
 
 function MastraLogo({ className }: { className?: string }) {
   return <img alt="" className={cn("size-4", className)} src="/mastra.svg" />;
+}
+
+function CopilotKitLogo({ className }: { className?: string }) {
+  return (
+    <img alt="" className={cn("size-4", className)} src="/copilotkit.svg" />
+  );
 }
 
 const SIDEBAR: SidebarEntry[] = [
@@ -250,7 +256,7 @@ const SIDEBAR: SidebarEntry[] = [
   {
     id: "copilot-kit",
     title: "CopilotKit",
-    icon: MessageSquare,
+    icon: CopilotKitLogo,
     items: [
       // ── Chat ──
       {
@@ -289,7 +295,7 @@ const SIDEBAR: SidebarEntry[] = [
         concept: "Generative UI",
         description: "Controlled: the agent calls a typed tool, you render it",
         explanation:
-          "Tool-based (controlled) generative UI: the agent calls a typed backend tool (get_weather) and the frontend renders its result with CopilotKit v2 useRenderTool(). You control exactly which component renders.",
+          "Tool-based generative UI: the agent calls the typed get_weather backend tool and the frontend renders the result with CopilotKit v2 useRenderTool(). You control exactly which component appears.",
       },
       {
         id: "copilot-kit-a2ui",
@@ -298,7 +304,7 @@ const SIDEBAR: SidebarEntry[] = [
         concept: "Generative UI",
         description: "Declarative: the agent describes the UI from a catalog",
         explanation:
-          "A2UI (declarative) generative UI: the agent calls generate_a2ui and a render sub-agent composes a UI surface from a shared component catalog (with a validate→retry recovery loop), streamed into the chat. Cards are clickable and report the selection back to the agent. Backend-owned generate_a2ui via getA2UITools; the provider passes the catalog.",
+          "A2UI generative UI: the agent calls generate_a2ui, getA2UITools composes and validates a UI surface from the shared catalog, and CopilotKit renders it in the chat. Cards are clickable and report the selected item back to the agent.",
       },
       {
         id: "copilot-kit-open-generative-ui",
@@ -307,7 +313,7 @@ const SIDEBAR: SidebarEntry[] = [
         concept: "Generative UI",
         description: "Open: the agent renders a full interactive app",
         explanation:
-          "Open generative UI: the agent renders a full interactive app (a calculator) into the chat via a tool; the frontend owns the live component. Also shows that client-tool arguments stream in progressively for free.",
+          "Open generative UI: the agent calls show_calculator when an interactive calculator is useful, and the frontend renders the live calculator component in the chat. Tool arguments can stream in progressively before the call completes.",
       },
       {
         id: "copilot-kit-mcp-apps",
@@ -466,9 +472,11 @@ function SidebarItem({
       <SidebarMenuSubButton
         onClick={() => onNavigate(item.url)}
         isActive={isActive}
-        className="hover:cursor-pointer"
+        className="h-auto min-h-7 items-start overflow-visible py-1.5 leading-snug hover:cursor-pointer [&>span:last-child]:overflow-visible [&>span:last-child]:whitespace-normal [&>span:last-child]:text-clip"
       >
-        {item.title}
+        <span className="min-w-0 whitespace-normal break-words leading-snug">
+          {item.title}
+        </span>
       </SidebarMenuSubButton>
     </SidebarMenuSubItem>
   );
@@ -585,9 +593,12 @@ export default function Page({ children }: { children: React.ReactNode }) {
                   <SidebarMenuItem>
                     <CollapsibleTrigger asChild>
                       <SidebarMenuButton className="hover:cursor-pointer">
-                        <sdk.icon /> {sdk.title}{" "}
-                        <Plus className="ml-auto group-data-[state=open]/collapsible:hidden" />
-                        <Minus className="ml-auto group-data-[state=closed]/collapsible:hidden" />
+                        <sdk.icon className="size-4 shrink-0" />
+                        <span className="min-w-0 flex-1 truncate">
+                          {sdk.title}
+                        </span>
+                        <Plus className="ml-auto size-4 shrink-0 group-data-[state=open]/collapsible:hidden" />
+                        <Minus className="ml-auto size-4 shrink-0 group-data-[state=closed]/collapsible:hidden" />
                       </SidebarMenuButton>
                     </CollapsibleTrigger>
                     {sdk.items?.length ? (
@@ -661,7 +672,9 @@ export default function Page({ children }: { children: React.ReactNode }) {
           </div>
           <div className="px-4 lg:px-0">{pageDescription}</div>
         </header>
-        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">{children}</div>
+        <div className="flex min-h-0 flex-1 flex-col gap-4 p-4 pt-0">
+          {children}
+        </div>
       </SidebarInset>
     </SidebarProvider>
   );

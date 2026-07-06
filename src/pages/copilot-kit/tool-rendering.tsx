@@ -1,24 +1,21 @@
 import "@copilotkit/react-core/v2/styles.css";
 import { CopilotKit } from "@copilotkit/react-core";
 import {
-  CopilotChat,
   useConfigureSuggestions,
   useDefaultRenderTool,
   useRenderTool,
 } from "@copilotkit/react-core/v2";
 import { z } from "zod";
 import { MASTRA_BASE_URL } from "@/constants";
-import { WeatherCard } from "./generative-user-interfaces";
+import { CopilotChatPanel } from "@/components/ck/copilot-chat-panel";
+import { ToolCallCard } from "@/components/ck/tool-call-card";
+import { WeatherCard } from "@/components/ck/weather-card";
 
 const AGENT_ID = "ck_tool_rendering";
 
 const ToolRenderingCopilotKitDemo = () => {
   return (
-    <CopilotKit
-      runtimeUrl={`${MASTRA_BASE_URL}/copilotkit`}
-      showDevConsole={false}
-      agent={AGENT_ID}
-    >
+    <CopilotKit runtimeUrl={`${MASTRA_BASE_URL}/copilotkit`} agent={AGENT_ID}>
       <Chat />
     </CopilotKit>
   );
@@ -47,30 +44,12 @@ const Chat = () => {
   useDefaultRenderTool({
     render: ({ name, parameters, status, result }) => {
       return (
-        <div className="mt-3 max-w-md w-full rounded-xl border border-border bg-card p-4 text-card-foreground shadow-sm">
-          <div className="flex items-center justify-between">
-            <span className="font-mono text-sm font-semibold">{name}</span>
-            <span className="text-xs text-muted-foreground">{status}</span>
-          </div>
-          <div className="mt-3">
-            <div className="text-xs font-medium text-muted-foreground">
-              Arguments
-            </div>
-            <pre className="mt-1 overflow-x-auto rounded-md bg-muted p-2 text-xs">
-              {prettyPrint(parameters)}
-            </pre>
-          </div>
-          {status === "complete" && (
-            <div className="mt-3">
-              <div className="text-xs font-medium text-muted-foreground">
-                Result
-              </div>
-              <pre className="mt-1 overflow-x-auto rounded-md bg-muted p-2 text-xs">
-                {prettyPrint(result)}
-              </pre>
-            </div>
-          )}
-        </div>
+        <ToolCallCard
+          name={name}
+          parameters={parameters}
+          status={status}
+          result={result}
+        />
       );
     },
   });
@@ -86,32 +65,7 @@ const Chat = () => {
     available: "always",
   });
 
-  return (
-    <div className="flex justify-center items-center h-full w-full">
-      <div className="h-full w-full md:w-8/10 md:h-8/10 rounded-lg">
-        <CopilotChat
-          agentId={AGENT_ID}
-          className="h-full rounded-2xl max-w-4xl mx-auto"
-        />
-      </div>
-    </div>
-  );
+  return <CopilotChatPanel agentId={AGENT_ID} />;
 };
-
-function prettyPrint(value: unknown): string {
-  let parsed: unknown = value;
-  if (typeof value === "string") {
-    try {
-      parsed = JSON.parse(value);
-    } catch {
-      return value;
-    }
-  }
-  try {
-    return JSON.stringify(parsed, null, 2);
-  } catch {
-    return String(parsed);
-  }
-}
 
 export default ToolRenderingCopilotKitDemo;

@@ -1,6 +1,8 @@
 import { Agent } from "@mastra/core/agent";
-import { getA2UITools } from "@ag-ui/mastra";
-import type { A2UIAttemptRecord } from "@ag-ui/mastra";
+import {
+  getA2UITools,
+  type A2UIAttemptRecord,
+} from "@ag-ui/mastra";
 
 // Provider-string model, resolved by Mastra's model router. The render subagent
 // inside getA2UITools resolves it the same way, so the package never couples to

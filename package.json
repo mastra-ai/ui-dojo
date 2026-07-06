@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "mastra:dev": "mastra dev",
-    "mastra:build": "mastra build",
+    "mastra:build": "PNPM_CONFIG_STRICT_DEP_BUILDS=false mastra build",
     "mastra:start": "mastra start",
     "vite:dev": "vite",
     "vite:build": "tsc -b && vite build",
@@ -17,7 +17,7 @@
   "dependencies": {
     "@ag-ui/client": "^0.0.57",
     "@ag-ui/core": "^0.0.57",
-    "@ag-ui/mastra": "1.1.0",
+    "@ag-ui/mastra": "1.1.1",
     "@a2ui/web_core": "0.9.0",
     "@ag-ui/mcp-apps-middleware": "0.0.3",
     "@ai-sdk/react": "^2.0.114",
@@ -106,9 +106,6 @@
   "pnpm": {
     "overrides": {
       "@assistant-ui/tap": "0.3.2"
-    },
-    "patchedDependencies": {
-      "fast-json-patch@3.1.1": "patches/fast-json-patch@3.1.1.patch"
     }
   }
 }

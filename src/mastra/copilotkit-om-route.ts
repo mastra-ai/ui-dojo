@@ -18,7 +18,7 @@ import { getLocalAgents } from "@ag-ui/mastra";
  *     (see https://mastra.ai/docs/agents/background-tasks — the run stays open
  *     until every dispatched task finishes and the LLM responds to the result).
  *
- * Mirrors the compiled `registerCopilotKit` handler in @ag-ui/mastra@1.1.0-alpha.0.
+ * Mirrors the compiled `registerCopilotKit` handler in @ag-ui/mastra.
  */
 export function registerCopilotKitOM({
   path,

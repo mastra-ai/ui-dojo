@@ -2,16 +2,17 @@ import "@copilotkit/react-core/v2/styles.css";
 import { useState } from "react";
 import { CopilotKit } from "@copilotkit/react-core";
 import {
-  CopilotChat,
+  CopilotPopup,
   useConfigureSuggestions,
   useFrontendTool,
 } from "@copilotkit/react-core/v2";
 import { z } from "zod";
 import { MASTRA_BASE_URL } from "@/constants";
+import { chatInputWithoutDisclaimer } from "@/components/ck/empty-chat-disclaimer";
 
 const AGENT_ID = "ck_frontend_tools";
 
-const DEFAULT_BACKGROUND = "var(--copilot-kit-background-color, transparent)";
+const DEFAULT_BACKGROUND = "var(--background)";
 
 const ACTIVITY_SUGGESTIONS = [
   "Take a 10-minute walk and notice five things you have never seen before.",
@@ -24,11 +25,7 @@ const ACTIVITY_SUGGESTIONS = [
 
 const FrontendToolsCopilotKitDemo = () => {
   return (
-    <CopilotKit
-      runtimeUrl={`${MASTRA_BASE_URL}/copilotkit`}
-      showDevConsole={false}
-      agent={AGENT_ID}
-    >
+    <CopilotKit runtimeUrl={`${MASTRA_BASE_URL}/copilotkit`} agent={AGENT_ID}>
       <Chat />
     </CopilotKit>
   );
@@ -83,16 +80,19 @@ const Chat = () => {
   useConfigureSuggestions({
     suggestions: [
       {
-        title: "Change the background",
-        message: "Change the background to a calm blue gradient.",
+        title: "Sunset",
+        message: "Change the background to a warm sunset gradient.",
+        className: "frontend-tools-suggestion-sunset",
       },
       {
-        title: "Suggest an activity",
-        message: "Suggest something fun for me to do right now.",
+        title: "Forest",
+        message: "Change the background to a calm forest green gradient.",
+        className: "frontend-tools-suggestion-forest",
       },
       {
-        title: "Sunset theme",
-        message: "Make the background a warm sunset gradient.",
+        title: "Ocean",
+        message: "Change the background to a deep ocean blue gradient.",
+        className: "frontend-tools-suggestion-ocean",
       },
     ],
     available: "always",
@@ -100,22 +100,14 @@ const Chat = () => {
 
   return (
     <div
-      className="flex flex-col justify-center items-center h-full w-full transition-colors duration-500"
+      className="copilotkit-frontend-tools-demo relative -mb-4 flex h-[calc(100%+1rem)] min-h-0 w-full overflow-hidden rounded-xl transition-colors duration-500"
       style={{ background }}
     >
-      <p className="mb-4 max-w-2xl text-center text-sm text-muted-foreground">
-        Two frontend tools running in the browser: the sync{" "}
-        <code className="font-medium">change_background</code> tool updates the
-        UI instantly, while the async{" "}
-        <code className="font-medium">fetch_activity_suggestion</code> tool
-        awaits a simulated fetch before returning.
-      </p>
-      <div className="h-full w-full md:w-8/10 md:h-8/10 rounded-lg">
-        <CopilotChat
-          agentId={AGENT_ID}
-          className="h-full rounded-2xl max-w-4xl mx-auto"
-        />
-      </div>
+      <CopilotPopup
+        agentId={AGENT_ID}
+        input={chatInputWithoutDisclaimer}
+        defaultOpen={true}
+      />
     </div>
   );
 };

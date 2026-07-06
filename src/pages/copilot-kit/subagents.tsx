@@ -1,23 +1,19 @@
 import "@copilotkit/react-core/v2/styles.css";
 import { CopilotKit } from "@copilotkit/react-core";
 import {
-  CopilotChat,
   useConfigureSuggestions,
   useRenderTool,
 } from "@copilotkit/react-core/v2";
 import { z } from "zod";
 import { MASTRA_BASE_URL } from "@/constants";
 import { AgentStepCard } from "@/components/ck/agent-step-card";
+import { CopilotChatPanel } from "@/components/ck/copilot-chat-panel";
 
 const AGENT_ID = "ck_subagents";
 
 const SubagentsCopilotKitDemo = () => {
   return (
-    <CopilotKit
-      runtimeUrl={`${MASTRA_BASE_URL}/copilotkit`}
-      showDevConsole={false}
-      agent={AGENT_ID}
-    >
+    <CopilotKit runtimeUrl={`${MASTRA_BASE_URL}/copilotkit`} agent={AGENT_ID}>
       <Chat />
     </CopilotKit>
   );
@@ -66,20 +62,7 @@ const Chat = () => {
     available: "always",
   });
 
-  return (
-    <div className="flex h-full w-full flex-col">
-      <p className="px-4 py-2 text-center text-xs text-muted-foreground">
-        A supervisor delegates to specialist sub-agents — watch each hand-off
-        (Research → Writer) appear as its own step.
-      </p>
-      <div className="flex-1">
-        <CopilotChat
-          agentId={AGENT_ID}
-          className="h-full rounded-2xl max-w-4xl mx-auto"
-        />
-      </div>
-    </div>
-  );
+  return <CopilotChatPanel agentId={AGENT_ID} />;
 };
 
 export default SubagentsCopilotKitDemo;

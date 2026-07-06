@@ -109,9 +109,7 @@ export const mastra = new Mastra({
     },
   }),
   bundler: {
-    // Externalize the CopilotKit/AG-UI bridge and its transitive deps so the
-    // Mastra CLI bundler doesn't try to re-bundle them (which fails on
-    // fast-json-patch's CommonJS named exports). Node resolves them at runtime.
+    // Externalize runtime packages that are loaded by the Mastra server output.
     externals: [
       "@copilotkit/runtime",
       "@copilotkit/runtime/v2",
