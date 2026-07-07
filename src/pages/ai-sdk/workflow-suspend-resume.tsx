@@ -35,6 +35,7 @@ const STATUS_MAP: Record<
   suspended: "input-available",
   success: "output-available",
   failed: "output-error",
+  skipped: "output-available",
 };
 
 const DisplayStep = ({

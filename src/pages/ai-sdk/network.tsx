@@ -54,6 +54,7 @@ const STATUS_MAP: Record<StepStatus, ToolUIPart["state"]> = {
   failed: "output-error",
   suspended: "input-available",
   waiting: "input-available",
+  skipped: "output-available",
 };
 
 // Convert routing-agent to Routing Agent

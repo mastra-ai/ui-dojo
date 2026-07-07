@@ -1,11 +1,11 @@
 import { Mastra } from "@mastra/core/mastra";
 import { registerCopilotKit } from "@ag-ui/mastra/copilotkit";
 import {
-  CloudExporter,
-  DefaultExporter,
   Observability,
+  MastraStorageExporter,
+  MastraPlatformExporter,
   SensitiveDataFilter,
-} from "@mastra/observability";
+} from '@mastra/observability';
 import { chatRoute, workflowRoute, networkRoute } from "@mastra/ai-sdk";
 import { jsonRenderStreamRoute } from "./routes/json-render-stream";
 import { ghibliAgent } from "./agents/ghibli-agent";
@@ -30,8 +30,6 @@ import { planningAgent } from "./agents/planning-agent";
 import { hitlPlanningAgent } from "./agents/hitl-planning-agent";
 import { weatherApprovalAgent } from "./agents/weather-approval-agent";
 import { jsonRenderAgent } from "./agents/json-render-agent";
-
-// CopilotKit demo agents (OSS-89) — see src/mastra/ck/*
 import {
   ckAgenticChatAgent,
   ckToolRenderingAgent,
@@ -54,7 +52,6 @@ import { registerCopilotKitMcp } from "./copilotkit-mcp-route";
 export const mastra = new Mastra({
   agents: {
     ghibliAgent,
-    // ── CopilotKit demo agents (OSS-89) ──
     ck_agentic_chat: ckAgenticChatAgent,
     ck_tool_rendering: ckToolRenderingAgent,
     ck_reasoning: ckReasoningAgent,
@@ -102,9 +99,14 @@ export const mastra = new Mastra({
   observability: new Observability({
     configs: {
       default: {
-        serviceName: "ui-dojo",
-        exporters: [new DefaultExporter(), new CloudExporter()],
-        spanOutputProcessors: [new SensitiveDataFilter()],
+        serviceName: 'mastra',
+        exporters: [
+          new MastraStorageExporter(),
+          new MastraPlatformExporter(),
+        ],
+        spanOutputProcessors: [
+          new SensitiveDataFilter(),
+        ],
       },
     },
   }),
