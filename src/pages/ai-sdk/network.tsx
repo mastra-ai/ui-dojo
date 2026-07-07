@@ -85,7 +85,7 @@ const DisplayAgentStep = ({
         state={STATUS_MAP[step.status]}
       />
       <ToolContent>
-        {step.input && (
+        {Boolean(step.input) && (
           <div className="mb-3 px-4 pt-4">
             <div className="text-xs font-semibold text-muted-foreground mb-1 uppercase">
               Input
