@@ -20,7 +20,7 @@ export const responsesWeatherAgent = new Agent({
 
       Use the weatherTool to fetch current weather data.
 `,
-  model: "mastra/openai/gpt-4o",
+  model: "mastra/openai/gpt-5-mini",
   tools: { weatherTool },
   // TODO: Mastra cloud -> Mastra migration deprecates this. Uncomment this when we have a persistent memory solution
   // memory: new Memory({

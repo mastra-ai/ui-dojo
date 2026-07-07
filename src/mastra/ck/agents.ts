@@ -9,7 +9,7 @@ import {
   deepResearchTool,
 } from "./tools";
 
-const MODEL = "mastra/openai/gpt-4o";
+const MODEL = "mastra/openai/gpt-5-mini";
 
 /** Agentic chat — a plain weather assistant. Also demonstrates agent-context
  *  (the page sends the user's name via useAgentContext) and working memory. */

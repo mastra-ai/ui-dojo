@@ -9,7 +9,7 @@ export const reportGenerationAgent = new Agent({
     You are a report generation assistant. When given a topic, use the generate-report tool 
     to create a comprehensive report. The tool will show progress updates as it works.
   `,
-  model: "mastra/openai/gpt-4o",
+  model: "mastra/openai/gpt-5-mini",
   tools: { reportGenerationTool },
   // Using Mastra Memory Gateway instead of direct memory.
   // memory: new Memory(),

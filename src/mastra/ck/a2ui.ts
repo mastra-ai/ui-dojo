@@ -7,7 +7,7 @@ import {
 // Provider-string model, resolved by Mastra's model router. The render subagent
 // inside getA2UITools resolves it the same way, so the package never couples to
 // an @ai-sdk provider version.
-const A2UI_MODEL = "mastra/openai/gpt-4o";
+const A2UI_MODEL = "mastra/openai/gpt-5-mini";
 
 // Catalog id must match the frontend catalog registered in src/a2ui-catalog.
 const DYNAMIC_CATALOG_ID = "https://a2ui.org/demos/dojo/dynamic_catalog.json";

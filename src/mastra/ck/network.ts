@@ -5,7 +5,7 @@ import { z } from "zod";
 import { getStorage } from "./storage";
 import { weatherTool, stockPriceTool } from "./tools";
 
-const MODEL = "mastra/openai/gpt-4o";
+const MODEL = "mastra/openai/gpt-5-mini";
 
 // ── Specialist sub-agents ────────────────────────────────────────────────
 // Each is a real Mastra Agent. The supervisor delegates to them through

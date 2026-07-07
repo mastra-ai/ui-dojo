@@ -20,7 +20,7 @@ import { MCPAppsMiddleware } from "@ag-ui/mcp-apps-middleware";
  */
 export function registerCopilotKitMcp({ path }: { path: string }) {
   const agent = new BuiltInAgent({
-    model: "openai/gpt-4.1",
+    model: "mastra/openai/gpt-5-mini",
     prompt: `You are a helpful assistant connected to Excalidraw's MCP server, which can create and render diagrams as an interactive app inside the chat.
 
 When the user asks you to draw, diagram, sketch, or visualize something, use the Excalidraw MCP tools to create it and render the interactive canvas. Keep any text response short — the diagram renders itself.`,

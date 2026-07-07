@@ -72,6 +72,6 @@ Rules:
 - Leaves (Stat, Badge, Text, BulletList, KeyValue, Divider) use 'children: []'.
 - Row/Card use children to hold other elements.
 - After calling the tool, add only a one-line remark — the UI renders the content.`,
-  model: "mastra/openai/gpt-4o",
+  model: "mastra/openai/gpt-5-mini",
   tools: { render_ui: renderUiTool },
 });

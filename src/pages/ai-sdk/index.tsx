@@ -49,8 +49,8 @@ import { getVisibleReasoningText } from "@/lib/reasoning";
 
 const models = [
   {
-    name: "GPT-4o",
-    value: "mastra/openai/gpt-4o",
+    name: "gpt-5-mini",
+    value: "mastra/openai/gpt-5-mini",
   },
 ];
 
