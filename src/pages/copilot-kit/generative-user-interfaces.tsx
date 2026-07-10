@@ -6,7 +6,6 @@ import {
 } from "@copilotkit/react-core/v2";
 import { z } from "zod";
 import { MASTRA_BASE_URL } from "@/constants";
-import { COPILOT_KIT_THREAD_IDS } from "./constants";
 import { CopilotChatPanel } from "@/components/ck/copilot-chat-panel";
 import { WeatherCard } from "@/components/ck/weather-card";
 
@@ -17,7 +16,6 @@ function GenerativeUserInterfacesCopilotKitDemo() {
     <CopilotKit
       runtimeUrl={`${MASTRA_BASE_URL}/copilotkit`}
       agent={AGENT_ID}
-      threadId={COPILOT_KIT_THREAD_IDS.toolBasedGenerativeUi}
     >
       <Chat />
     </CopilotKit>

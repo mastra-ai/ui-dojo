@@ -5,7 +5,6 @@ import {
   useInterrupt,
 } from "@copilotkit/react-core/v2";
 import { MASTRA_BASE_URL } from "@/constants";
-import { COPILOT_KIT_THREAD_IDS } from "./constants";
 import { CopilotChatPanel } from "@/components/ck/copilot-chat-panel";
 import { TimePickerCard } from "@/components/ck/time-picker-card";
 
@@ -26,7 +25,6 @@ export default function HumanInTheLoopCopilotKitDemo() {
     <CopilotKit
       runtimeUrl={`${MASTRA_BASE_URL}/copilotkit`}
       agent="ck_interrupt"
-      threadId={COPILOT_KIT_THREAD_IDS.hitl}
     >
       <ChatContent />
     </CopilotKit>

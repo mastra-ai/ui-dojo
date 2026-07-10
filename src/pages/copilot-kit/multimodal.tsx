@@ -2,7 +2,6 @@ import "@copilotkit/react-core/v2/styles.css";
 import { CopilotKit } from "@copilotkit/react-core";
 import { useConfigureSuggestions } from "@copilotkit/react-core/v2";
 import { MASTRA_BASE_URL } from "@/constants";
-import { COPILOT_KIT_THREAD_IDS } from "./constants";
 import { CopilotChatPanel } from "@/components/ck/copilot-chat-panel";
 
 const AGENT_ID = "ck_multimodal";
@@ -12,7 +11,6 @@ const MultimodalCopilotKitDemo = () => {
     <CopilotKit
       runtimeUrl={`${MASTRA_BASE_URL}/copilotkit`}
       agent={AGENT_ID}
-      threadId={COPILOT_KIT_THREAD_IDS.multimodal}
     >
       <Chat />
     </CopilotKit>

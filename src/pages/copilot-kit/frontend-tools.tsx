@@ -8,7 +8,6 @@ import {
 } from "@copilotkit/react-core/v2";
 import { z } from "zod";
 import { MASTRA_BASE_URL } from "@/constants";
-import { COPILOT_KIT_THREAD_IDS } from "./constants";
 import { chatInputWithoutDisclaimer } from "@/components/ck/empty-chat-disclaimer";
 
 const AGENT_ID = "ck_frontend_tools";
@@ -29,7 +28,6 @@ const FrontendToolsCopilotKitDemo = () => {
     <CopilotKit
       runtimeUrl={`${MASTRA_BASE_URL}/copilotkit`}
       agent={AGENT_ID}
-      threadId={COPILOT_KIT_THREAD_IDS.frontendTools}
     >
       <Chat />
     </CopilotKit>

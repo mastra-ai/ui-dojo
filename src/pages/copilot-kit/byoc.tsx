@@ -5,7 +5,6 @@ import {
   useRenderTool,
 } from "@copilotkit/react-core/v2";
 import { MASTRA_BASE_URL } from "@/constants";
-import { COPILOT_KIT_THREAD_IDS } from "./constants";
 import {
   byocSpecSchema,
   ByocSpecView,
@@ -23,7 +22,6 @@ export default function ByocDemo() {
     <CopilotKit
       runtimeUrl={`${MASTRA_BASE_URL}/copilotkit`}
       agent="ck_byoc"
-      threadId={COPILOT_KIT_THREAD_IDS.byoc}
     >
       <Chat />
     </CopilotKit>

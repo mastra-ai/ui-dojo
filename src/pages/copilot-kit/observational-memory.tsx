@@ -2,7 +2,6 @@ import "@copilotkit/react-core/v2/styles.css";
 import { CopilotKit } from "@copilotkit/react-core";
 import { useConfigureSuggestions } from "@copilotkit/react-core/v2";
 import { MASTRA_BASE_URL } from "@/constants";
-import { COPILOT_KIT_THREAD_IDS } from "./constants";
 import { CopilotChatPanel } from "@/components/ck/copilot-chat-panel";
 import { observationalMemoryRenderer } from "@/components/ck/observational-memory-card";
 
@@ -11,7 +10,6 @@ export default function ObservationalMemoryDemo() {
     <CopilotKit
       runtimeUrl={`${MASTRA_BASE_URL}/copilotkit-om`}
       agent="ck_observational_memory"
-      threadId={COPILOT_KIT_THREAD_IDS.observationalMemory}
       renderActivityMessages={[observationalMemoryRenderer]}
     >
       <Chat />
