@@ -258,7 +258,6 @@ const SIDEBAR: SidebarEntry[] = [
     title: "CopilotKit",
     icon: CopilotKitLogo,
     items: [
-      // ── Chat ──
       {
         id: "copilot-kit-chat",
         title: "Basic",
@@ -287,7 +286,6 @@ const SIDEBAR: SidebarEntry[] = [
         explanation:
           "CopilotChat with attachments enabled: upload an image and the vision-capable Mastra agent describes it.",
       },
-      // ── Generative UI (taxonomy: controlled → declarative → open) ──
       {
         id: "generative-user-interfaces",
         title: "Tool-based",
@@ -342,7 +340,6 @@ const SIDEBAR: SidebarEntry[] = [
         explanation:
           "Bring-your-own-component: the agent returns a declarative json-render spec via a tool, and the frontend renders it with your own component registry (@json-render/react).",
       },
-      // ── Interactivity ──
       {
         id: "copilot-kit-frontend-tools",
         title: "Frontend Tools",
@@ -370,7 +367,6 @@ const SIDEBAR: SidebarEntry[] = [
         explanation:
           "Bidirectional shared state via Mastra working memory. Edit the recipe in the UI (write-back) or ask the agent to change it and watch fields update live (streamed as STATE_DELTA, snapshot-first). Also sends agent-context.",
       },
-      // ── Agents ──
       {
         id: "copilot-kit-subagents",
         title: "Subagents",
@@ -474,7 +470,7 @@ function SidebarItem({
         isActive={isActive}
         className="h-auto min-h-7 items-start overflow-visible py-1.5 leading-snug hover:cursor-pointer [&>span:last-child]:overflow-visible [&>span:last-child]:whitespace-normal [&>span:last-child]:text-clip"
       >
-        <span className="min-w-0 whitespace-normal break-words leading-snug">
+        <span className="min-w-0 whitespace-normal wrap-break-word leading-snug">
           {item.title}
         </span>
       </SidebarMenuSubButton>

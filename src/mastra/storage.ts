@@ -1,4 +1,3 @@
-import { STORAGE_URL } from "@/constants";
 import { LibSQLStore } from "@mastra/libsql";
 
 /**
@@ -12,6 +11,7 @@ import { LibSQLStore } from "@mastra/libsql";
  * agents that keep Memory (shared-state working memory, observational memory).
  */
 let store: LibSQLStore | undefined;
+const STORAGE_URL = process.env.TURSO_DATABASE_URL || "file:./.mastra-demo.db"
 
 export function getStorage(): LibSQLStore {
   if (!store) {
