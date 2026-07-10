@@ -9,7 +9,8 @@ import {
   deepResearchTool,
 } from "./tools";
 
-const MODEL = "mastra/openai/gpt-5-mini";
+const MASTRA_GATEWAY_MODEL = "mastra/openai/gpt-5-mini";
+const OPENAI_MODEL = "openai/gpt-5-mini";
 
 /** Agentic chat — a plain weather assistant. Also demonstrates agent-context
  *  (the page sends the user's name via useAgentContext) and conversation memory. */
@@ -21,7 +22,12 @@ export const ckAgenticChatAgent = new Agent({
 - Use the get_weather tool to answer weather questions.
 - If the user tells you their name, greet them by it.
 - Keep responses concise but informative.`,
-  model: MODEL,
+  model: OPENAI_MODEL,
+  defaultOptions: {
+    providerOptions: {
+      openai: { reasoningEffort: "low" },
+    },
+  },
   tools: { get_weather: weatherTool },
   memory: new Memory({ storage: getStorage() }),
 });
@@ -36,9 +42,14 @@ export const ckToolRenderingAgent = new Agent({
 - For weather questions, call get_weather.
 - For stock price questions, call get_stock_price.
 After a tool runs, do NOT repeat its data in text — the UI renders it. Just add a one-line remark.`,
-  model: MODEL,
+  model: MASTRA_GATEWAY_MODEL,
   tools: { get_weather: weatherTool, get_stock_price: stockPriceTool },
   memory: new Memory({ storage: getStorage() }),
+  defaultOptions: {
+    providerOptions: {
+      openai: { reasoningEffort: "low" },
+    },
+  },
 });
 
 /** Reasoning — an OpenAI reasoning model (o4-mini). `reasoningSummary: "detailed"`
@@ -68,8 +79,13 @@ export const ckFrontendToolsAgent = new Agent({
 - Use change_background to change the page background (a synchronous tool).
 - Use fetch_activity_suggestion when the user asks for something to do (an async tool that fetches from the browser).
 Call the appropriate tool when the user asks. Keep replies short.`,
-  model: MODEL,
+  model: MASTRA_GATEWAY_MODEL,
   memory: new Memory({ storage: getStorage() }),
+  defaultOptions: {
+    providerOptions: {
+      openai: { reasoningEffort: "low" },
+    },
+  },
 });
 
 /** Multimodal — a vision-capable assistant. The page enables attachments so the
@@ -78,7 +94,7 @@ export const ckMultimodalAgent = new Agent({
   id: "ck_multimodal",
   name: "ck_multimodal",
   instructions: `You are a helpful multimodal assistant. When the user uploads an image, describe what you see clearly and answer questions about it. Keep replies concise.`,
-  model: MODEL,
+  model: MASTRA_GATEWAY_MODEL,
   memory: new Memory({ storage: getStorage() }),
 });
 
@@ -91,7 +107,7 @@ export const ckOpenGenUIAgent = new Agent({
   instructions: `You help users with calculations.
 
 When the user asks for a calculator, or asks any arithmetic/math question, call the show_calculator tool to render an interactive calculator into the chat. If the user asked a specific calculation, pass it as 'expression' (e.g. "12 * 8 + 5") so the calculator opens pre-filled with the result. After calling the tool, add a brief one-line remark; do NOT describe the calculator itself.`,
-  model: MODEL,
+  model: MASTRA_GATEWAY_MODEL,
   tools: {
     show_calculator: {
       id: "show_calculator",
@@ -132,7 +148,7 @@ IMPORTANT:
 6. Make 'ingredients' and 'instructions' MATCH the user's 'special_preferences' (e.g. if "Vegan" is set use vegan ingredients; if "Spicy" is absent use no heat).
 
 After creating or modifying the recipe, answer in one short sentence what you did. Do not describe the whole recipe and do not mention "working memory" or "state".`,
-  model: MODEL,
+  model: MASTRA_GATEWAY_MODEL,
   memory: new Memory({
     storage: getStorage(),
     options: {
@@ -186,7 +202,7 @@ export const ckBackgroundTasksAgent = new Agent({
   name: "ck_background_tasks",
   instructions: `You are a research assistant that dispatches long-running work as background tasks.
 When the user asks you to research or investigate a topic, call run_deep_research with the topic. It runs in the background and returns immediately; briefly tell the user you kicked it off and they'll get findings shortly. Do NOT invent findings — the work is still running. Keep replies short.`,
-  model: MODEL,
+  model: MASTRA_GATEWAY_MODEL,
   tools: { run_deep_research: deepResearchTool },
   memory: new Memory({ storage: getStorage() }),
   // Force background-eligible tools to actually run in the background so the
@@ -202,14 +218,14 @@ export const ckObservationalMemoryAgent = new Agent({
   id: "ck_observational_memory",
   name: "ck_observational_memory",
   instructions: `You are a friendly travel assistant. Chat naturally and keep replies short (2-3 sentences).`,
-  model: MODEL,
+  model: MASTRA_GATEWAY_MODEL,
   memory: new Memory({
     storage: getStorage(),
     options: {
       observationalMemory: {
         // Same provider as the main model so one key drives the whole demo
         // (OM's default is google/gemini-2.5-flash).
-        model: MODEL,
+        model: MASTRA_GATEWAY_MODEL,
         scope: "thread",
         observation: {
           // Trigger is UNOBSERVED message tokens (user + assistant), so message
@@ -229,7 +245,7 @@ export const ckInterruptAgent = new Agent({
   id: "ck_interrupt",
   name: "ck_interrupt",
   instructions: `You are a scheduling assistant. Whenever the user asks to book a call or schedule a meeting, you MUST call the schedule_meeting tool with a short 'topic' and, if known, an 'attendee'. The tool pauses and shows a time picker. After it resumes, briefly confirm whether the meeting was scheduled and when, or note that the user cancelled. Do not ask for approval yourself — always call the tool. Keep responses short.`,
-  model: MODEL,
+  model: MASTRA_GATEWAY_MODEL,
   // Cast: a tool with concrete suspend/resume schemas isn't structurally
   // assignable to Mastra's generic tools map. Runtime behavior is unaffected.
   tools: { schedule_meeting: scheduleMeetingTool as never },
