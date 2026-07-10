@@ -6,6 +6,7 @@ import {
 } from "@copilotkit/react-core/v2";
 import { z } from "zod";
 import { MASTRA_BASE_URL } from "@/constants";
+import { COPILOT_KIT_THREAD_IDS } from "./constants";
 import { AgentStepCard } from "@/components/ck/agent-step-card";
 import { CopilotChatPanel } from "@/components/ck/copilot-chat-panel";
 
@@ -13,7 +14,11 @@ const AGENT_ID = "ck_subagents";
 
 const SubagentsCopilotKitDemo = () => {
   return (
-    <CopilotKit runtimeUrl={`${MASTRA_BASE_URL}/copilotkit`} agent={AGENT_ID}>
+    <CopilotKit
+      runtimeUrl={`${MASTRA_BASE_URL}/copilotkit`}
+      agent={AGENT_ID}
+      threadId={COPILOT_KIT_THREAD_IDS.subagents}
+    >
       <Chat />
     </CopilotKit>
   );

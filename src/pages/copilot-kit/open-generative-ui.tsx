@@ -6,6 +6,7 @@ import {
 } from "@copilotkit/react-core/v2";
 import { z } from "zod";
 import { MASTRA_BASE_URL } from "@/constants";
+import { COPILOT_KIT_THREAD_IDS } from "./constants";
 import { CalculatorCard } from "@/components/ck/calculator-card";
 import { CopilotChatPanel } from "@/components/ck/copilot-chat-panel";
 
@@ -19,6 +20,7 @@ export default function OpenGenerativeUIDemo() {
     <CopilotKit
       runtimeUrl={`${MASTRA_BASE_URL}/copilotkit`}
       agent="ck_open_gen_ui"
+      threadId={COPILOT_KIT_THREAD_IDS.openGenerativeUi}
     >
       <Chat />
     </CopilotKit>

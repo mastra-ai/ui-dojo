@@ -12,7 +12,7 @@ import {
 const MODEL = "mastra/openai/gpt-5-mini";
 
 /** Agentic chat — a plain weather assistant. Also demonstrates agent-context
- *  (the page sends the user's name via useAgentContext) and working memory. */
+ *  (the page sends the user's name via useAgentContext) and conversation memory. */
 export const ckAgenticChatAgent = new Agent({
   id: "ck_agentic_chat",
   name: "ck_agentic_chat",
@@ -23,15 +23,7 @@ export const ckAgenticChatAgent = new Agent({
 - Keep responses concise but informative.`,
   model: MODEL,
   tools: { get_weather: weatherTool },
-  memory: new Memory({
-    storage: getStorage(),
-    options: {
-      workingMemory: {
-        enabled: true,
-        schema: z.object({ firstName: z.string() }),
-      },
-    },
-  }),
+  memory: new Memory({ storage: getStorage() }),
 });
 
 /** Tool rendering — one agent with TWO differently-shaped tools so the page can
@@ -146,6 +138,7 @@ After creating or modifying the recipe, answer in one short sentence what you di
     options: {
       workingMemory: {
         enabled: true,
+        scope: "thread",
         schema: z.object({
           recipe: z.object({
             skill_level: z
