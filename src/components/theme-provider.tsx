@@ -1,4 +1,10 @@
-import { createContext, useEffect, useMemo, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
 type Theme = "dark" | "light" | "system";
 
@@ -20,6 +26,10 @@ const initialState: ThemeProviderState = {
 
 export const ThemeProviderContext =
   createContext<ThemeProviderState>(initialState);
+
+export function useTheme() {
+  return useContext(ThemeProviderContext);
+}
 
 export function ThemeProvider({
   children,
