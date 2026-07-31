@@ -45,9 +45,9 @@ import CopilotKitMcpApps from "@/pages/copilot-kit/mcp-apps";
 
 import { MASTRA_BASE_URL } from "@/constants";
 
-export default function Page() {
-  const queryClient = new QueryClient();
+const queryClient = new QueryClient();
 
+export default function Page() {
   return (
     <ThemeProvider>
       <Analytics />

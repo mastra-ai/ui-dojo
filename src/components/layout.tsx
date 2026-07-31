@@ -1,5 +1,6 @@
-import type { ComponentType } from "react";
+import { useEffect, type ComponentType } from "react";
 import { useLocation, useNavigate } from "react-router";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { Separator } from "@/components/ui/separator";
 import {
   Sidebar,
@@ -491,9 +492,9 @@ function ConceptGroup({
 }) {
   return (
     <SidebarMenuSubItem>
-      <SidebarMenuSubButton className="font-medium pointer-events-none">
+      <div className="text-sidebar-foreground/70 flex h-7 items-center px-2 text-sm font-medium">
         {concept}
-      </SidebarMenuSubButton>
+      </div>
       <SidebarMenuSub>
         {items.map((item) => (
           <SidebarItem
@@ -557,16 +558,16 @@ export default function Page({ children }: { children: React.ReactNode }) {
   const pageTitleText = pageTitleEntry?.pageTitle ?? pageTitleEntry?.title;
   const pageTitle = pageTitleEntry?.concept
     ? `${pageTitleEntry.concept}: ${pageTitleText}`
-    : (pageTitleText ?? "Title missing");
-  const pageDescription =
-    SIDEBAR.flatMap((group) => group.items).find(findEntry)?.description ??
-    "Description missing";
-  const pageExplanation =
-    SIDEBAR.flatMap((group) => group.items).find(findEntry)?.explanation ??
-    "Explanation missing";
-  const docsUrl = SIDEBAR.flatMap((group) => group.items).find(
-    findEntry,
-  )?.docsUrl;
+    : (pageTitleText ?? "UI Frameworks Showcase");
+  const pageDescription = pageTitleEntry?.description;
+  const pageExplanation = pageTitleEntry?.explanation;
+  const docsUrl = pageTitleEntry?.docsUrl;
+
+  useEffect(() => {
+    document.title = pageTitleEntry
+      ? `${pageTitle} — Mastra UI Dojo`
+      : "Mastra: UI Frameworks Showcase";
+  }, [pageTitle, pageTitleEntry]);
 
   return (
     <SidebarProvider>
@@ -613,15 +614,18 @@ export default function Page({ children }: { children: React.ReactNode }) {
           </SidebarGroup>
         </SidebarContent>
         <SidebarFooter>
-          <Button asChild variant="outline">
-            <a href="https://github.com/mastra-ai/ui-dojo" target="_blank">
-              <SiGithub /> Source Code
-            </a>
-          </Button>
+          <div className="flex flex-row items-center gap-2">
+            <Button asChild variant="outline" className="flex-1">
+              <a href="https://github.com/mastra-ai/ui-dojo" target="_blank">
+                <SiGithub /> Source Code
+              </a>
+            </Button>
+            <ThemeToggle />
+          </div>
         </SidebarFooter>
       </Sidebar>
       <SidebarInset>
-        <header className="flex flex-col py-4 lg:py-0 lg:flex-row h-26 lg:h-18 shrink-0 items-start lg:items-center gap-2">
+        <header className="flex shrink-0 flex-col items-start gap-2 py-3 lg:flex-row lg:items-center">
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1" />
             <Separator
@@ -630,8 +634,8 @@ export default function Page({ children }: { children: React.ReactNode }) {
             />
             <div className="flex flex-row gap-2 items-center">
               <h1 className="font-bold text-xl">{pageTitle}</h1>
-              <Dialog>
-                <form>
+              {pageExplanation ? (
+                <Dialog>
                   <DialogTrigger asChild>
                     <Button
                       size="icon"
@@ -639,7 +643,7 @@ export default function Page({ children }: { children: React.ReactNode }) {
                       className="hover:cursor-pointer"
                     >
                       <Info className="size-5" />
-                      <span className="sr-only">Open dialog</span>
+                      <span className="sr-only">About this example</span>
                     </Button>
                   </DialogTrigger>
                   <DialogContent>
@@ -662,11 +666,15 @@ export default function Page({ children }: { children: React.ReactNode }) {
                       </DialogFooter>
                     ) : null}
                   </DialogContent>
-                </form>
-              </Dialog>
+                </Dialog>
+              ) : null}
             </div>
           </div>
-          <div className="px-4 lg:px-0">{pageDescription}</div>
+          {pageDescription ? (
+            <div className="text-muted-foreground px-4 text-sm lg:px-0">
+              {pageDescription}
+            </div>
+          ) : null}
         </header>
         <div className="flex min-h-0 flex-1 flex-col gap-4 p-4 pt-0">
           {children}
