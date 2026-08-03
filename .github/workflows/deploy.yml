@@ -1,4 +1,4 @@
-name: Deploy to Mastra Studio
+name: Deploy to Mastra
 
 on:
   push:
@@ -19,7 +19,7 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - run: pnpm mastra studio deploy --yes --config .mastra-project.json
+      - run: pnpm mastra deploy --env production --yes --skip-preflight
         env:
           MASTRA_API_TOKEN: ${{ secrets.MASTRA_API_TOKEN }}
           MASTRA_ORG_ID: ${{ secrets.MASTRA_ORG_ID }}
